@@ -1,0 +1,51 @@
+version: 1
+reviewed_at: 2026-10-30
+
+formula:
+  authority_and_provenance: 0.20
+  scientific_validation_and_uncertainty: 0.20
+  decision_relevance: 0.20
+  spatial_and_temporal_fitness: 0.15
+  transformability_and_access: 0.15
+  operational_stability: 0.10
+
+hard_gates:
+  - no_coarse_source_as_parcel_truth
+  - no_modeled_prediction_as_field_measurement
+  - no_third_party_override_of_authoritative_owner
+  - no_unresolved_product_identity_as_canonical
+  - no_recommendation_stronger_than_supporting_evidence
+
+sources:
+  nasa_smap_l4_spl4smgp_v8:
+    role: regional_soil_moisture_context
+    dimensions: {authority_and_provenance: 5, scientific_validation_and_uncertainty: 5, decision_relevance: 5, spatial_and_temporal_fitness: 4, transformability_and_access: 4.5, operational_stability: 4.5}
+    score_100: 91
+    class: A
+  fao_crop_water_knowledge:
+    role: crop_water_knowledge
+    dimensions: {authority_and_provenance: 5, scientific_validation_and_uncertainty: 5, decision_relevance: 5, spatial_and_temporal_fitness: 4, transformability_and_access: 4, operational_stability: 5}
+    score_100: 90
+    class: A
+    qualification: reference_knowledge_not_observation_dataset
+  inta_mapa_nacional_cultivos:
+    role: observed_crop_history
+    dimensions: {authority_and_provenance: 5, scientific_validation_and_uncertainty: 4.5, decision_relevance: 5, spatial_and_temporal_fitness: 4.5, transformability_and_access: 4, operational_stability: 4}
+    score_100: 89
+    class: A
+  nasa_power_meteorology:
+    role: regional_climate_context
+    dimensions: {authority_and_provenance: 5, scientific_validation_and_uncertainty: 4.5, decision_relevance: 4.5, spatial_and_temporal_fitness: 3.5, transformability_and_access: 5, operational_stability: 4.5}
+    score_100: 88
+    class: A
+  inta_sisinta:
+    role: local_soil_characterization
+    dimensions: {authority_and_provenance: 5, scientific_validation_and_uncertainty: 4.5, decision_relevance: 5, spatial_and_temporal_fitness: 4.5, transformability_and_access: 4, operational_stability: 3.5}
+    score_100: 87
+    class: A
+    qualification: source_system_only
+  soilgrids_250m:
+    role: modeled_soil_fallback
+    dimensions: {authority_and_provenance: 5, scientific_validation_and_uncertainty: 4, decision_relevance: 3.5, spatial_and_temporal_fitness: 1.5, transformability_and_access: 3.5, operational_stability: 3}
+    score_100: 64
+    class: C
