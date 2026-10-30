@@ -1,0 +1,35 @@
+version: 1
+manifest_id: baseline_local_soil
+preferred_source_id: inta_sisinta
+fallback_source_id: isric_soilgrids_250m
+status: pending_profile_selection
+
+purpose: >
+  Obtain soil properties relevant to crop-water and rotation reasoning while preserving
+  the distinction between measured profiles and modeled fallback predictions.
+
+preferred_measured_properties:
+  - texture
+  - organic_matter_or_organic_carbon
+  - ph
+  - bulk_density_if_available
+  - water_retention_or_related_measured_properties_if_available
+  - horizon_depths
+
+selection_checks:
+  - geographic_representativeness
+  - soil_landscape_unit
+  - sampling_date
+  - depth_coverage
+  - field_method
+  - laboratory_method
+  - public_access_and_license
+
+fallback_policy:
+  soilgrids_allowed: true
+  use_label: modeled_soil_fallback
+  carry_q05_q50_q95_where_available: true
+  local_or_farm_truth_claim: forbidden
+
+output_role: local_soil_characterization
+recommendation_authority: false
