@@ -1,0 +1,56 @@
+id: inta_mapa_nacional_cultivos
+provider: INTA Argentina
+product: Mapa Nacional de Cultivos
+validation_status: validated_source_system
+project_priority: core_candidate
+last_verified: 2026-10-30
+
+authoritative_urls:
+  overview: https://www.argentina.gob.ar/node/486863
+  latest_dataset_reference: https://zenodo.org/records/17652712
+
+role_in_field_shift:
+  - observed_crop_history
+  - current_rotation_baseline
+  - crop_sequence_context
+
+coverage:
+  geography: main_agricultural_areas_of_argentina
+  campaigns_start: 2018_2019
+  cadence: annual
+
+method:
+  - supervised_classification
+  - sentinel_2_imagery
+  - landsat_imagery
+  - field_survey_samples
+
+spatial_scope:
+  nominal_resolution: 30_m
+  effective_decision_scale: field_context_with_classification_uncertainty
+  note: A classified pixel is evidence of likely crop class, not a farmer management record.
+
+quality_requirements:
+  - preserve_campaign
+  - preserve_map_version_or_record
+  - preserve_class_legend
+  - preserve_accuracy_assessment_when_available
+
+transformability:
+  format: geotiff
+  subsettable: true
+  reproducibility: high
+
+fitness_rating:
+  methodology: context/source-fitness.md
+  score_100: 89
+  class: A
+
+limitations:
+  - classification_error_possible
+  - annual_campaign_product_not_continuous_field_log
+  - field_boundaries_and_management_events_are_not_directly_observed
+
+intended_decision_use:
+  description: Establish an evidence-backed historical crop sequence for the prototype area so alternatives can be compared against an observed baseline.
+  direct_recommendation_authority: false
