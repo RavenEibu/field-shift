@@ -1,0 +1,25 @@
+version: 1
+location_id: villa_mercedes_general_pedernera_candidate
+status: candidate
+country: Argentina
+province: San Luis
+department: General Pedernera
+reference_area: Villa Mercedes agricultural surroundings
+
+why_candidate:
+  - local_inta_eea_and_soil_capability
+  - semi_arid_water_stress_relevance
+  - representative_summer_crop_research
+  - national_crop_map_coverage
+  - accessible_public_agronomic_context
+
+selection_constraints:
+  - use_public_non_sensitive_location
+  - prefer_agricultural_area_not_urban_centroid
+  - preserve_exact_coordinates_only_after_source_and_use_are_documented
+  - do_not_imply_private_field_ownership
+
+pending:
+  - exact_public_demonstration_coordinate_or_polygon
+  - crop_map_intersection_check
+  - local_soil_profile_representativeness_check

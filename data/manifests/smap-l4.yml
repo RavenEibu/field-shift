@@ -1,0 +1,43 @@
+version: 1
+manifest_id: baseline_smap_l4
+source_id: nasa_smap_l4_spl4smgp_v8
+status: planned
+
+purpose: Retrieve reproducible regional surface and root-zone soil-moisture context for the selected prototype area.
+
+preferred_variables:
+  - surface_soil_moisture
+  - root_zone_soil_moisture
+  - surface_soil_moisture_percentile
+  - root_zone_soil_moisture_percentile
+
+access_strategy:
+  primary_authority: nasa_nsidaac_spl4smgp_v8
+  mvp_adapter: nasa_power_high_resolution_if_reproducible
+  note: Access convenience does not transfer product authority from NSIDC to POWER.
+
+provenance_fields:
+  - source_id
+  - product_short_name
+  - version
+  - doi
+  - retrieval_timestamp
+  - access_adapter
+  - requested_coordinates_or_area
+  - requested_date_range
+  - variables
+  - units
+  - quality_flags_or_notices
+  - temporal_aggregation
+
+validation_checks:
+  - product_version
+  - coordinate_binding
+  - expected_date_coverage
+  - missing_values
+  - units
+  - known_quality_or_reprocessing_notices
+  - preserve_nine_km_information_scale
+
+output_role: regional_soil_moisture_context
+recommendation_authority: false
