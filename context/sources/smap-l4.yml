@@ -41,7 +41,7 @@ spatial_scope:
 
 fitness_rating:
   methodology: context/source-fitness.md
-  score_100: 91
+  score_100: 94.5
   class: A
 
 limitations:
