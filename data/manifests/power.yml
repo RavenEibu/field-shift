@@ -1,0 +1,44 @@
+version: 1
+manifest_id: baseline_power_meteorology
+source_id: nasa_power_meteorology
+status: planned
+
+purpose: Retrieve a reproducible historical climate baseline for the selected prototype area.
+
+required_parameters:
+  - temperature_min
+  - temperature_max
+  - temperature_mean
+  - precipitation
+  - relative_humidity
+  - solar_radiation
+  - wind_speed
+
+retrieval_contract:
+  preserve_native_scale: true
+  analysis_end_rule: at_least_2_months_behind_near_real_time_for_climate_trends
+  raw_response_preserved_locally: true
+  raw_large_files_committed: false
+
+provenance_fields:
+  - source_id
+  - underlying_product
+  - retrieval_timestamp
+  - requested_coordinates_or_area
+  - requested_date_range
+  - parameters
+  - units
+  - api_endpoint_or_method
+  - processing_version_if_exposed
+
+validation_checks:
+  - response_schema
+  - expected_date_coverage
+  - missing_values
+  - units
+  - source_identity
+  - coordinate_binding
+  - no_duplicate_information_from_oversampling
+
+output_role: regional_climate_context
+recommendation_authority: false
