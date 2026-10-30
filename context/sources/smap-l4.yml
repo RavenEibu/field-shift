@@ -1,0 +1,55 @@
+id: nasa_smap_l4_spl4smgp_v8
+provider: NASA NSIDC DAAC
+product: SMAP L4 Global 3-hourly 9 km EASE-Grid Surface and Root Zone Soil Moisture Geophysical Data
+short_name: SPL4SMGP
+version: 8
+doi: 10.5067/T5RUATAQREF8
+validation_status: validated
+project_priority: core_candidate
+last_verified: 2026-10-30
+
+authoritative_url: https://nsidc.org/data/spl4smgp/versions/8
+
+access:
+  direct:
+    authentication: earthdata_login
+  power_adapter:
+    available: true
+    temporal_aggregation: daily_utc
+    note: POWER can expose SMAP L4 through its high-resolution pathway; NASA/NSIDC remains the product authority.
+
+role_in_field_shift:
+  - regional_surface_soil_moisture_context
+  - regional_root_zone_soil_moisture_context
+  - drought_percentile_context
+
+native_characteristics:
+  nominal_resolution: 9_km
+  temporal_resolution: 3_hourly
+  temporal_start: 2015-03-31
+
+power_aliases_of_interest:
+  - SFMC
+  - RZMC
+  - SFMC_PRCNTL
+  - RZMC_PRCNTL
+
+spatial_scope:
+  effective_decision_scale: regional_context
+  parcel_level: false
+  note: Do not present a 9 km modeled/assimilated value as an exact parcel measurement.
+
+fitness_rating:
+  methodology: context/source-fitness.md
+  score_100: 91
+  class: A
+
+limitations:
+  - coarse_for_individual_fields
+  - root_zone_is_model_assimilated_not_direct_root_measurement
+  - record_begins_in_2015
+  - frozen_or_snow_covered_conditions_reduce_skill
+
+intended_decision_use:
+  description: Provide regional surface/root-zone moisture evidence and relative drought context when combined with local soil and crop knowledge.
+  direct_recommendation_authority: false
