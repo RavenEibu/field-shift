@@ -20,32 +20,33 @@ sources:
   nasa_smap_l4_spl4smgp_v8:
     role: regional_soil_moisture_context
     dimensions: {authority_and_provenance: 5, scientific_validation_and_uncertainty: 5, decision_relevance: 5, spatial_and_temporal_fitness: 4, transformability_and_access: 4.5, operational_stability: 4.5}
-    score_100: 91
+    score_100: 94.5
     class: A
   fao_crop_water_knowledge:
     role: crop_water_knowledge
     dimensions: {authority_and_provenance: 5, scientific_validation_and_uncertainty: 5, decision_relevance: 5, spatial_and_temporal_fitness: 4, transformability_and_access: 4, operational_stability: 5}
-    score_100: 90
+    score_100: 94.0
     class: A
     qualification: reference_knowledge_not_observation_dataset
   inta_mapa_nacional_cultivos:
     role: observed_crop_history
     dimensions: {authority_and_provenance: 5, scientific_validation_and_uncertainty: 4.5, decision_relevance: 5, spatial_and_temporal_fitness: 4.5, transformability_and_access: 4, operational_stability: 4}
-    score_100: 89
+    score_100: 91.5
     class: A
   nasa_power_meteorology:
     role: regional_climate_context
     dimensions: {authority_and_provenance: 5, scientific_validation_and_uncertainty: 4.5, decision_relevance: 4.5, spatial_and_temporal_fitness: 3.5, transformability_and_access: 5, operational_stability: 4.5}
-    score_100: 88
+    score_100: 90.5
     class: A
   inta_sisinta:
     role: local_soil_characterization
     dimensions: {authority_and_provenance: 5, scientific_validation_and_uncertainty: 4.5, decision_relevance: 5, spatial_and_temporal_fitness: 4.5, transformability_and_access: 4, operational_stability: 3.5}
-    score_100: 87
+    score_100: 90.5
     class: A
     qualification: source_system_only
   soilgrids_250m:
     role: modeled_soil_fallback
     dimensions: {authority_and_provenance: 5, scientific_validation_and_uncertainty: 4, decision_relevance: 3.5, spatial_and_temporal_fitness: 1.5, transformability_and_access: 3.5, operational_stability: 3}
-    score_100: 64
-    class: C
+    score_100: 71.0
+    class: B
+    hard_gate_disposition: fallback_context_only
