@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/RavenEibu/field-shift/data/schemas/canonical-observation.schema.json",
+  "title": "Field Shift Canonical Observation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "observation_id",
+    "acquisition_id",
+    "source_id",
+    "variable",
+    "observed_or_valid_period",
+    "spatial_context",
+    "value",
+    "native_scale",
+    "quality",
+    "evidence_layer"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "observation_id": {"type": "string", "minLength": 3},
+    "acquisition_id": {"type": "string", "minLength": 3},
+    "source_id": {"type": "string", "minLength": 3},
+    "variable": {"type": "string", "minLength": 1},
+    "observed_or_valid_period": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end"],
+      "properties": {
+        "start": {"type": "string"},
+        "end": {"type": "string"}
+      }
+    },
+    "spatial_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope_kind", "native_crs"],
+      "properties": {
+        "scope_kind": {"enum": ["point", "grid_cell", "pixel", "polygon", "station", "soil_profile", "region", "other"]},
+        "native_crs": {"type": ["string", "null"]},
+        "geometry_or_reference": {},
+        "target_area_relation": {"enum": ["inside", "intersects", "nearest", "contains", "regional_context", "unknown"]}
+      }
+    },
+    "value": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "numeric": {"type": ["number", "null"]},
+        "categorical": {"type": ["string", "null"]},
+        "unit": {"type": ["string", "null"]},
+        "nodata": {"type": "boolean"}
+      },
+      "required": ["nodata"],
+      "anyOf": [
+        {"required": ["numeric"]},
+        {"required": ["categorical"]}
+      ]
+    },
+    "native_scale": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["spatial", "temporal"],
+      "properties": {
+        "spatial": {"type": "string"},
+        "temporal": {"type": "string"}
+      }
+    },
+    "quality": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["status"],
+      "properties": {
+        "status": {"enum": ["VALID", "VALID_WITH_LIMITATIONS", "INVALID", "UNKNOWN"]},
+        "flags": {"type": "array", "items": {"type": "string"}},
+        "uncertainty": {},
+        "notes": {"type": ["string", "null"]}
+      }
+    },
+    "transformations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["operation"],
+        "properties": {
+          "operation": {"type": "string"},
+          "parameters": {"type": "object"},
+          "information_gain_claimed": {"type": "boolean"}
+        }
+      }
+    },
+    "evidence_layer": {"const": "E2_OBSERVATION_VALIDATED"},
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  }
+}

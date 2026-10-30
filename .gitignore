@@ -29,6 +29,12 @@ temp/
 
 # Local or generated data
 data/raw/
+data/staging/
+data/validated/
+data/curated/
+data/features/
+data/exports/
+data/cache/
 data/processed/
 
 # Credentials
