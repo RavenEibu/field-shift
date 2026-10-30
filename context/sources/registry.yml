@@ -12,36 +12,37 @@ core_or_candidate:
   - id: nasa_power_meteorology
     file: nasa-power.yml
     role: regional_climate_context
-    score_100: 88
+    score_100: 90.5
     class: A
   - id: nasa_smap_l4_spl4smgp_v8
     file: smap-l4.yml
     role: regional_soil_moisture_context
-    score_100: 91
+    score_100: 94.5
     class: A
   - id: inta_mapa_nacional_cultivos
     file: inta-mnc.yml
     role: observed_crop_history
-    score_100: 89
+    score_100: 91.5
     class: A
   - id: inta_sisinta
     file: inta-sisinta.yml
     role: local_soil_characterization
-    score_100: 87
+    score_100: 90.5
     class: A
     qualification: source_system_only
   - id: fao_crop_water_knowledge
     file: fao-crop-water.yml
     role: crop_water_knowledge
-    score_100: 90
+    score_100: 94.0
     class: A
 
 fallback:
   - id: isric_soilgrids_250m
     file: soilgrids.yml
     role: modeled_soil_fallback
-    score_100: 64
-    class: C
+    score_100: 71.0
+    class: B
+    hard_gate_disposition: fallback_context_only
 
 supporting_or_deferred:
   - id: nasa_ecostress
