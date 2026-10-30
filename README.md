@@ -145,4 +145,4 @@ English is the canonical language of the repository, including documentation, is
 
 ## License
 
-A project license will be added as part of the repository bootstrap once the team confirms the final licensing choice.
+This project is licensed under the MIT License. See `LICENSE`.
