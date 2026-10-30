@@ -2,6 +2,10 @@
 
 This directory defines how Field Shift handles project data assets.
 
+## Access
+
+Authoritative access and download links for the current MVP stack are centralized in [`DOWNLOADS.md`](DOWNLOADS.md).
+
 ## Default policy
 
 Large external datasets should not be committed to Git.
