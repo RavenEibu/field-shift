@@ -4,6 +4,8 @@
 
 Field Shift is an evidence-driven agricultural decision-support project developed for the **NASA International Space Apps Challenge 2026**.
 
+Official challenge: https://www.spaceappschallenge.org/2026/challenges/field-shift-adapting-farms-with-nasa-data/
+
 The project explores how NASA Earth observation data, local soil information, crop characteristics, and farmer priorities can be combined to evaluate and compare crop rotation strategies under changing water and climate conditions.
 
 ## Problem
@@ -33,6 +35,8 @@ The project is currently evaluating NASA Earth observation products including:
 - GPM IMERG
 - GRACE / GRACE-FO
 
+Validated source metadata and project priority are maintained under [`context/sources/`](context/sources/).
+
 Additional soil and crop datasets will be evaluated separately and must preserve source provenance and licensing constraints.
 
 ## Conceptual architecture
@@ -53,6 +57,10 @@ NASA Earth Observation Data
    Rotation Alternatives
             ↓
  Evidence + Risks + Trade-offs
+            ↓
+     New Evidence / Outcomes
+            ↓
+ Governed Learning Lifecycle
 ```
 
 ## Design principles
@@ -99,31 +107,70 @@ This repository is intended for public collaboration and public data. Secrets, c
 
 ## Documentation model
 
-Field Shift will maintain two complementary layers:
+Field Shift maintains two complementary layers:
 
-- **Human-oriented documentation** for explaining the problem, architecture, decisions, methodology, evidence, and limitations.
-- **Canonical operational context** for structured, explicit, machine-actionable knowledge that can be consumed consistently by humans, software, analytical tools, and AI agents.
+- **Human-oriented documentation** under [`docs/`](docs/) for the problem, architecture, methodology, decisions, evidence, and limitations.
+- **Canonical operational context** under [`context/`](context/) for structured, explicit, machine-actionable knowledge shared by humans, software, analytical tools, and AI agents.
 
 These layers should complement each other rather than duplicate or contradict one another.
 
+## Repository map
+
+| Path | Purpose |
+| --- | --- |
+| [`docs/`](docs/) | Human-oriented challenge, scope, architecture, principles, and roadmap |
+| [`context/`](context/) | Canonical operational knowledge, source registry, assumptions, glossary, and decision contracts |
+| [`learning/`](learning/) | Governed candidate → shadow → validation → promotion/rejection lifecycle |
+| [`data/`](data/) | Data handling, provenance, and reproducibility policy |
+| [`src/`](src/) | Application and data-processing implementation |
+| [`notebooks/`](notebooks/) | Reproducible exploration and analytical experiments |
+| [`tests/`](tests/) | Software, data, decision, and learning validation |
+| [`presentation/`](presentation/) | NASA Space Apps presentation assets and challenge-first storytelling |
+
+## Decision model
+
+Field Shift keeps the reasoning chain explicit:
+
+```text
+Source
+  ↓
+Observation
+  ↓
+Derived Indicator
+  ↓
+Agronomic Interpretation
+  ↓
+Validated Decision Rule
+  ↓
+Rotation Effect
+  ↓
+Comparative Evaluation
+```
+
+AI may help retrieve context, analyze evidence, generate candidates, or draft explanations, but it must not silently invent reasons or promote new decision logic.
+
 ## Learning model
 
-The project may use a controlled learning lifecycle to identify new evidence and candidate knowledge. AI-generated or automatically detected patterns are not treated as truth by default.
+The project uses a controlled learning lifecycle to identify new evidence and candidate knowledge. AI-generated or automatically detected patterns are not treated as truth by default.
 
-Candidate learnings should remain in shadow evaluation until they have sufficient evidence and human validation to be promoted into active knowledge or decision logic.
+Candidate learnings remain outside active behavior until they have sufficient evidence, evaluation, and explicit validation to be promoted into operational context or decision logic.
 
 ## Project status
 
-Field Shift is currently in the **discovery and architecture phase**.
+Field Shift is currently in the **discovery, data-validation, and architecture phase**.
 
-Initial priorities are:
+The repository foundation, initial NASA source registry, canonical context model, decision contract, and governed learning model are established.
 
-1. Validate candidate NASA data sources.
-2. Define the canonical environmental data model.
-3. Identify appropriate soil and crop knowledge sources.
-4. Define how crop rotations will be represented.
-5. Establish an evidence-based decision model.
-6. Define the initial MVP scope.
+Next priorities are:
+
+1. Run reproducible NASA POWER and SMAP examples for a real test location.
+2. Define the canonical observation schema and data-quality checks.
+3. Select the MVP geography.
+4. Identify appropriate soil and crop knowledge sources.
+5. Define the first candidate rotations and evidence-backed decision rules.
+6. Build one complete end-to-end decision loop before expanding the data stack.
+
+See [`docs/roadmap.md`](docs/roadmap.md) for the phased plan.
 
 ## Security and data policy
 
@@ -137,12 +184,16 @@ Never commit:
 - proprietary datasets without explicit permission
 - private Earthdata credentials
 
-Credentials must be handled outside version control.
+Credentials must be handled outside version control. See [`SECURITY.md`](SECURITY.md).
 
 ## Language
 
-English is the canonical language of the repository, including documentation, issues, pull requests, commit messages, code comments, schemas, and structured context.
+English is the canonical language of the repository, including documentation, issues, pull requests, commit messages, code comments, schemas, structured context, and NASA-facing presentation material.
+
+## Contributing
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## License
 
-This project is licensed under the MIT License. See `LICENSE`.
+This project is licensed under the MIT License. See [`LICENSE`](LICENSE).
