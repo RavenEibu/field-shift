@@ -1,4 +1,4 @@
-version: 1
+version: 2
 status: active
 updated_at: 2026-10-30
 
@@ -21,8 +21,14 @@ current_truth:
   argentina_supporting_sources:
     crop_history: inta_mapa_nacional_cultivos
     preferred_soil: inta_sisinta
+    climate_validation: inta_agrometeorological_network
   soil_fallback: isric_soilgrids_250m
   crop_water_reference: fao_crop_water_knowledge
+  supporting_nasa_sources:
+    hls: deferred_until_field_scale_vegetation_gap
+    gpm_imerg: deferred_until_precipitation_gap
+    ecostress: mvp_plus_after_core_validation
+    grace_grace_fo: regional_context_only
 
 leading_prototype_candidate:
   geography: Villa Mercedes / General Pedernera, San Luis, Argentina
@@ -32,15 +38,19 @@ accepted_constraints:
   - no_coarse_regional_data_as_parcel_truth
   - no_arbitrary_rotation_scoring
   - no_recommendation_before_evidence_chain_is_validated
+  - source_fitness_does_not_equal_mvp_inclusion
+  - source_fitness_does_not_equal_recommendation_confidence
   - no_candidate_learning_auto_promotion
   - english_is_repository_canonical_language
   - public_repository_no_secrets_or_private_data
 
 pending_validation:
   - select_exact_public_prototype_location_or_area
+  - select_and_qualify_local_agrometeorological_validation_station
   - identify_representative_public_sisinta_or_local_soil_evidence
   - retrieve_first_power_baseline
   - retrieve_first_smap_l4_baseline
+  - compare_power_against_local_station_where_variables_and_period_overlap
   - intersect_prototype_with_inta_crop_maps
   - define_initial_crop_profiles
   - define_candidate_rotation_set
@@ -50,8 +60,8 @@ next_action:
   id: build_environmental_baseline
   description: >
     Select a reproducible public prototype location in the Villa Mercedes / General Pedernera area,
-    retrieve NASA POWER and SMAP L4 data with provenance, and validate the observations
-    before deriving agronomic interpretation.
+    qualify a nearby public in-situ climate validation source, retrieve NASA POWER and SMAP L4 data
+    with provenance, and validate the observations before deriving agronomic interpretation.
 
 history_policy:
   current_file_is_authority_for_current_phase: true

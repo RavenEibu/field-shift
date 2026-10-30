@@ -10,6 +10,7 @@ last_verified: 2026-10-30
 authoritative_url: https://cmr.earthdata.nasa.gov/search/site/collections/directory/LPCLOUD/gov.nasa.eosdis
 access:
   authentication: earthdata_login_for_download
+  primary_format: Cloud_Optimized_GeoTIFF
 
 role_in_field_shift:
   - evapotranspiration_context
@@ -20,22 +21,47 @@ spatial_scope:
   nominal_resolution: 70_m
   effective_decision_scale: field_to_landscape_context
   parcel_level: conditional
-  note: Higher nominal resolution does not remove the need for quality masks, coverage checks, and product-specific uncertainty handling.
+  note: Higher nominal resolution does not remove the need for quality masks, geolocation checks, and uncertainty handling.
 
 temporal_scope:
   acquisition_pattern: ISS_based_irregular_overpass
+
+quality_requirements:
+  - use_cloud_and_water_masks
+  - inspect_ETinstUncertainty_or_equivalent_uncertainty_layer
+  - check_scene_geolocation_quality_for_field_comparisons
+  - check_known_quality_periods_and_obstruction_notices
+  - inspect_for_coarse_resolution_artifacts_before_quantitative_use
+
+known_quality_notes:
+  - Some higher-level products can contain coarse 500m-to-1km artifacts when ancillary STARS inputs are dominated by VIIRS; these generally correspond to larger uncertainty.
+  - ECOSTRESS guidance recommends restricting geolocation-sensitive evaluations to scenes with suitable geolocation quality.
+  - Version 3 Level-2 products were released in 2026, but authoritative CMR still lists ECO_L3T_JET as Version 2; do not infer a Version-3 L3T JET product from the Level-2 release.
 
 strengths:
   - substantially_finer_spatial_resolution_than_regional_products
   - directly_related_to_evapotranspiration_and_water_use
 
+fitness_rating:
+  methodology: context/source-fitness.md
+  dimensions: {authority_and_provenance: 5, scientific_validation_and_uncertainty: 4, decision_relevance: 4.5, spatial_and_temporal_fitness: 4, transformability_and_access: 3.5, operational_stability: 3.5}
+  score_100: 83.5
+  class: B
+
+incremental_mvp_value:
+  level: medium_high
+  disposition: deferred_until_core_loop_validated
+  reason: >
+    Adds field-scale ET/water-stress evidence that POWER and SMAP do not provide, but irregular sampling and QA complexity increase implementation risk.
+
 limitations:
   - irregular_temporal_sampling
   - cloud_and_quality_constraints
-  - derived_product_artifacts_may_require_quality_screening
+  - geolocation_quality_must_be_checked
+  - coarse_resolution_artifacts_can_appear_in_derived_products
 
 metadata_note:
-  description: A third-party challenge mapping reviewed on 2026-10-30 listed ECO_L3T_JET as V003, while the authoritative NASA CMR collection directory currently lists ECO_L3T_JET V002. Field Shift therefore records V002 until NASA authoritative metadata changes.
+  description: A third-party challenge mapping reviewed on 2026-10-30 listed ECO_L3T_JET as V003, while authoritative NASA CMR currently lists ECO_L3T_JET V002. Field Shift records V002 until NASA authoritative metadata changes.
   third_party_reference: https://spacedata.swapniltamse.com/challenges/field-shift-adapting-farms/
 
 intended_decision_use:
