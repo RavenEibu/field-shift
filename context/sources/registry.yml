@@ -1,33 +1,61 @@
-version: 1
+version: 2
 last_reviewed: 2026-10-30
 
-sources:
-  - id: nasa_power
+policy:
+  source_of_truth: context/source-fitness.md
+  rating_registry: context/source-fitness.yml
+  rule: >
+    Source fitness is role-specific. A high score cannot override spatial-scale,
+    uncertainty, product-identity, or evidence-strength gates.
+
+core_or_candidate:
+  - id: nasa_power_meteorology
     file: nasa-power.yml
-    validation_status: validated
-    project_priority: core
+    role: regional_climate_context
+    score_100: 88
+    class: A
+  - id: nasa_smap_l4_spl4smgp_v8
+    file: smap-l4.yml
+    role: regional_soil_moisture_context
+    score_100: 91
+    class: A
+  - id: inta_mapa_nacional_cultivos
+    file: inta-mnc.yml
+    role: observed_crop_history
+    score_100: 89
+    class: A
+  - id: inta_sisinta
+    file: inta-sisinta.yml
+    role: local_soil_characterization
+    score_100: 87
+    class: A
+    qualification: source_system_only
+  - id: fao_crop_water_knowledge
+    file: fao-crop-water.yml
+    role: crop_water_knowledge
+    score_100: 90
+    class: A
 
-  - id: nasa_smap_spl3smp_e
-    file: smap.yml
-    validation_status: validated
-    project_priority: core
+fallback:
+  - id: isric_soilgrids_250m
+    file: soilgrids.yml
+    role: modeled_soil_fallback
+    score_100: 64
+    class: C
 
-  - id: nasa_ecostress_eco_l3t_jet
+supporting_or_deferred:
+  - id: nasa_ecostress
     file: ecostress.yml
-    validation_status: validated
-    project_priority: mvp_plus
-
+  - id: nasa_gpm_imerg
+    file: gpm-imerg.yml
   - id: nasa_hls
     file: hls.yml
-    validation_status: validated
-    project_priority: mvp_plus
-
-  - id: nasa_gpm_imerg_final_daily
-    file: gpm-imerg.yml
-    validation_status: validated
-    project_priority: supporting
-
-  - id: nasa_grace_grace_fo_mascon_cri
+  - id: nasa_grace_grace_fo
     file: grace-grace-fo.yml
-    validation_status: validated
-    project_priority: contextual
+
+superseded_for_mvp_primary_use:
+  - id: nasa_smap_spl3smp_e
+    file: smap.yml
+    reason: >
+      Remains a valid source definition, but SMAP L4 is preferred for the MVP because
+      it adds root-zone moisture context. Preserve L3 as an evaluated alternative.
