@@ -20,10 +20,10 @@ role_in_field_shift:
 
 spatial_scope:
   distributed_grid: 0.5_degree_x_0.5_degree
-  underlying_independent_mascons: 3_degree_equal_area
+  underlying_independent_mascons: approximately_3_degree_equal_area
   effective_decision_scale: broad_regional_context
   parcel_level: false
-  note: The 0.5-degree distributed grid does not mean independent 0.5-degree information. The underlying mascon solution consists of much coarser independent estimates.
+  note: The 0.5-degree distributed grid does not mean independent 0.5-degree information; the underlying independent estimates are much coarser.
 
 temporal_scope:
   nominal_resolution: monthly
@@ -32,13 +32,26 @@ temporal_scope:
 strengths:
   - long_term_total_water_storage_anomalies
   - useful_for_broad_regional_drying_or_storage_trends
+  - authoritative_JPL_mascon_processing
+
+fitness_rating:
+  methodology: context/source-fitness.md
+  dimensions: {authority_and_provenance: 5, scientific_validation_and_uncertainty: 5, decision_relevance: 2.5, spatial_and_temporal_fitness: 1, transformability_and_access: 4, operational_stability: 4.5}
+  score_100: 74.0
+  class: B
+
+incremental_mvp_value:
+  level: low
+  disposition: contextual_only
+  reason: >
+    GRACE is scientifically strong but its information scale is far too coarse to distinguish farm or field rotation choices. It can strengthen a regional drought narrative but should not materially drive the MVP recommendation.
 
 limitations:
   - far_too_coarse_for_field_level_recommendations
   - monthly_temporal_resolution
-  - total_water_storage_combines_multiple hydrologic components
-  - should_not_drive_crop_rotation_scores_directly_without_validated_interpretation
+  - total_water_storage_combines_multiple_hydrologic_components
+  - gridded_display_resolution_must_not_be_confused_with_independent_information_resolution
 
 intended_decision_use:
-  description: Provide broad regional hydrologic context and long-term trend evidence. Treat as contextual rather than a direct field-level decision variable.
+  description: Provide broad regional hydrologic context and long-term trend evidence only.
   direct_recommendation_authority: false
