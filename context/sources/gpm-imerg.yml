@@ -1,0 +1,44 @@
+id: nasa_gpm_imerg_final_daily
+provider: NASA GES DISC
+product: GPM IMERG Final Precipitation L3 1 day 0.1 degree x 0.1 degree
+short_name: GPM_3IMERGDF
+version: 07
+doi: 10.5067/GPM/IMERGDF/DAY/07
+validation_status: validated
+project_priority: supporting
+last_verified: 2026-10-30
+
+authoritative_url: https://disc.gsfc.nasa.gov/datasets/GPM_3IMERGDF_07/summary
+access:
+  authentication: earthdata_login_for_download
+  primary_format: NetCDF
+
+role_in_field_shift:
+  - precipitation_history
+  - precipitation_cross_check
+  - event_and_season_context
+
+spatial_scope:
+  nominal_resolution: 0.1_degree_x_0.1_degree
+  approximate_linear_scale: about_10_km
+  effective_decision_scale: regional_context
+
+temporal_scope:
+  nominal_resolution: daily
+  source_series: IMERG_half_hourly_accumulated_to_daily
+  final_run_latency: approximately_3.5_to_4_months
+
+strengths:
+  - global_precipitation_estimates
+  - long_historical_record
+  - useful_where_surface_gauge_coverage_is_limited
+
+limitations:
+  - final_run_not_suitable_for_near_real_time_use
+  - lower_skill_expected_over_frozen_surfaces_complex_terrain_and_coastal_zones
+  - changing_satellite_constellation_can_affect_multi_year_analysis
+  - coarse_relative_to_individual_fields
+
+intended_decision_use:
+  description: Complement or cross-check precipitation evidence, especially for historical analysis. Avoid duplicating NASA POWER precipitation without a defined analytical purpose.
+  direct_recommendation_authority: false

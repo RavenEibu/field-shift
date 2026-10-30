@@ -1,0 +1,44 @@
+id: nasa_grace_grace_fo_mascon_cri
+provider: NASA PO.DAAC / JPL
+product: JPL GRACE and GRACE-FO Mascon Ocean, Ice, and Hydrology Equivalent Water Height Coastal Resolution Improvement Filtered
+short_name: TELLUS_GRAC-GRFO_MASCON_CRI_GRID_RL06.3_V4
+version: RL06.3Mv04
+doi: 10.5067/TEMSC-3JC634
+validation_status: validated
+project_priority: contextual
+last_verified: 2026-10-30
+
+authoritative_url: https://podaac.jpl.nasa.gov/dataset/TELLUS_GRAC-GRFO_MASCON_CRI_GRID_RL06.3_V4
+access:
+  authentication: earthdata_login_for_protected_downloads
+  primary_format: NetCDF_4
+
+role_in_field_shift:
+  - long_term_regional_water_storage_context
+  - drought_and_aquifer_context
+  - broad_hydrologic_trend_evidence
+
+spatial_scope:
+  distributed_grid: 0.5_degree_x_0.5_degree
+  underlying_independent_mascons: 3_degree_equal_area
+  effective_decision_scale: broad_regional_context
+  parcel_level: false
+  note: The 0.5-degree distributed grid does not mean independent 0.5-degree information. The underlying mascon solution consists of much coarser independent estimates.
+
+temporal_scope:
+  nominal_resolution: monthly
+  coverage_start: 2002-04-04
+
+strengths:
+  - long_term_total_water_storage_anomalies
+  - useful_for_broad_regional_drying_or_storage_trends
+
+limitations:
+  - far_too_coarse_for_field_level_recommendations
+  - monthly_temporal_resolution
+  - total_water_storage_combines_multiple hydrologic components
+  - should_not_drive_crop_rotation_scores_directly_without_validated_interpretation
+
+intended_decision_use:
+  description: Provide broad regional hydrologic context and long-term trend evidence. Treat as contextual rather than a direct field-level decision variable.
+  direct_recommendation_authority: false

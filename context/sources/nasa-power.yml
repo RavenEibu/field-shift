@@ -1,0 +1,46 @@
+id: nasa_power
+provider: NASA Langley Research Center POWER
+product: POWER Daily API
+validation_status: validated
+project_priority: core
+last_verified: 2026-10-30
+
+authoritative_url: https://power.larc.nasa.gov/docs/services/api/temporal/daily/
+access:
+  authentication: none_for_standard_api_requests
+  formats:
+    - JSON
+    - CSV
+    - ASCII
+    - NetCDF
+    - ICASA
+
+role_in_field_shift:
+  - agroclimatology_time_series
+  - precipitation_context
+  - temperature_context
+  - solar_radiation_context
+  - humidity_context
+  - wind_context
+
+spatial_scope:
+  representation: point_or_regional_api_queries
+  note: Parameters are returned at their original source spatial resolution. A point request does not imply parcel-scale measurement.
+
+temporal_scope:
+  primary_use: daily_time_series
+
+strengths:
+  - simple_api_access
+  - analysis_ready_responses
+  - no_api_key_for_standard_requests
+  - suitable_for_rapid_mvp_integration
+
+limitations:
+  - source_resolution_varies_by_parameter
+  - not_a_field_sensor
+  - repeated_requests_for_the_same_grid_cell_should_be_avoided
+
+intended_decision_use:
+  description: Establish historical and current agroclimatic context used by downstream indicators and rotation evaluation.
+  direct_recommendation_authority: false

@@ -1,0 +1,47 @@
+id: nasa_hls
+provider: NASA LP DAAC
+product_family: Harmonized Landsat and Sentinel-2
+products:
+  - short_name: HLSL30
+    version: 2.0
+    sensor_family: Landsat
+  - short_name: HLSS30
+    version: 2.0
+    sensor_family: Sentinel-2
+validation_status: validated
+project_priority: mvp_plus
+last_verified: 2026-10-30
+
+authoritative_url: https://lpdaac.usgs.gov/documents/1698/HLS_User_Guide_V2.pdf
+access:
+  authentication: earthdata_login_for_download
+  primary_format: Cloud_Optimized_GeoTIFF
+
+role_in_field_shift:
+  - field_scale_surface_reflectance
+  - vegetation_condition_context
+  - time_series_of_land_surface_response
+  - potential_input_to_vegetation_indices
+
+spatial_scope:
+  nominal_resolution: 30_m
+  effective_decision_scale: field_to_landscape_context
+
+temporal_scope:
+  combined_observation_frequency: approximately_1.6_days_global_average
+  note: Actual usable frequency depends on acquisition, clouds, quality masks, and location.
+
+strengths:
+  - harmonized_landsat_and_sentinel_2_surface_reflectance
+  - common_grid_and_processing
+  - suitable_for_field_scale_spatial_patterns
+
+limitations:
+  - raster_processing_complexity
+  - cloud_and_shadow_screening_required
+  - vegetation_indices_require_interpretation_and_validation
+  - higher_implementation_cost_than_power_or_simple_time_series_apis
+
+intended_decision_use:
+  description: Add field-scale vegetation evidence when it materially improves the rotation decision and the core MVP is already functional.
+  direct_recommendation_authority: false

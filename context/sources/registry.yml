@@ -1,0 +1,33 @@
+version: 1
+last_reviewed: 2026-10-30
+
+sources:
+  - id: nasa_power
+    file: nasa-power.yml
+    validation_status: validated
+    project_priority: core
+
+  - id: nasa_smap_spl3smp_e
+    file: smap.yml
+    validation_status: validated
+    project_priority: core
+
+  - id: nasa_ecostress_eco_l3t_jet
+    file: ecostress.yml
+    validation_status: validated
+    project_priority: mvp_plus
+
+  - id: nasa_hls
+    file: hls.yml
+    validation_status: validated
+    project_priority: mvp_plus
+
+  - id: nasa_gpm_imerg_final_daily
+    file: gpm-imerg.yml
+    validation_status: validated
+    project_priority: supporting
+
+  - id: nasa_grace_grace_fo_mascon_cri
+    file: grace-grace-fo.yml
+    validation_status: validated
+    project_priority: contextual

@@ -1,0 +1,43 @@
+id: nasa_ecostress_eco_l3t_jet
+provider: NASA LP DAAC
+product: ECOSTRESS Tiled Evapotranspiration Instantaneous and Daytime L3 Global 70 m
+short_name: ECO_L3T_JET
+version: 2
+validation_status: validated
+project_priority: mvp_plus
+last_verified: 2026-10-30
+
+authoritative_url: https://cmr.earthdata.nasa.gov/search/site/collections/directory/LPCLOUD/gov.nasa.eosdis
+access:
+  authentication: earthdata_login_for_download
+
+role_in_field_shift:
+  - evapotranspiration_context
+  - plant_water_use_context
+  - field_scale_water_stress_evidence
+
+spatial_scope:
+  nominal_resolution: 70_m
+  effective_decision_scale: field_to_landscape_context
+  parcel_level: conditional
+  note: Higher nominal resolution does not remove the need for quality masks, coverage checks, and product-specific uncertainty handling.
+
+temporal_scope:
+  acquisition_pattern: ISS_based_irregular_overpass
+
+strengths:
+  - substantially_finer_spatial_resolution_than_regional_products
+  - directly_related_to_evapotranspiration_and_water_use
+
+limitations:
+  - irregular_temporal_sampling
+  - cloud_and_quality_constraints
+  - derived_product_artifacts_may_require_quality_screening
+
+metadata_note:
+  description: A third-party challenge mapping reviewed on 2026-10-30 listed ECO_L3T_JET as V003, while the authoritative NASA CMR collection directory currently lists ECO_L3T_JET V002. Field Shift therefore records V002 until NASA authoritative metadata changes.
+  third_party_reference: https://spacedata.swapniltamse.com/challenges/field-shift-adapting-farms/
+
+intended_decision_use:
+  description: Add higher-resolution evapotranspiration evidence after the core climate and soil-moisture decision loop is working.
+  direct_recommendation_authority: false
