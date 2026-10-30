@@ -1,0 +1,25 @@
+id: ROT-XXXX
+name: Replace with a human-readable rotation name
+status: candidate
+
+sequence:
+  - crop_id: CROP-XXXX
+    season_or_stage: null
+  - crop_id: CROP-YYYY
+    season_or_stage: null
+
+current_rotation: false
+
+description: Describe the rotation strategy without duplicating crop-level canonical facts.
+
+constraints:
+  geography: null
+  soil: []
+  farmer_requirements: []
+
+provenance:
+  source: null
+  created_at: YYYY-MM-DD
+  created_by: replace_me
+
+notes: []

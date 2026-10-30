@@ -1,0 +1,41 @@
+id: RULE-XXXX
+title: Replace with a concise rule title
+status: candidate
+
+scope:
+  geography: null
+  crops: []
+  soils: []
+  temporal_conditions: []
+
+conditions:
+  all: []
+  any: []
+
+interpretation:
+  description: Describe the agronomic interpretation represented by this rule.
+
+effect:
+  target: rotation_or_crop_or_component
+  operation: null
+  magnitude: null
+  note: Do not assign a numeric magnitude without evidence and validation.
+
+evidence_basis:
+  sources: []
+  references: []
+  assumptions: []
+
+validation:
+  status: not_started
+  method: null
+  reviewer: null
+  reviewed_at: null
+  findings: null
+
+limitations: []
+
+provenance:
+  created_at: YYYY-MM-DD
+  created_by: replace_me
+  promoted_from_learning_candidate: null

@@ -1,0 +1,63 @@
+version: 1
+name: rotation_evaluation_contract
+
+inputs:
+  field_context:
+    required: true
+    description: Location or field reference plus applicable spatial context.
+
+  evidence:
+    required: true
+    description: Traceable observations and derived indicators.
+
+  soil_profile:
+    required: true
+    description: Validated local or representative soil context.
+
+  crops:
+    required: true
+    description: Crop knowledge referenced by candidate rotations.
+
+  rotations:
+    required: true
+    minimum_count: 2
+    preferred_count: 3
+    description: Rotation alternatives to compare, including the current strategy when known.
+
+  farmer_priorities:
+    required: true
+    description: User objectives that may alter trade-off weighting.
+
+  decision_rules:
+    required: true
+    description: Active validated rules eligible to affect evaluation.
+
+outputs:
+  per_rotation:
+    fields:
+      - rotation_id
+      - comparative_result
+      - score_components
+      - evidence_refs
+      - applied_rule_refs
+      - benefits
+      - risks
+      - trade_offs
+      - uncertainty
+      - limitations
+      - explanation
+
+  comparison:
+    fields:
+      - ranking_or_preference_when_justified
+      - major_trade_offs
+      - decision_sensitive_priorities
+      - missing_information
+
+invariants:
+  - every_material_result_must_be_traceable_to_evidence_or_explicit_assumption
+  - numeric_scores_must_not_imply_precision_beyond_the_underlying_evidence
+  - farmer_priorities_may_change_trade_off_weights_but_not_rewrite_observations
+  - inactive_or_shadow_rules_must_not_affect_active_results
+  - explanations_must_not_invent_reasons_outside_the_structured_decision_trace
+  - spatial_scope_of_evidence_must_be_preserved
