@@ -1,0 +1,29 @@
+version: 1
+manifest_id: baseline_inta_crop_history
+source_id: inta_mapa_nacional_cultivos
+status: planned
+
+purpose: Build an observed crop-sequence baseline for the selected public prototype location or area in Argentina.
+
+campaigns:
+  start: 2018_2019
+  end: latest_validated_available
+
+retrieval_contract:
+  preserve_original_geotiff: local_only
+  repository_commit: metadata_and_small_derived_sample_only
+  preserve_legend: true
+  preserve_accuracy_report: true
+  preserve_campaign_identity: true
+
+validation_checks:
+  - campaign_version
+  - class_legend
+  - location_intersection
+  - nodata_handling
+  - winter_summer_separation
+  - classification_accuracy_metadata
+
+output_role: observed_crop_history
+claim_boundary: classified_crop_likelihood_not_farmer_record
+recommendation_authority: false
