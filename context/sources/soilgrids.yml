@@ -33,8 +33,9 @@ transformability:
 
 fitness_rating:
   methodology: context/source-fitness.md
-  score_100: 64
-  class: C
+  score_100: 71.0
+  class: B
+  hard_gate_disposition: fallback_context_only
 
 limitations:
   - global_model_not_local_soil_survey
