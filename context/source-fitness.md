@@ -23,7 +23,7 @@ Overall score:
 score_100 = 20*A/5 + 20*V/5 + 20*D/5 + 15*S/5 + 15*T/5 + 10*O/5
 ```
 
-where `A,V,D,S,T,O` are the six 0–5 dimension scores above.
+where `A,V,D,S,T,O` are the six 0–5 dimension scores above. Scores are reported to one decimal when needed and must be mechanically reproducible from the dimensions.
 
 ## Interpretation
 
@@ -48,14 +48,16 @@ A numerical score cannot override these gates:
 
 | Source | Role | Score | Class | Decision use |
 |---|---|---:|---|---|
-| NASA SMAP L4 SPL4SMGP v8 | regional soil-moisture context | 91 | A | Core candidate for surface/root-zone water context; not parcel measurement |
-| FAO-56 / AquaCrop knowledge | crop-water knowledge | 90 | A | Strong authoritative agronomic reference; not an observation dataset |
-| INTA Mapa Nacional de Cultivos | observed crop history | 89 | A | Strong Argentina crop-history baseline at 30 m; classification uncertainty remains |
-| NASA POWER / MERRA-2 meteorology | regional climate context | 88 | A | Core for historical climate context; not parcel weather truth |
-| INTA SisINTA / soil profiles | local soil characterization | 87* | A* | Preferred soil evidence when an appropriate nearby/public profile exists |
-| SoilGrids 250 m | modeled soil fallback | 64 | C | Context/fallback only; ISRIC explicitly advises against local/farm interpretation |
+| NASA SMAP L4 SPL4SMGP v8 | regional soil-moisture context | 94.5 | A | Core candidate for surface/root-zone water context; not parcel measurement |
+| FAO-56 / AquaCrop knowledge | crop-water knowledge | 94.0 | A | Strong authoritative agronomic reference; not an observation dataset |
+| INTA Mapa Nacional de Cultivos | observed crop history | 91.5 | A | Strong Argentina crop-history baseline at 30 m; classification uncertainty remains |
+| NASA POWER / MERRA-2 meteorology | regional climate context | 90.5 | A | Core for historical climate context; not parcel weather truth |
+| INTA SisINTA / soil profiles | local soil characterization | 90.5* | A* | Preferred soil evidence when an appropriate nearby/public profile exists |
+| SoilGrids 250 m | modeled soil fallback | 71.0 | B + hard gate | Useful modeled context, but ISRIC explicitly advises against local/farm interpretation |
 
 `*` The SisINTA rating is a **source-system rating**, not a rating for any specific profile. A selected profile must be separately checked for distance, date, sampling method, laboratory data, depth coverage, and representativeness before use.
+
+SoilGrids illustrates why hard gates exist: its authority, uncertainty documentation, and transformability make it a useful global/regional model, but its provider explicitly discourages local/farm-level use. Therefore it remains **fallback/context only** even though the weighted score is class B.
 
 ## Source-selection rule
 
