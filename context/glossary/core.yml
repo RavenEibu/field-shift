@@ -1,0 +1,51 @@
+terms:
+  field_shift:
+    definition: The public agricultural decision-support project developed for the 2026 NASA International Space Apps Challenge.
+
+  earth_observation:
+    definition: Measurement or estimate of Earth-system conditions derived from satellite, model, or related observation systems.
+
+  observation:
+    definition: Source-provided measured or estimated value before project interpretation.
+
+  derived_indicator:
+    definition: Reproducible value computed from one or more observations for analytical or decision use.
+
+  agronomic_interpretation:
+    definition: Domain meaning assigned to evidence or indicators in an agricultural context.
+
+  decision_rule:
+    definition: Validated logic that changes the evaluation of a crop or rotation under defined conditions.
+
+  rotation:
+    definition: A planned sequence or cycle of crops evaluated as an agricultural strategy.
+
+  evidence:
+    definition: Traceable information used to support an interpretation, rule, or recommendation.
+
+  provenance:
+    definition: Information describing the origin, version, retrieval, transformation, and lineage of data or knowledge.
+
+  effective_spatial_scope:
+    definition: The scale at which a source meaningfully supports interpretation, independent of later resampling or visualization resolution.
+
+  farmer_priority:
+    definition: User-defined objective or preference that influences trade-offs in rotation evaluation.
+
+  learning_candidate:
+    definition: Proposed new knowledge or rule change awaiting controlled evaluation.
+
+  shadow_learning:
+    definition: Evaluation of candidate knowledge without allowing it to alter active decision behavior.
+
+  promotion:
+    definition: Explicit transition of validated candidate knowledge into active operational context.
+
+  active_knowledge:
+    definition: Validated project knowledge approved for operational use.
+
+  human_first:
+    definition: Design principle requiring that the project remain understandable and auditable without an AI system.
+
+  ai_optimized:
+    definition: Use of structured context and automation where it improves consistency, retrieval, reasoning, or productivity without reducing human comprehensibility.

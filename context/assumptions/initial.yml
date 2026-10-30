@@ -1,0 +1,42 @@
+assumptions:
+  - id: A-001
+    statement: The first useful Field Shift product should compare rotation strategies rather than only visualize environmental data.
+    status: active
+    basis: challenge_interpretation
+    review_trigger: official_requirement_change
+
+  - id: A-002
+    statement: NASA Earth observation data alone is insufficient for rotation recommendations; soil, crop, and farmer-priority context is also required.
+    status: active
+    basis: official_challenge_framing
+    review_trigger: architecture_change
+
+  - id: A-003
+    statement: The MVP should prefer a small validated data stack over broad integration of every candidate NASA source.
+    status: active
+    basis: delivery_risk_and_explainability
+    review_trigger: working_mvp_established
+
+  - id: A-004
+    statement: Coarse-resolution observations may provide regional context but must not be presented as parcel-scale measurements.
+    status: active
+    basis: spatial_information_integrity
+    review_trigger: source_or_method_change
+
+  - id: A-005
+    statement: AI may assist research, transformation, explanation, and learning-candidate generation but must not silently promote new domain knowledge or decision rules.
+    status: active
+    basis: human_governed_learning_model
+    review_trigger: governance_change
+
+  - id: A-006
+    statement: English is the canonical language for the public repository and NASA-facing project artifacts.
+    status: active
+    basis: project_governance
+    review_trigger: team_decision
+
+  - id: A-007
+    statement: The reusable framework is infrastructure for Field Shift and must not displace the agricultural challenge as the primary public narrative.
+    status: active
+    basis: challenge_first_design
+    review_trigger: product_strategy_change

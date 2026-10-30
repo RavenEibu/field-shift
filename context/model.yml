@@ -1,0 +1,94 @@
+version: 1
+purpose: canonical_operational_model
+
+entities:
+  source:
+    description: Authoritative or supporting origin of data or knowledge.
+    key_fields:
+      - id
+      - provider
+      - product
+      - version
+      - authority_level
+      - validation_status
+
+  observation:
+    description: Measured or estimated value retrieved from a source.
+    key_fields:
+      - source_id
+      - variable
+      - value
+      - unit
+      - timestamp
+      - location
+      - spatial_scope
+      - temporal_scope
+      - quality
+
+  derived_indicator:
+    description: Reproducible transformation of one or more observations.
+    key_fields:
+      - id
+      - inputs
+      - method
+      - output
+      - provenance
+
+  soil_profile:
+    description: Local or representative soil context used by the decision model.
+
+  crop:
+    description: Crop knowledge relevant to rotation evaluation.
+
+  farmer_priority:
+    description: User preference or objective that changes evaluation trade-offs.
+
+  rotation:
+    description: Ordered or cyclic crop strategy evaluated by Field Shift.
+
+  interpretation:
+    description: Agronomic meaning assigned to evidence or an indicator.
+
+  decision_rule:
+    description: Validated rule that changes a rotation evaluation.
+    key_fields:
+      - id
+      - evidence_basis
+      - conditions
+      - effect
+      - status
+      - validation
+
+  rotation_evaluation:
+    description: Comparative result for a rotation under a specific context.
+    key_fields:
+      - rotation_id
+      - evidence
+      - benefits
+      - risks
+      - trade_offs
+      - uncertainty
+      - explanation
+
+  learning_candidate:
+    description: Proposed new knowledge that has not yet been promoted to active context.
+
+relationships:
+  - source_produces_observation
+  - observation_feeds_indicator
+  - indicator_supports_interpretation
+  - interpretation_supports_decision_rule
+  - decision_rule_affects_rotation_evaluation
+  - soil_profile_affects_rotation_evaluation
+  - crop_participates_in_rotation
+  - farmer_priority_weights_rotation_evaluation
+  - rotation_evaluation_produces_recommendation
+  - new_evidence_may_create_learning_candidate
+  - validated_learning_may_update_active_knowledge
+
+invariants:
+  - recommendations_must_reference_evidence
+  - active_rules_must_have_validation_state
+  - ai_output_is_not_independent_evidence
+  - coarse_data_must_not_be_represented_as_fine_scale_measurement
+  - provenance_must_survive_transformations_where_practical
