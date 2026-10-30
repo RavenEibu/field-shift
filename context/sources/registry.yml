@@ -1,4 +1,4 @@
-version: 2
+version: 3
 last_reviewed: 2026-10-30
 
 policy:
@@ -6,7 +6,7 @@ policy:
   rating_registry: context/source-fitness.yml
   rule: >
     Source fitness is role-specific. A high score cannot override spatial-scale,
-    uncertainty, product-identity, or evidence-strength gates.
+    uncertainty, product-identity, evidence-strength, redundancy, or incremental-value gates.
 
 core_or_candidate:
   - id: nasa_power_meteorology
@@ -36,6 +36,14 @@ core_or_candidate:
     score_100: 94.0
     class: A
 
+validation_reference:
+  - id: inta_agrometeorological_network
+    file: inta-agromet.yml
+    role: local_station_validation_reference
+    score_100: 89.5
+    class: A
+    qualification: source_system_only
+
 fallback:
   - id: isric_soilgrids_250m
     file: soilgrids.yml
@@ -45,14 +53,26 @@ fallback:
     hard_gate_disposition: fallback_context_only
 
 supporting_or_deferred:
-  - id: nasa_ecostress
-    file: ecostress.yml
-  - id: nasa_gpm_imerg
-    file: gpm-imerg.yml
   - id: nasa_hls
     file: hls.yml
-  - id: nasa_grace_grace_fo
+    score_100: 87.5
+    class: A
+    disposition: deferred_due_to_redundancy_and_processing_cost
+  - id: nasa_gpm_imerg_final_daily
+    file: gpm-imerg.yml
+    score_100: 87.0
+    class: A
+    disposition: deferred_unless_precipitation_gap_identified
+  - id: nasa_ecostress_eco_l3t_jet
+    file: ecostress.yml
+    score_100: 83.5
+    class: B
+    disposition: mvp_plus_after_core_validation
+  - id: nasa_grace_grace_fo_mascon_cri
     file: grace-grace-fo.yml
+    score_100: 74.0
+    class: B
+    disposition: contextual_only
 
 superseded_for_mvp_primary_use:
   - id: nasa_smap_spl3smp_e
