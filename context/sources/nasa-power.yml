@@ -45,7 +45,7 @@ transformability:
 
 fitness_rating:
   methodology: context/source-fitness.md
-  score_100: 88
+  score_100: 90.5
   class: A
 
 limitations:
