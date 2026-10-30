@@ -1,0 +1,59 @@
+version: 1
+status: active
+updated_at: 2026-10-30
+
+project:
+  id: field-shift
+  phase: data_source_validation
+
+objective:
+  primary: >
+    Build a reproducible environmental and agricultural baseline for one real prototype area
+    before enabling crop-rotation recommendations.
+
+current_truth:
+  agricultural_problem: >
+    Compare crop rotation strategies under drought, water stress, and climate variability
+    using NASA Earth observation plus local soil/crop context and farmer priorities.
+  nasa_core:
+    climate: nasa_power_meteorology
+    soil_moisture: nasa_smap_l4_spl4smgp_v8
+  argentina_supporting_sources:
+    crop_history: inta_mapa_nacional_cultivos
+    preferred_soil: inta_sisinta
+  soil_fallback: isric_soilgrids_250m
+  crop_water_reference: fao_crop_water_knowledge
+
+leading_prototype_candidate:
+  geography: Villa Mercedes / General Pedernera, San Luis, Argentina
+  status: pending_exact_public_agricultural_location_selection
+
+accepted_constraints:
+  - no_coarse_regional_data_as_parcel_truth
+  - no_arbitrary_rotation_scoring
+  - no_recommendation_before_evidence_chain_is_validated
+  - no_candidate_learning_auto_promotion
+  - english_is_repository_canonical_language
+  - public_repository_no_secrets_or_private_data
+
+pending_validation:
+  - select_exact_public_prototype_location_or_area
+  - identify_representative_public_sisinta_or_local_soil_evidence
+  - retrieve_first_power_baseline
+  - retrieve_first_smap_l4_baseline
+  - intersect_prototype_with_inta_crop_maps
+  - define_initial_crop_profiles
+  - define_candidate_rotation_set
+  - validate_rotation_rules_with_authoritative_agronomic_sources
+
+next_action:
+  id: build_environmental_baseline
+  description: >
+    Select a reproducible public prototype location in the Villa Mercedes / General Pedernera area,
+    retrieve NASA POWER and SMAP L4 data with provenance, and validate the observations
+    before deriving agronomic interpretation.
+
+history_policy:
+  current_file_is_authority_for_current_phase: true
+  transcript_is_not_project_memory: true
+  older_research_is_provenance_not_current_truth: true
