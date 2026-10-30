@@ -34,7 +34,7 @@ hard_gate: >
 
 fitness_rating:
   methodology: context/source-fitness.md
-  score_100: 87
+  score_100: 90.5
   class: A
   qualification: source_system_only
 
