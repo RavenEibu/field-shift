@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/RavenEibu/field-shift/data/schemas/acquisition-record.schema.json",
+  "title": "Field Shift Acquisition Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "acquisition_id",
+    "source_id",
+    "retrieved_at_utc",
+    "authority",
+    "retrieval",
+    "artifacts",
+    "validation_status"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "acquisition_id": {"type": "string", "minLength": 3},
+    "source_id": {"type": "string", "minLength": 3},
+    "retrieved_at_utc": {"type": "string", "format": "date-time"},
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "product", "authoritative_url"],
+      "properties": {
+        "provider": {"type": "string"},
+        "product": {"type": "string"},
+        "version": {"type": ["string", "number", "null"]},
+        "campaign": {"type": ["string", "null"]},
+        "doi": {"type": ["string", "null"]},
+        "authoritative_url": {"type": "string", "format": "uri"}
+      }
+    },
+    "retrieval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "access_requires_authentication"],
+      "properties": {
+        "method": {
+          "enum": ["api", "direct_download", "provider_subset", "provider_export", "manual_export"]
+        },
+        "request_url": {"type": ["string", "null"]},
+        "request_parameters": {"type": "object"},
+        "access_requires_authentication": {"type": "boolean"},
+        "spatial_scope": {
+          "type": ["object", "null"],
+          "properties": {
+            "kind": {"enum": ["point", "bbox", "polygon", "station", "soil_profile", "national", "global", "other"]},
+            "crs": {"type": ["string", "null"]},
+            "coordinates_or_reference": {}
+          },
+          "required": ["kind"]
+        },
+        "temporal_scope": {
+          "type": ["object", "null"],
+          "properties": {
+            "start": {"type": ["string", "null"]},
+            "end": {"type": ["string", "null"]}
+          }
+        },
+        "variables": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["local_path", "original_filename", "bytes", "sha256"],
+        "properties": {
+          "local_path": {"type": "string"},
+          "original_filename": {"type": "string"},
+          "bytes": {"type": "integer", "minimum": 0},
+          "sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+          "media_type": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "license_or_access_note": {"type": ["string", "null"]},
+    "source_quality_warnings": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "validation_status": {
+      "enum": [
+        "ACQUIRED",
+        "INTEGRITY_VERIFIED",
+        "STRUCTURE_VALIDATED",
+        "QUALITY_VALIDATED",
+        "READY_FOR_CURATED",
+        "REJECTED",
+        "SUPERSEDED"
+      ]
+    }
+  }
+}
