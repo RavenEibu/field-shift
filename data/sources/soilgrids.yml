@@ -1,0 +1,64 @@
+id: isric_soilgrids_250m
+provider: ISRIC World Soil Information
+product: SoilGrids 250 m
+validation_status: partially_verified
+project_priority: fallback_only
+last_verified: 2026-10-30
+authoritative_urls:
+  overview: https://docs.isric.org/globaldata/soilgrids/
+  local_scale_warning: https://docs.isric.org/globaldata/soilgrids/SoilGrids_faqs_04.html
+  layers_and_uncertainty: https://docs.isric.org/globaldata/soilgrids/SoilGrids_faqs_01.html
+role_in_field_shift:
+- modeled_soil_fallback
+- regional_soil_context
+source_characteristics:
+  data_type: machine_learning_spatial_prediction
+  nominal_resolution: 250_m
+  uncertainty:
+    quantiles:
+    - q05
+    - q50
+    - q95
+    explicit_prediction_interval: true
+  note: ISRIC SoilGrids provides global 250m machine-learning predictions. It is an
+    unverified fallback when local measured soil profiles (SisINTA) are unavailable,
+    and cannot replace local field soil testing.
+hard_gate: 'ISRIC states that SoilGrids is a global model best suited to continental
+  or macro-regional analysis and does not advise use at local or farm level. It cannot
+  be treated as field soil truth.
+
+  '
+transformability:
+  wcs: preferred_subset_access
+  webdav: available
+  rest_api: not_stable_dependency
+  reproducibility: medium_high
+limitations:
+- global_model_not_local_soil_survey
+- explained_variation_depends_on_property_and_is_limited
+- prediction_uncertainty_can_be_material
+- rest_api_currently_unreliable_for_production_dependency
+intended_decision_use:
+  description: Fill contextual soil-property gaps only when authoritative local evidence
+    is unavailable, carrying uncertainty and a fallback label.
+  direct_recommendation_authority: false
+validation_semantics:
+  metadata_status: partially_verified
+  metadata_verified: true
+  observation_data_validated: false
+  metadata_verification:
+    verified_at: '2026-10-31'
+    authoritative_url: https://www.isric.org/explore/soilgrids
+    fields:
+    - provider_identity
+    - spatial_resolution
+    - depth_intervals
+    - prediction_uncertainty_quantiles
+    evidence_refs:
+    - docs/data-sources/evaluation.md
+  note: ISRIC 250m global model specifications and prediction interval requirements
+    verified. Direct tile acquisition for prototype anchor pending.
+suitability:
+  tier: fallback_only
+  evaluation_document: docs/data-sources/evaluation.md
+  evaluation_framework: multi_attribute_qualitative

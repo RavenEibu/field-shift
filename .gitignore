@@ -2,23 +2,31 @@
 .env
 .env.*
 !.env.example
+*.local
+*.secret
+*.token
 
-# Python
+# Python and virtual environments
 __pycache__/
 *.py[cod]
+*$py.class
 *.egg-info/
 .pytest_cache/
 .venv/
 venv/
+dist/
+build/
 
 # Jupyter
 .ipynb_checkpoints/
 
-# IDE
+# IDE and Editors
 .vscode/
 .idea/
+*.swp
+*~
 
-# OS
+# OS artifacts
 .DS_Store
 Thumbs.db
 
@@ -40,3 +48,9 @@ data/processed/
 # Credentials
 credentials/
 secrets/
+
+# Private Seat Avoidance (Seats are Cloud-Only, never committed here)
+field-shift-private-*/
+*.seat.json
+personal/
+scratch/

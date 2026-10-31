@@ -1,0 +1,72 @@
+id: nasa_hls
+provider: NASA LP DAAC
+product_family: Harmonized Landsat and Sentinel-2
+products:
+- short_name: HLSL30
+  version: 2.0
+  sensor_family: Landsat
+- short_name: HLSS30
+  version: 2.0
+  sensor_family: Sentinel-2
+validation_status: pending_verification
+project_priority: mvp_plus
+last_verified: 2026-10-30
+authoritative_url: https://lpdaac.usgs.gov/documents/1698/HLS_User_Guide_V2.pdf
+access:
+  authentication: earthdata_login_for_download
+  primary_format: Cloud_Optimized_GeoTIFF
+role_in_field_shift:
+- field_scale_surface_reflectance
+- vegetation_condition_context
+- time_series_of_land_surface_response
+- potential_input_to_vegetation_indices
+spatial_scope:
+  nominal_resolution: 30_m
+  effective_decision_scale: field_to_landscape_context
+temporal_scope:
+  combined_observation_frequency: approximately_1.6_days_global_average
+  note: Actual usable frequency depends on acquisition geometry, clouds, cloud shadows,
+    quality masks, and location.
+quality_requirements:
+- apply_Fmask_quality_information
+- verify_reflectance_scale_factor_and_offset
+- verify_geolocation_and_CRS_before_spatial_intersection
+- preserve_sensor_product_and_acquisition_time
+southern_hemisphere_note: 'HLS V2 known-issues documentation reports incomplete hemisphere
+  metadata in some S30 GeoTIFF projection metadata. Because the prototype is in Argentina,
+  Field Shift must verify the MGRS tile, coordinate values, and intended southern-hemisphere
+  CRS instead of trusting the EPSG label blindly.
+
+  '
+strengths:
+- harmonized_landsat_and_sentinel_2_surface_reflectance
+- common_grid_and_processing
+- suitable_for_field_scale_spatial_patterns
+- analysis_ready_time_series
+incremental_mvp_value:
+  level: medium
+  disposition: deferred_due_to_redundancy_and_processing_cost
+  reason: 'HLS is high-quality field-scale reflectance data, but INTA crop maps already
+    address the MVP crop-history need. Add HLS only for vegetation-response or spatial-pattern
+    questions that remain unresolved.
+
+    '
+limitations:
+- raster_processing_complexity
+- cloud_and_shadow_screening_required
+- vegetation_indices_require_interpretation_and_validation
+- known_metadata_and_geolocation_issues_require_explicit_checks
+intended_decision_use:
+  description: Add field-scale vegetation evidence when it materially improves the
+    rotation decision and the core MVP is already functional.
+  direct_recommendation_authority: false
+validation_semantics:
+  metadata_status: pending_verification
+  metadata_verified: false
+  observation_data_validated: false
+  note: Deferred source (MVP+). Detailed verification deferred to post-MVP field-scale
+    phase.
+suitability:
+  tier: deferred_mvp_plus
+  evaluation_document: docs/data-sources/evaluation.md
+  evaluation_framework: multi_attribute_qualitative

@@ -1,0 +1,59 @@
+id: nasa_grace_grace_fo_mascon_cri
+provider: NASA PO.DAAC / JPL
+product: JPL GRACE and GRACE-FO Mascon Ocean, Ice, and Hydrology Equivalent Water
+  Height Coastal Resolution Improvement Filtered
+short_name: TELLUS_GRAC-GRFO_MASCON_CRI_GRID_RL06.3_V4
+version: RL06.3Mv04
+doi: 10.5067/TEMSC-3JC634
+validation_status: pending_verification
+project_priority: contextual
+last_verified: 2026-10-30
+authoritative_url: https://podaac.jpl.nasa.gov/dataset/TELLUS_GRAC-GRFO_MASCON_CRI_GRID_RL06.3_V4
+access:
+  authentication: earthdata_login_for_protected_downloads
+  primary_format: NetCDF_4
+role_in_field_shift:
+- long_term_regional_water_storage_context
+- drought_and_aquifer_context
+- broad_hydrologic_trend_evidence
+spatial_scope:
+  distributed_grid: 0.5_degree_x_0.5_degree
+  underlying_independent_mascons: approximately_3_degree_equal_area
+  effective_decision_scale: broad_regional_context
+  parcel_level: false
+  note: The 0.5-degree distributed grid does not mean independent 0.5-degree information;
+    the underlying independent estimates are much coarser.
+temporal_scope:
+  nominal_resolution: monthly
+  coverage_start: 2002-04-04
+strengths:
+- long_term_total_water_storage_anomalies
+- useful_for_broad_regional_drying_or_storage_trends
+- authoritative_JPL_mascon_processing
+incremental_mvp_value:
+  level: low
+  disposition: contextual_only
+  reason: 'GRACE is scientifically strong but its information scale is far too coarse
+    to distinguish farm or field rotation choices. It can strengthen a regional drought
+    narrative but should not materially drive the MVP recommendation.
+
+    '
+limitations:
+- far_too_coarse_for_field_level_recommendations
+- monthly_temporal_resolution
+- total_water_storage_combines_multiple_hydrologic_components
+- gridded_display_resolution_must_not_be_confused_with_independent_information_resolution
+intended_decision_use:
+  description: Provide broad regional hydrologic context and long-term trend evidence
+    only.
+  direct_recommendation_authority: false
+validation_semantics:
+  metadata_status: pending_verification
+  metadata_verified: false
+  observation_data_validated: false
+  note: Regional/macro-basin hydrological context only (~300 km resolution). Detailed
+    verification deferred.
+suitability:
+  tier: regional_context
+  evaluation_document: docs/data-sources/evaluation.md
+  evaluation_framework: multi_attribute_qualitative

@@ -1,0 +1,94 @@
+id: nasa_power_meteorology
+provider: NASA POWER
+underlying_authority:
+  organization: NASA Global Modeling and Assimilation Office
+  products:
+    historical: MERRA-2
+    near_real_time: GEOS-IT
+validation_status: verified
+project_priority: core
+last_verified: 2026-10-30
+authoritative_urls:
+  methodology: https://power.larc.nasa.gov/docs/methodology/data/sources_meteorology/
+  services: https://power.larc.nasa.gov/docs/services/
+role_in_field_shift:
+- regional_climate_context
+- historical_baseline
+- drought_and_heat_context
+native_characteristics:
+  meteorology_grid: 0.5_deg_lat_x_0.625_deg_lon
+  solar_grid: 1.0_deg_lat_x_1.0_deg_lon
+  temporal_start: '1981-01-01'
+  near_real_time_latency: approximately_2_days
+  mixed_resolution_note: POWER parameters are derived from distinct native grids (MERRA-2
+    0.5°x0.625°, GEOS-IT NRT, FLASHFlux solar 1.0°x1.0°). Values are spatial averages
+    and must never be simplified to a uniform 0.5°x0.5° grid or represented as point
+    weather measurements.
+optional_high_resolution_catalog_pathways:
+  imerg_precipitation:
+    nominal_resolution: 0.1_deg_lat_x_0.1_deg_lon
+    source: NASA GPM IMERG Final / Early
+    used_in_baseline_acquisition: false
+    status: NOT_REQUESTED
+    note: IMERG 0.1° precipitation is an optional parameter pathway exposed by POWER. It was NOT requested or used in the baseline acquisition. Standard PRECTOTCORR comes from MERRA-2 (0.5°x0.625°).
+  smap_soil_moisture:
+    nominal_resolution: 0.09_deg_lat_x_0.09_deg_lon (~9 km EASE-Grid 2.0)
+    source: NASA GSFC / NSIDC SMAP L4 (SPL4SMGP v8)
+    used_in_baseline_acquisition: false
+    status: REQUESTED_ADAPTER_SENTINEL_RESPONSE
+    note: Requested in a separate adapter query, but yielded 0 usable observations (all values -999.0).
+parameter_lineage_ref: data/sources/power-parameter-lineage.yml
+validation_notes:
+- POWER publishes comparisons of MERRA-2 meteorological parameters against NOAA NCEI
+  surface observations.
+- Standard acquired precipitation (PRECTOTCORR) is MERRA-2 observationally corrected precipitation
+  on a ~0.5° x 0.625° grid, NOT high-resolution IMERG 0.1° precipitation.
+- Daily precipitation has materially weaker point-level agreement than daily temperature
+  in the published validation summaries.
+- Near-real-time GEOS-IT values are later replaced by improved MERRA-2 climate-quality
+  values.
+spatial_scope:
+  effective_decision_scale: regional_climate_context
+  parcel_level: false
+  note: Grid values are spatial averages and must not be represented as field-station
+    measurements.
+freshness:
+  mutable_tail: true
+  climate_trend_rule: end_analysis_at_least_2_months_behind_nrt
+  reason: near_real_time_data_can_be_replaced
+transformability:
+  formats:
+  - json
+  - csv
+  api_access: true
+  reproducibility: high
+limitations:
+- coarse_for_individual_fields
+- precipitation_requires_more_caution_than_temperature
+- mixed_effective_resolution_if_combined_with_high_resolution_power_parameters
+intended_decision_use:
+  description: Establish long-term climate and recent regional meteorological context
+    used by downstream water-stress indicators.
+  direct_recommendation_authority: false
+validation_semantics:
+  metadata_status: verified
+  metadata_verified: true
+  observation_data_validated: false
+  metadata_verification:
+    verified_at: '2026-10-31'
+    authoritative_url: https://power.larc.nasa.gov/docs/services/
+    fields:
+    - provider_identity
+    - underlying_products
+    - spatial_resolution
+    - temporal_resolution
+    - meteorological_parameters
+    evidence_refs:
+    - data/raw/nasa-power/20261031T020256Z/power_daily_point_19910101_20251231.json
+    - evidence/ssd-raw-audit.json
+  note: Provider specifications and data access verified. Empirical observation values
+    undergo scientific validation in the data pipeline.
+suitability:
+  tier: core_mvp
+  evaluation_document: docs/data-sources/evaluation.md
+  evaluation_framework: multi_attribute_qualitative

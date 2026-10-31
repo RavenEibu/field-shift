@@ -1,137 +1,76 @@
-# Architecture
+# Field Shift — Product Architecture
 
-## Architectural objective
+## 1. System Overview
 
-Field Shift separates observations, contextual knowledge, decision logic, and learning governance so that recommendations remain explainable and auditable.
-
-```text
-External Data Sources
-        ↓
-Ingestion and Validation
-        ↓
-Canonical Data Model
-        ↓
-Environmental Context
-        +
-Agricultural Knowledge
-        +
-Farmer Priorities
-        ↓
-Decision Engine
-        ↓
-Rotation Evaluation
-        ↓
-Evidence + Explanation + Uncertainty
-        ↓
-Observed Outcomes / New Evidence
-        ↓
-Governed Learning Lifecycle
-```
-
-## Two documentation layers
-
-### Human layer
-
-Primarily stored under `docs/`.
-
-Its purpose is to explain:
-
-- what the project does
-- why the problem matters
-- how the system works
-- why major decisions were made
-- what evidence exists
-- what assumptions and limitations apply
-
-A contributor should be able to understand the project without an AI assistant.
-
-### Canonical operational context
-
-Primarily stored under `context/`.
-
-Its purpose is to hold explicit, structured, version-controlled knowledge that can be consumed consistently by:
-
-- humans
-- application code
-- analytical tooling
-- AI agents
-
-Examples include:
-
-- source definitions
-- schemas
-- terminology
-- assumptions
-- rules
-- evidence relationships
-- validation state
-
-The context layer is not an AI-only layer. It is the shared operational representation of project knowledge.
-
-## Knowledge flow
-
-A useful pattern for decision traceability is:
+Field Shift is structured as a modular, reproducible data pipeline and agronomic decision engine:
 
 ```text
-SOURCE
-  ↓
-VARIABLE
-  ↓
-INDICATOR
-  ↓
-AGRONOMIC INTERPRETATION
-  ↓
-DECISION RULE
-  ↓
-ROTATION EFFECT
-  ↓
-RECOMMENDATION
+┌──────────────────────────────────────────────────────────┐
+│             1. DATA ACQUISITION LAYER [IMPLEMENTED]      │
+│  NASA POWER Daily AG  │  NASA SMAP L4 Soil Moisture      │
+│  INTA Ground Truth    │  INTA Crop Succession History    │
+└────────────────────────────┬─────────────────────────────┘
+                             │
+                             ▼
+┌──────────────────────────────────────────────────────────┐
+│          2. STANDARDIZATION & VALIDATION [PROTOTYPED]    │
+│  - Spatial & temporal harmonization (UTC, EPSG:4326)     │
+│  - Strict schema validation (canonical-observation)      │
+│  - Evidence Claim Gate verification                      │
+└────────────────────────────┬─────────────────────────────┘
+                             │
+                             ▼
+┌──────────────────────────────────────────────────────────┐
+│         3. AGRO-CLIMATIC INDICATOR ENGINE [PLANNED]      │
+│  - Root-zone water availability index                    │
+│  - Critical growth window drought risk                   │
+│  - Thermal extreme frequency (heat/frost stress)         │
+│  - Fallow recharge efficiency                            │
+└────────────────────────────┬─────────────────────────────┘
+                             │
+                             ▼
+┌──────────────────────────────────────────────────────────┐
+│        4. ROTATION DECISION & TRADE-OFF MODEL [PLANNED]  │
+│  - Multi-sequence comparative evaluation                 │
+│  - Trade-off matrix: Economic Yield vs Climate Resilience │
+│  - Transparent explanation & agronomic rationale         │
+└────────────────────────────┬─────────────────────────────┘
+                             │
+                             ▼
+┌──────────────────────────────────────────────────────────┐
+│             5. PRESENTATION & DEMO UX [CONCEPTUAL]       │
+│  - Interactive rotation explorer (Streamlit / Notebook)  │
+│  - Field profile inspection                              │
+│  - Exportable decision reports for farmers               │
+└──────────────────────────────────────────────────────────┘
 ```
 
-For example:
+---
 
-```text
-SMAP
-  ↓
-soil_moisture
-  ↓
-persistent moisture deficit
-  ↓
-high water-stress context
-  ↓
-penalize water-demanding options
-  ↓
-rotation score changes
-  ↓
-explainable trade-off
-```
+## 2. Layer-by-Layer Subsystem Specifications & Maturity
 
-The exact rule must be evidence-backed and validated before it is promoted into active decision logic.
+### Layer 1: Data Acquisition Layer `[IMPLEMENTED]`
+- **Scope:** Automated ingestion of authoritative NASA Earth observations and local agricultural intelligence.
+- **Current State:** Python-based point retrieval scripts for NASA POWER Daily AG and SMAP L4 daily adapter executed for the prototype anchor (`-33.6500, -65.3667`). Raw acquisitions are checksummed and archived in Git-ignored storage.
 
-## Spatial context
+### Layer 2: Standardization & Schema Validation `[PROTOTYPED]`
+- **Scope:** Normalization of heterogeneous formats (JSON, GeoTIFF, HDF5) into canonical data models with explicit CRS (EPSG:4326) and UTC timestamps.
+- **Current State:** JSON schemas for `acquisition-record` and `canonical-observation` defined under `data/schemas/`. Validation against Evidence Claim Gates underway.
 
-Field Shift may combine sources at different spatial resolutions, but it must preserve their effective information scale.
+### Layer 3: Agro-Climatic Indicator Engine `[PLANNED]`
+- **Scope:** Computation of agronomic indicators quantifying moisture stress, crop water requirements (FAO-56), and historical climatic anomalies.
+- **Current State:** Mathematical formulations and indicator definitions drafted in methodology specifications; computation engine implementation scheduled.
 
-A coarse regional measurement and a high-resolution field observation can contribute to the same decision without pretending they have the same precision.
+### Layer 4: Rotation Decision & Trade-Off Model `[PLANNED]`
+- **Scope:** Multi-objective evaluation of crop sequences under simulated climate stress, balancing short-term economic gross margins against multi-year soil moisture preservation.
+- **Current State:** Decision contract schema and rotation templates drafted under `docs/contracts/decisions/`.
 
-The architecture should therefore support evidence at multiple scales rather than force all observations into a falsely uniform grid.
+### Layer 5: Presentation & Demonstration UX `[CONCEPTUAL]`
+- **Scope:** Interactive user interface for farmers and challenge judges to explore rotation scenarios, inspect soil parameters, and evaluate trade-offs.
+- **Current State:** Conceptual architecture and walkthrough notebooks planned for demonstration phase.
 
-## AI role
+---
 
-AI may assist with:
+## 3. Decoupled Product Canon
 
-- structured context retrieval
-- research synthesis
-- data-quality analysis
-- hypothesis generation
-- explanation drafting
-- candidate-learning detection
-- repetitive transformation or documentation work
-
-AI must not silently promote inferred facts or modify active decision rules without validation.
-
-## Reusable framework role
-
-Field Shift may reuse framework capabilities for context centralization, provenance, learning governance, and AI optimization.
-
-Those capabilities are infrastructure. The public product remains centered on agricultural decision support.
+The public codebase is strictly self-contained and reproducible. All schemas under `data/schemas/` govern incoming observations. Internal research context, collaborative agent work contexts, and personal notes are strictly decoupled from public releases.

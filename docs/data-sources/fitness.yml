@@ -1,0 +1,53 @@
+# Data Source Suitability Matrix (Multi-Attribute Qualitative)
+version: 2
+status: validated_for_mvp
+governance: docs/data-sources/evaluation.md
+
+sources:
+  nasa_power:
+    authority: NASA Langley ASDC / GMAO
+    role: macro_climate_and_energy
+    mvp_inclusion: true
+    spatial_resolution: 0.5_deg_lat_x_0.625_deg_lon
+    temporal_coverage: 1991_to_2025
+    tier: CORE_MVP
+
+  nasa_smap_l4:
+    authority: NASA NSIDC / GSFC
+    role: root_zone_soil_moisture
+    mvp_inclusion: true
+    spatial_resolution: 9_km
+    temporal_coverage: 2015_to_2025
+    tier: CORE_MVP
+
+  inta_mnc:
+    authority: INTA Argentina
+    role: observed_crop_sequence_history
+    mvp_inclusion: true
+    spatial_resolution: 30_m_classified_raster
+    temporal_coverage: 2018_to_2024
+    tier: CORE_SUPPORTING
+
+  inta_agromet:
+    authority: INTA SIGA
+    role: ground_truth_climate_validation
+    mvp_inclusion: true
+    spatial_resolution: point_station
+    temporal_coverage: station_dependent
+    tier: VALIDATION_REFERENCE
+
+  inta_sisinta:
+    authority: INTA Argentina
+    role: measured_soil_profile_properties
+    mvp_inclusion: true
+    spatial_resolution: georeferenced_soil_profiles
+    temporal_coverage: static_survey_database
+    tier: PREFERRED_LOCAL_SOIL
+
+  soilgrids:
+    authority: ISRIC World Soil Information
+    role: modeled_soil_fallback
+    mvp_inclusion: false
+    spatial_resolution: 250_m_modeled_grid
+    temporal_coverage: static_prediction_v2
+    tier: FALLBACK_CONTEXT_ONLY

@@ -1,0 +1,68 @@
+version: 3
+last_reviewed: 2026-10-31
+policy:
+  source_of_truth: data/sources/
+  evaluation_presentation: docs/data-sources/evaluation.md
+  rating_framework: multi_attribute_qualitative
+  rule: Structured factual source metadata under data/sources/ remains authoritative
+    for schemas, endpoints, and acquisition parameters. docs/data-sources/evaluation.md
+    provides the human-readable multi-attribute evaluation presentation. Source fitness
+    is role-specific; qualitative evaluation gates cannot be overridden by heuristic
+    scores.
+core_or_candidate:
+- id: nasa_power_meteorology
+  file: nasa-power.yml
+  role: regional_climate_context
+  metadata_status: verified
+- id: nasa_smap_l4_spl4smgp_v8
+  file: smap-l4.yml
+  role: regional_soil_moisture_context
+  metadata_status: verified
+- id: inta_mapa_nacional_cultivos
+  file: inta-mnc.yml
+  role: observed_crop_history
+  metadata_status: partially_verified
+- id: inta_sisinta
+  file: inta-sisinta.yml
+  role: local_soil_characterization
+  qualification: source_system_only
+  metadata_status: partially_verified
+- id: fao_crop_water_knowledge
+  file: fao-crop-water.yml
+  role: crop_water_knowledge
+  metadata_status: partially_verified
+validation_reference:
+- id: inta_agrometeorological_network
+  file: inta-agromet.yml
+  role: local_station_validation_reference
+  qualification: source_system_only
+  metadata_status: pending_verification
+fallback:
+- id: isric_soilgrids_250m
+  file: soilgrids.yml
+  role: modeled_soil_fallback
+  hard_gate_disposition: fallback_context_only
+  metadata_status: partially_verified
+supporting_or_deferred:
+- id: nasa_hls
+  file: hls.yml
+  disposition: deferred_due_to_redundancy_and_processing_cost
+  metadata_status: pending_verification
+- id: nasa_gpm_imerg_final_daily
+  file: gpm-imerg.yml
+  disposition: deferred_unless_precipitation_gap_identified
+  metadata_status: pending_verification
+- id: nasa_ecostress_eco_l3t_jet
+  file: ecostress.yml
+  disposition: mvp_plus_after_core_validation
+  metadata_status: pending_verification
+- id: nasa_grace_grace_fo_mascon_cri
+  file: grace-grace-fo.yml
+  disposition: contextual_only
+  metadata_status: pending_verification
+superseded_for_mvp_primary_use:
+- id: nasa_smap_spl3smp_e
+  file: smap.yml
+  reason: Remains a valid source definition, but SMAP L4 is preferred for the MVP
+    because it adds root-zone moisture context. Preserve L3 as an evaluated alternative.
+  metadata_status: pending_verification

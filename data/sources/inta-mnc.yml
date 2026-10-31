@@ -1,0 +1,64 @@
+id: inta_mapa_nacional_cultivos
+provider: INTA Argentina
+product: Mapa Nacional de Cultivos
+validation_status: partially_verified
+project_priority: core_candidate
+last_verified: 2026-10-30
+authoritative_urls:
+  overview: https://www.argentina.gob.ar/node/486863
+  latest_dataset_reference: https://zenodo.org/records/17652712
+role_in_field_shift:
+- observed_crop_history
+- current_rotation_baseline
+- crop_sequence_context
+coverage:
+  geography: main_agricultural_areas_of_argentina
+  campaigns_start: 20182019
+  cadence: annual
+method:
+- supervised_classification
+- sentinel_2_imagery
+- landsat_imagery
+- field_survey_samples
+spatial_scope:
+  nominal_resolution: 30_m
+  effective_decision_scale: field_context_with_classification_uncertainty
+  note: A classified 30m pixel is remote sensing evidence of likely crop class, not
+    a farmer management record or parcel legal boundary.
+quality_requirements:
+- preserve_campaign
+- preserve_map_version_or_record
+- preserve_class_legend
+- preserve_accuracy_assessment_when_available
+transformability:
+  format: geotiff
+  subsettable: true
+  reproducibility: high
+limitations:
+- classification_error_possible
+- annual_campaign_product_not_continuous_field_log
+- field_boundaries_and_management_events_are_not_directly_observed
+intended_decision_use:
+  description: Establish an evidence-backed historical crop sequence for the prototype
+    area so alternatives can be compared against an observed baseline.
+  direct_recommendation_authority: false
+validation_semantics:
+  metadata_status: partially_verified
+  metadata_verified: true
+  observation_data_validated: false
+  metadata_verification:
+    verified_at: '2026-10-31'
+    authoritative_url: https://datos.agroindustria.gob.ar/dataset/mapa-nacional-de-cultivos
+    fields:
+    - provider_identity
+    - spatial_resolution
+    - temporal_cadence
+    - crop_classes
+    evidence_refs:
+    - docs/data-sources/evaluation.md
+  note: National crop map methodology and 30m resolution verified from official INTA
+    publications. Local field-scale extraction for prototype anchor pending.
+suitability:
+  tier: core_supporting
+  evaluation_document: docs/data-sources/evaluation.md
+  evaluation_framework: multi_attribute_qualitative

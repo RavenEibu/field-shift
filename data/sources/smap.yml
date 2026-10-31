@@ -1,0 +1,48 @@
+id: nasa_smap_spl3smp_e
+provider: NASA NSIDC DAAC
+product: SMAP Enhanced L3 Radiometer Global and Polar Grid Daily 9 km EASE-Grid Soil
+  Moisture
+short_name: SPL3SMP_E
+version: 6
+doi: 10.5067/M20OXIZHY3RJ
+validation_status: pending_verification
+project_priority: core
+last_verified: 2026-10-30
+authoritative_url: https://nsidc.org/data/spl3smp_e/versions/6
+access:
+  authentication: earthdata_login_for_download
+role_in_field_shift:
+- regional_surface_soil_moisture_context
+- seasonal_water_stress_context
+- historical_comparison
+spatial_scope:
+  nominal_resolution: 9_km
+  effective_decision_scale: regional_context
+  parcel_level: false
+  note: Do not present a SMAP grid value as an exact field or parcel soil-moisture
+    measurement.
+temporal_scope:
+  nominal_resolution: daily
+  availability_start: 2015
+strengths:
+- global_coverage
+- daily_soil_moisture_context
+- directly_relevant_to_water_stress
+limitations:
+- coarse_relative_to_individual_fields
+- surface_soil_moisture_does_not_fully_describe_root_zone_water
+- requires_quality_control_and_product_specific_interpretation
+intended_decision_use:
+  description: Provide regional and seasonal soil-moisture evidence that can modify
+    water-stress context when combined with soil and crop knowledge.
+  direct_recommendation_authority: false
+validation_semantics:
+  metadata_status: pending_verification
+  metadata_verified: false
+  observation_data_validated: false
+  note: Superseded for primary MVP use by SMAP L4. Preserved as evaluated alternative;
+    detailed verification deferred.
+suitability:
+  tier: superseded_alternative
+  evaluation_document: docs/data-sources/evaluation.md
+  evaluation_framework: multi_attribute_qualitative
