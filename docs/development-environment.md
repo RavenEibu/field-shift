@@ -16,6 +16,38 @@ For the validated hackathon workstation envelope, the project-local `.venv/` may
 
 Machine provisioning, host inventory, removable-disk mount policy, private network details and workstation-specific hardware configuration are intentionally outside this public repository.
 
+## Portable demo workspace
+
+The physical SSD is the operational workspace used to develop, validate and present the MVP. It may contain the executable project checkout, the validated portable Python environment, locally acquired scientific datasets, transformed data products, caches, exports and other generated demonstration artifacts.
+
+Git remains the canonical public source for code, schemas, documentation, reproducibility contracts, provenance definitions, acquisition metadata and small samples that are appropriate to publish.
+
+Large, generated or environment-specific artifacts remain outside Git even when they physically live on the portable SSD. A public dataset is not necessarily a Git artifact: large NASA, INTA or other scientific files may remain local because they are reproducible from documented sources rather than because they are confidential.
+
+Secrets, credentials, personal information and other sensitive material must never be committed. The presentation workflow should not depend on live credentials when the required demonstration inputs can be acquired and validated in advance.
+
+The intended event workflow is therefore:
+
+```text
+public Git repository
+        +
+reproducibility contract
+        +
+portable SSD workspace
+        |
+        +-- source checkout
+        +-- validated .venv
+        +-- acquired datasets
+        +-- transformed datasets
+        +-- cached/generated outputs
+        +-- demonstration artifacts
+        |
+        v
+offline-capable MVP presentation
+```
+
+The SSD is a materialized execution and demonstration snapshot. It does not replace source control, provenance or reproducibility requirements.
+
 ## Portable virtual environment
 
 The `.venv/` directory is excluded from Git but may physically travel with the portable workspace between explicitly validated compatible workstations.
@@ -23,6 +55,7 @@ The `.venv/` directory is excluded from Git but may physically travel with the p
 A portable `.venv` must never replace `uv.lock` as the reproducibility contract.
 
 It is valid only across compatible Linux x86_64 workstations using:
+
 - the same canonical project path;
 - the same Python baseline;
 - compatible system libraries.
