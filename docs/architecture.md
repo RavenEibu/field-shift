@@ -8,7 +8,7 @@ Field Shift is structured as a modular, reproducible data pipeline and agronomic
 ┌──────────────────────────────────────────────────────────┐
 │             1. DATA ACQUISITION LAYER [PARTIAL]          │
 │  NASA POWER Daily AG [IMPLEMENTED]                       │
-│  NASA SMAP L4 Soil Moisture [TRANSPORT RETRIEVED/NO OBS] │
+│  NASA SMAP L4 Soil Moisture [CORE CANDIDATE / NO OBS]    │
 │  INTA Ground Truth & Soil Series [PLANNED]               │
 │  INTA Crop Succession History [PLANNED]                  │
 └────────────────────────────┬─────────────────────────────┘
@@ -55,7 +55,7 @@ Field Shift is structured as a modular, reproducible data pipeline and agronomic
 - **Scope:** Automated ingestion of authoritative NASA Earth observations and local agricultural intelligence.
 - **Granular Implementation State by Source:**
   - **NASA POWER Daily AG (`[IMPLEMENTED]`):** Automated point retrieval scripts executed for prototype anchor (`-33.6500, -65.3667`) covering 1991–2025. Standard meteorology (MERRA-2 0.5°×0.625°) and solar radiation (1.0°×1.0°) acquired and checksummed.
-  - **NASA SMAP L4 Soil Moisture (`[TRANSPORT IMPLEMENTED / NO USABLE OBS]`):** SPL4SMGP v8 metadata verified; initial transport via POWER-wrapped adapter retrieved but returned sentinel fill values (-999.0) resulting in 0 usable observations. Observation data is not validated or used in models pending direct Earthdata L4 integration.
+  - **NASA SMAP L4 Soil Moisture (`[CORE CANDIDATE — RETRIEVAL BLOCKED / NO USABLE OBS]`):** SPL4SMGP v8 metadata verified; initial transport via POWER-wrapped adapter retrieved (2015–2025) but returned sentinel fill values (-999.0) across all 3,928 returned timestamps, resulting in 0 usable observations. Observation data is quarantined and blocked from models pending direct Earthdata L4 integration (E1 NOT_SATISFIED). Modeled root-zone soil moisture is distinct from plant-available water and requires validated local soil profiles.
   - **INTA Ground Truth, SisINTA Soil Series & Agromet (`[PLANNED]`):** Field measurement and soil profile integrations designed and planned; no automated live pipeline implemented yet.
   - **INTA Mapa Nacional de Cultivos (`[PLANNED]`):** Crop sequence classification mapping planned for future rotation modeling.
 

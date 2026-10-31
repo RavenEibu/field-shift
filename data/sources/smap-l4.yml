@@ -42,8 +42,10 @@ limitations:
 - record_begins_in_2015
 - frozen_or_snow_covered_conditions_reduce_skill
 intended_decision_use:
-  description: Provide regional surface/root-zone moisture evidence and relative drought
-    context when combined with local soil and crop knowledge.
+  description: Provide regional surface/root-zone modeled moisture context and relative drought
+    evidence. Plant-available water or crop water-stress interpretation requires additional
+    soil and crop context (field capacity, wilting point, rooting depth). Modeled root-zone
+    soil moisture is distinct from plant-available water.
   direct_recommendation_authority: false
 validation_semantics:
   metadata_status: verified
@@ -65,6 +67,9 @@ validation_semantics:
   note: Provider specifications and data access verified. Empirical observation values
     undergo scientific validation in the data pipeline.
 suitability:
-  tier: core_mvp
+  tier: core_candidate
+  mvp_target_inclusion: true
+  current_operational_inclusion: false
+  blocking_reason: no_usable_observations
   evaluation_document: docs/data-sources/evaluation.md
   evaluation_framework: multi_attribute_qualitative

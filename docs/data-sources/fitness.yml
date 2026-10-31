@@ -1,29 +1,46 @@
-# Data Source Suitability Matrix (Multi-Attribute Qualitative)
-version: 2
-status: validated_for_mvp
+# Data Source Selection & Architectural Intent Matrix (Multi-Attribute Qualitative)
+version: 3
+source_selection_status: evaluated_for_architecture
 governance: docs/data-sources/evaluation.md
+
+note: >
+  This matrix reflects architectural candidate selection and intended MVP role.
+  It does NOT represent empirical observation data availability, data pipeline
+  completion, or observation validation.
+
+epistemological_invariants:
+  - SOURCE_SELECTED_FOR_MVP != SOURCE_ACQUIRED
+  - SOURCE_ACQUIRED != OBSERVATION_VALIDATED
+  - OBSERVATION_VALIDATED != USED_BY_DECISION_ENGINE
 
 sources:
   nasa_power:
     authority: NASA Langley ASDC / GMAO
     role: macro_climate_and_energy
-    mvp_inclusion: true
+    mvp_target_inclusion: true
+    current_operational_inclusion: true
+    data_availability: acquired_and_checksummed
     spatial_resolution: 0.5_deg_lat_x_0.625_deg_lon
     temporal_coverage: 1991_to_2025
     tier: CORE_MVP
 
   nasa_smap_l4:
     authority: NASA NSIDC / GSFC
-    role: root_zone_soil_moisture
-    mvp_inclusion: true
+    role: regional_root_zone_soil_moisture_context
+    mvp_target_inclusion: true
+    current_operational_inclusion: false
+    data_availability: blocked_zero_usable_observations
+    blocking_reason: adapter_sentinel_fill_response
     spatial_resolution: 9_km
     temporal_coverage: 2015_to_2025
-    tier: CORE_MVP
+    tier: CORE_CANDIDATE
 
   inta_mnc:
     authority: INTA Argentina
     role: observed_crop_sequence_history
-    mvp_inclusion: true
+    mvp_target_inclusion: true
+    current_operational_inclusion: false
+    data_availability: planned_not_acquired
     spatial_resolution: 30_m_classified_raster
     temporal_coverage: 2018_to_2024
     tier: CORE_SUPPORTING
@@ -31,7 +48,9 @@ sources:
   inta_agromet:
     authority: INTA SIGA
     role: ground_truth_climate_validation
-    mvp_inclusion: true
+    mvp_target_inclusion: true
+    current_operational_inclusion: false
+    data_availability: planned_not_acquired
     spatial_resolution: point_station
     temporal_coverage: station_dependent
     tier: VALIDATION_REFERENCE
@@ -39,7 +58,9 @@ sources:
   inta_sisinta:
     authority: INTA Argentina
     role: measured_soil_profile_properties
-    mvp_inclusion: true
+    mvp_target_inclusion: true
+    current_operational_inclusion: false
+    data_availability: planned_not_acquired
     spatial_resolution: georeferenced_soil_profiles
     temporal_coverage: static_survey_database
     tier: PREFERRED_LOCAL_SOIL
@@ -47,7 +68,9 @@ sources:
   soilgrids:
     authority: ISRIC World Soil Information
     role: modeled_soil_fallback
-    mvp_inclusion: false
+    mvp_target_inclusion: false
+    current_operational_inclusion: false
+    data_availability: planned_not_acquired
     spatial_resolution: 250_m_modeled_grid
     temporal_coverage: static_prediction_v2
     tier: FALLBACK_CONTEXT_ONLY

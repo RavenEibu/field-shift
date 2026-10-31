@@ -17,7 +17,9 @@ core_or_candidate:
 - id: nasa_smap_l4_spl4smgp_v8
   file: smap-l4.yml
   role: regional_soil_moisture_context
+  target_role: core_candidate
   metadata_status: verified
+  data_availability: blocked_zero_usable_observations
 - id: inta_mapa_nacional_cultivos
   file: inta-mnc.yml
   role: observed_crop_history

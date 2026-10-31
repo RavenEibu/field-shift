@@ -12,7 +12,7 @@ Field Shift maintains transparent labeling of implementation status across each 
 
 | Subsystem | Maturity Status | Implementation Scope & Evidence |
 |---|---|---|
-| **Data Acquisition Layer** | `[PARTIAL]` | NASA POWER automated daily point acquisition (1991–2025) `[IMPLEMENTED]`. SMAP L4 daily adapter retrieval executed but returned sentinel -999.0 values resulting in 0 usable observations `[TRANSPORT IMPLEMENTED / NO USABLE OBS]`. INTA agromet ground truth, crop history, and soil profiles `[PLANNED]`. |
+| **Data Acquisition Layer** | `[PARTIAL]` | NASA POWER automated daily point acquisition (1991–2025) `[IMPLEMENTED]`. SMAP L4 daily adapter retrieval executed for 2015–2025 but returned sentinel -999.0 values across all 3,928 timestamps resulting in 0 usable observations `[CORE CANDIDATE — RETRIEVAL BLOCKED / NO USABLE OBS]`. INTA agromet ground truth, crop history, and soil profiles `[PLANNED]`. |
 | **Standardization & Schemas** | `[PROTOTYPED]` | JSON schemas for acquisition receipts and canonical observations defined (`data/schemas/`); baseline data validation in progress. |
 | **Agro-Climatic Indicators** | `[PLANNED]` | Specification of evaporative demand, thermal stress, and root-zone soil moisture deficit metrics documented in methodology. |
 | **Rotation Decision Model** | `[PLANNED]` | Multi-objective trade-off framework comparing economic margin vs climate resilience across rotation sequences. |
@@ -51,8 +51,8 @@ Field Shift builds its environmental baseline on authoritative NASA Earth scienc
    - **Intended Decision Role:** Provides continuous meteorological time series intended to drive downstream computation of historical climate normals, thermal stress duration, and atmospheric evaporative demand.
 2. **NASA SMAP (Soil Moisture Active Passive):**
    - **Level-4 Global Geophysical Data (SPL4SMGP Version 8, DOI: 10.5067/T5RUATAQREF8):** Model-assimilated root-zone soil moisture (`RZMC`, 0–100 cm depth) and surface soil moisture (`SFMC`, 0–5 cm depth) on a 9 km global grid.
-   - **Current Implementation State:** SPL4SMGP v8 metadata verified; initial transport via POWER-wrapped adapter retrieved but returned sentinel fill values (-999.0) across all daily timestamps, resulting in 0 usable observations. Unvalidated observation data is strictly quarantined and not used in prototype decision models pending direct DAAC or Earthdata L4 data pipeline integration.
-   - **Intended Decision Role:** Quantifies root-zone plant-available water at critical crop development stages and fallow recovery periods.
+   - **Current Implementation State:** `[CORE CANDIDATE — RETRIEVAL BLOCKED / NO USABLE OBS]`. SPL4SMGP v8 metadata verified; initial transport via POWER-wrapped adapter retrieved (2015–2025) but returned sentinel fill values (-999.0) across all 3,928 returned timestamps, resulting in 0 usable observations. Unvalidated observation data is strictly quarantined and blocked from prototype decision models pending direct DAAC or Earthdata L4 data pipeline integration (E1 NOT_SATISFIED).
+   - **Intended Decision Role:** Provide regional modeled root-zone soil-moisture context and relative moisture/drought evidence. Plant-available water or crop water-stress interpretation requires additional soil and crop context, such as field capacity, wilting point, rooting depth, and validated crop characteristics. (Model-assimilated root-zone soil moisture is distinct from plant-available water).
 3. **Local Argentine Ground Truth (INTA):**
    - **INTA Agrometeorological Network (`[PLANNED]`):** In-situ ground truth cross-validation for satellite precipitation and temperature.
    - **INTA Mapa Nacional de Cultivos (`[PLANNED]`):** Historical 30 m classified crop succession patterns.
@@ -108,10 +108,12 @@ field-shift/
 │   ├── contracts/         # Data contracts and decision evaluation schemas
 │   ├── data-sources/      # Transparent source evaluation matrix and reviews
 │   └── methodology/       # Agronomic assumptions and operational model
+├── learning/              # Governed candidate → shadow → validation → promotion/rejection lifecycle
 ├── notebooks/             # Reproducible scientific walkthrough notebooks
 ├── presentation/          # NASA presentation decks and visual demo assets
 ├── scripts/               # Environment verification and reproducibility tools
-└── src/                   # Decision engine, indicators, and model logic
+├── src/                   # Decision engine, indicators, and model logic
+└── tests/                 # Unit, schema, and scientific integrity test suites
 ```
 
 ---
