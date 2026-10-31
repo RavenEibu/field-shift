@@ -5,7 +5,9 @@ underlying_authority:
   products:
     historical: MERRA-2
     near_real_time: GEOS-IT
-validation_status: verified
+metadata_status: verified
+observation_data_status: pending_pipeline_validation
+acquisition_status: acquired
 project_priority: core
 last_verified: 2026-10-30
 authoritative_urls:

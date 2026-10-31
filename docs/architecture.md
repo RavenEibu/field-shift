@@ -6,9 +6,11 @@ Field Shift is structured as a modular, reproducible data pipeline and agronomic
 
 ```text
 ┌──────────────────────────────────────────────────────────┐
-│             1. DATA ACQUISITION LAYER [IMPLEMENTED]      │
-│  NASA POWER Daily AG  │  NASA SMAP L4 Soil Moisture      │
-│  INTA Ground Truth    │  INTA Crop Succession History    │
+│             1. DATA ACQUISITION LAYER [PARTIAL]          │
+│  NASA POWER Daily AG [IMPLEMENTED]                       │
+│  NASA SMAP L4 Soil Moisture [TRANSPORT RETRIEVED/NO OBS] │
+│  INTA Ground Truth & Soil Series [PLANNED]               │
+│  INTA Crop Succession History [PLANNED]                  │
 └────────────────────────────┬─────────────────────────────┘
                              │
                              ▼
@@ -49,9 +51,13 @@ Field Shift is structured as a modular, reproducible data pipeline and agronomic
 
 ## 2. Layer-by-Layer Subsystem Specifications & Maturity
 
-### Layer 1: Data Acquisition Layer `[IMPLEMENTED]`
+### Layer 1: Data Acquisition Layer `[PARTIALLY IMPLEMENTED]`
 - **Scope:** Automated ingestion of authoritative NASA Earth observations and local agricultural intelligence.
-- **Current State:** Python-based point retrieval scripts for NASA POWER Daily AG and SMAP L4 daily adapter executed for the prototype anchor (`-33.6500, -65.3667`). Raw acquisitions are checksummed and archived in Git-ignored storage.
+- **Granular Implementation State by Source:**
+  - **NASA POWER Daily AG (`[IMPLEMENTED]`):** Automated point retrieval scripts executed for prototype anchor (`-33.6500, -65.3667`) covering 1991–2025. Standard meteorology (MERRA-2 0.5°×0.625°) and solar radiation (1.0°×1.0°) acquired and checksummed.
+  - **NASA SMAP L4 Soil Moisture (`[TRANSPORT IMPLEMENTED / NO USABLE OBS]`):** SPL4SMGP v8 metadata verified; initial transport via POWER-wrapped adapter retrieved but returned sentinel fill values (-999.0) resulting in 0 usable observations. Observation data is not validated or used in models pending direct Earthdata L4 integration.
+  - **INTA Ground Truth, SisINTA Soil Series & Agromet (`[PLANNED]`):** Field measurement and soil profile integrations designed and planned; no automated live pipeline implemented yet.
+  - **INTA Mapa Nacional de Cultivos (`[PLANNED]`):** Crop sequence classification mapping planned for future rotation modeling.
 
 ### Layer 2: Standardization & Schema Validation `[PROTOTYPED]`
 - **Scope:** Normalization of heterogeneous formats (JSON, GeoTIFF, HDF5) into canonical data models with explicit CRS (EPSG:4326) and UTC timestamps.

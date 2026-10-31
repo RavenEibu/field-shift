@@ -5,7 +5,9 @@ short_name: GPM_3IMERGDF
 version: 7
 retrospective_revision: V07B
 doi: 10.5067/GPM/IMERGDF/DAY/07
-validation_status: pending_verification
+metadata_status: pending_verification
+observation_data_status: not_acquired
+acquisition_status: deferred
 project_priority: supporting
 last_verified: 2026-10-30
 authoritative_urls:

@@ -1,7 +1,9 @@
 id: inta_mapa_nacional_cultivos
 provider: INTA Argentina
 product: Mapa Nacional de Cultivos
-validation_status: partially_verified
+metadata_status: partially_verified
+observation_data_status: not_acquired
+acquisition_status: planned
 project_priority: core_candidate
 last_verified: 2026-10-30
 authoritative_urls:

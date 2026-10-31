@@ -9,7 +9,9 @@ references:
     title: AquaCrop input requirements and crop-water modeling framework
     role: conceptual_input_model
     authoritative_url: https://www.fao.org/aquacrop/overview/input-requirements/
-validation_status: partially_verified
+metadata_status: partially_verified
+observation_data_status: not_acquired
+acquisition_status: planned
 project_priority: core_knowledge
 last_verified: 2026-10-30
 role_in_field_shift:

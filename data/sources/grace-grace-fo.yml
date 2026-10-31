@@ -5,7 +5,9 @@ product: JPL GRACE and GRACE-FO Mascon Ocean, Ice, and Hydrology Equivalent Wate
 short_name: TELLUS_GRAC-GRFO_MASCON_CRI_GRID_RL06.3_V4
 version: RL06.3Mv04
 doi: 10.5067/TEMSC-3JC634
-validation_status: pending_verification
+metadata_status: pending_verification
+observation_data_status: not_acquired
+acquisition_status: deferred
 project_priority: contextual
 last_verified: 2026-10-30
 authoritative_url: https://podaac.jpl.nasa.gov/dataset/TELLUS_GRAC-GRFO_MASCON_CRI_GRID_RL06.3_V4

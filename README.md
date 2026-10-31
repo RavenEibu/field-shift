@@ -2,7 +2,7 @@
 
 > **Data-driven crop rotation decisions under climate variability using NASA Earth Observations and local agricultural intelligence.**
 
-Field Shift is an open-source agronomic decision support system designed for the NASA Space Apps Challenge. It assists farmers, agronomists, and land managers in evaluating resilient crop rotation sequences that mitigate drought risks and sustain long-term soil productivity.
+Field Shift is an open-source agronomic decision-support prototype under development for the NASA Space Apps Challenge. It assists farmers, agronomists, and land managers in evaluating resilient crop rotation sequences that mitigate drought risks and sustain long-term soil productivity.
 
 ---
 
@@ -12,7 +12,7 @@ Field Shift maintains transparent labeling of implementation status across each 
 
 | Subsystem | Maturity Status | Implementation Scope & Evidence |
 |---|---|---|
-| **Data Acquisition Layer** | `[IMPLEMENTED]` | Automated NASA POWER daily point acquisition (1991–2025) and SMAP L4 daily adapter retrieval executed against prototype anchor. |
+| **Data Acquisition Layer** | `[PARTIAL]` | NASA POWER automated daily point acquisition (1991–2025) `[IMPLEMENTED]`. SMAP L4 daily adapter retrieval executed but returned sentinel -999.0 values resulting in 0 usable observations `[TRANSPORT IMPLEMENTED / NO USABLE OBS]`. INTA agromet ground truth, crop history, and soil profiles `[PLANNED]`. |
 | **Standardization & Schemas** | `[PROTOTYPED]` | JSON schemas for acquisition receipts and canonical observations defined (`data/schemas/`); baseline data validation in progress. |
 | **Agro-Climatic Indicators** | `[PLANNED]` | Specification of evaporative demand, thermal stress, and root-zone soil moisture deficit metrics documented in methodology. |
 | **Rotation Decision Model** | `[PLANNED]` | Multi-objective trade-off framework comparing economic margin vs climate resilience across rotation sequences. |
@@ -35,7 +35,7 @@ Local Context (INTA Soil Series & Crop History)
     ↓
 Scientific Methodology & Multi-Objective Trade-Off Evaluation
     ↓
-Actionable Decision Recommendations & Interactive Demonstration
+Target / Planned Output: Actionable Decision Recommendations & Interactive Demonstration Prototype
 ```
 
 ---
@@ -45,16 +45,19 @@ Actionable Decision Recommendations & Interactive Demonstration
 Field Shift builds its environmental baseline on authoritative NASA Earth science data:
 
 1. **NASA POWER (Prediction of Worldwide Energy Resources):**
-   - **Daily Agroclimatology (AG):** Provides 35 years (1991–2025) of continuous meteorological history on a 0.5° lat × 0.625° lon grid: solar radiation (`ALLSKY_SFC_SW_DWN`), air temperature extremes (`T2M_MAX`, `T2M_MIN`), relative humidity (`RH2M`), and precipitation (`PRECTOTCORR`).
-   - **Decision Role:** Computes historical climate normals, thermal stress duration, and atmospheric evaporative demand.
+   - **Daily Agroclimatology (AG):** Provides 35 years (1991–2025) of continuous meteorological history:
+     - **Standard Meteorology (MERRA-2 assimilation at 0.5° lat × 0.625° lon):** Air temperature extremes (`T2M_MAX`, `T2M_MIN`), mean temperature (`T2M`), daily precipitation (`PRECTOTCORR`), relative humidity (`RH2M`), wind speed (`WS10M`), and surface pressure (`PS`). (Note: Standard acquired `PRECTOTCORR` is MERRA-2 observational-corrected reanalysis precipitation at 0.5° × 0.625°, distinct from optional 0.1° GPM IMERG precipitation).
+     - **Solar Radiation (satellite observations at 1.0° × 1.0°):** All-sky surface shortwave downward irradiance (`ALLSKY_SFC_SW_DWN`) from SRB / FLASHFlux / SYN1DEG.
+   - **Intended Decision Role:** Provides continuous meteorological time series intended to drive downstream computation of historical climate normals, thermal stress duration, and atmospheric evaporative demand.
 2. **NASA SMAP (Soil Moisture Active Passive):**
    - **Level-4 Global Geophysical Data (SPL4SMGP Version 8, DOI: 10.5067/T5RUATAQREF8):** Model-assimilated root-zone soil moisture (`RZMC`, 0–100 cm depth) and surface soil moisture (`SFMC`, 0–5 cm depth) on a 9 km global grid.
-   - **Decision Role:** Quantifies root-zone plant-available water at critical crop development stages and fallow recovery periods.
+   - **Current Implementation State:** SPL4SMGP v8 metadata verified; initial transport via POWER-wrapped adapter retrieved but returned sentinel fill values (-999.0) across all daily timestamps, resulting in 0 usable observations. Unvalidated observation data is strictly quarantined and not used in prototype decision models pending direct DAAC or Earthdata L4 data pipeline integration.
+   - **Intended Decision Role:** Quantifies root-zone plant-available water at critical crop development stages and fallow recovery periods.
 3. **Local Argentine Ground Truth (INTA):**
-   - **INTA Agrometeorological Network:** In-situ ground truth cross-validation for satellite precipitation and temperature.
-   - **INTA Mapa Nacional de Cultivos:** Historical 30 m classified crop succession patterns.
-   - **INTA SisINTA:** Measured soil profile physical properties (field capacity, wilting point, organic carbon) from georeferenced field and laboratory surveys.
-   - **ISRIC SoilGrids:** Contextual modeled fallback (250 m) when measured local profiles are unavailable.
+   - **INTA Agrometeorological Network (`[PLANNED]`):** In-situ ground truth cross-validation for satellite precipitation and temperature.
+   - **INTA Mapa Nacional de Cultivos (`[PLANNED]`):** Historical 30 m classified crop succession patterns.
+   - **INTA SisINTA (`[PLANNED]`):** Measured soil profile physical properties (field capacity, wilting point, organic carbon) from georeferenced field and laboratory surveys.
+   - **ISRIC SoilGrids (`[PLANNED]`):** Contextual modeled fallback (250 m) when measured local profiles are unavailable.
 
 ---
 
@@ -68,8 +71,10 @@ To ground the methodology in real-world agriculture, Field Shift anchors its MVP
 
 Field Shift execution is validated against a defined workstation compatibility envelope:
 
+- **Tested Environments:** Mars and Vulcanus controlled Linux x86_64 workstations (CachyOS, glibc 2.38+)
+- **Expected but Not Yet Validated:** Other modern Linux x86_64 distributions
 - **Hardware Architecture:** Linux x86_64
-- **Operating System:** CachyOS / compatible modern Linux userspace (glibc 2.38+)
+- **Operating System:** CachyOS (tested) / compatible modern Linux userspace (glibc 2.38+)
 - **Storage / Mount Baseline:** Canonical portable mount at `/mnt/field-shift`
 - **Python Tooling:** Managed via `uv` with strictly frozen dependencies (`uv.lock`)
 - **Python Version:** 3.13

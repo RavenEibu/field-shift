@@ -10,11 +10,24 @@ Third-party discovery resources may accelerate research but are not authoritativ
 
 ## Validation states
 
-- `candidate`: promising source; metadata or project fit still requires validation
-- `validated`: metadata checked against an authoritative provider
-- `active`: validated and currently used by the implementation
-- `deferred`: valid source intentionally outside the current MVP
-- `deprecated`: retained for historical traceability but should not be used for new work
+The registry explicitly decouples metadata verification from observation data scientific validation:
+
+- **Metadata Status (`metadata_status`):**
+  - `verified`: Metadata attributes, endpoints, and native grids checked against authoritative provider documentation and raw catalog evidence.
+  - `partially_verified`: Source methodology and specifications verified; local extraction or anchor-specific profile selection pending.
+  - `pending_verification`: Supporting or deferred candidate whose detailed metadata audit is queued for post-MVP.
+
+- **Observation Data Status (`observation_data_status`):**
+  - `pending_pipeline_validation`: Empirical observation records retrieved but undergoing scientific pipeline validation.
+  - `quarantined_zero_usable_observations`: Retrieved records yielded 0 usable values (sentinel fill) and are quarantined from decision models.
+  - `not_acquired`: Data records not yet ingested.
+
+- **Acquisition Status (`acquisition_status`):**
+  - `acquired`: Raw data acquired and archived in local raw storage.
+  - `acquired_adapter_quarantined`: Retrieved via adapter but quarantined due to sentinel values.
+  - `planned`: Ingestion pipeline designed and scheduled.
+  - `deferred`: Acquisition deferred to post-MVP phase.
+  - `superseded`: Superseded for primary MVP use by preferred alternative.
 
 ## Project priority
 

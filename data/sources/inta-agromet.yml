@@ -1,7 +1,9 @@
 id: inta_agrometeorological_network
 provider: INTA Argentina
 product_family: INTA agrometeorological information and station network
-validation_status: pending_verification
+metadata_status: pending_verification
+observation_data_status: not_acquired
+acquisition_status: planned
 project_priority: validation_reference
 last_verified: 2026-10-30
 authoritative_urls:

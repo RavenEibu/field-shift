@@ -8,7 +8,9 @@ products:
 - short_name: HLSS30
   version: 2.0
   sensor_family: Sentinel-2
-validation_status: pending_verification
+metadata_status: pending_verification
+observation_data_status: not_acquired
+acquisition_status: deferred
 project_priority: mvp_plus
 last_verified: 2026-10-30
 authoritative_url: https://lpdaac.usgs.gov/documents/1698/HLS_User_Guide_V2.pdf

@@ -10,7 +10,9 @@ entities:
       - product
       - version
       - authority_level
-      - validation_status
+      - metadata_status
+      - observation_data_status
+      - acquisition_status
 
   observation:
     description: Measured or estimated value retrieved from a source.

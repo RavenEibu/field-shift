@@ -1,7 +1,9 @@
 id: inta_sisinta
 provider: INTA Argentina
 product: SisINTA soil profile database
-validation_status: partially_verified
+metadata_status: partially_verified
+observation_data_status: not_acquired
+acquisition_status: planned
 project_priority: preferred_local_soil_source
 last_verified: 2026-10-30
 authoritative_url: https://www.argentina.gob.ar/noticias/sisinta-contiene-7000-perfiles-de-suelos-georreferenciados

@@ -5,7 +5,9 @@ product: SMAP L4 Global 3-hourly 9 km EASE-Grid Surface and Root Zone Soil Moist
 short_name: SPL4SMGP
 version: 8
 doi: 10.5067/T5RUATAQREF8
-validation_status: verified
+metadata_status: verified
+observation_data_status: quarantined_zero_usable_observations
+acquisition_status: acquired_adapter_quarantined
 project_priority: core_candidate
 last_verified: 2026-10-30
 authoritative_url: https://nsidc.org/data/spl4smgp/versions/8

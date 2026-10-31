@@ -1,7 +1,9 @@
 id: isric_soilgrids_250m
 provider: ISRIC World Soil Information
 product: SoilGrids 250 m
-validation_status: partially_verified
+metadata_status: partially_verified
+observation_data_status: not_acquired
+acquisition_status: planned
 project_priority: fallback_only
 last_verified: 2026-10-30
 authoritative_urls:
