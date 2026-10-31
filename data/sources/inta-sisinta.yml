@@ -1,0 +1,60 @@
+id: inta_sisinta
+provider: INTA Argentina
+product: SisINTA soil profile database
+metadata_status: partially_verified
+observation_data_status: not_acquired
+acquisition_status: planned
+project_priority: preferred_local_soil_source
+last_verified: 2026-10-30
+authoritative_url: https://www.argentina.gob.ar/noticias/sisinta-contiene-7000-perfiles-de-suelos-georreferenciados
+role_in_field_shift:
+- local_soil_characterization
+- soil_profile_evidence
+source_characteristics:
+  data_type: georeferenced_field_and_laboratory_soil_profiles
+  spatial_representation: discrete_soil_profile_points_and_series
+  public_access: mixed_by_profile_access_level
+  national_coverage: true
+  note: SisINTA is an authoritative Argentine repository of measured field and laboratory
+    soil profiles, distinct from gridded spatial predictions.
+selection_requirements:
+- profile_location
+- distance_to_prototype_area
+- sampling_date
+- horizon_depths
+- field_method
+- laboratory_method
+- measured_properties
+- access_and_license
+- landscape_and_soil_unit_representativeness
+hard_gate: 'A source-system rating does not make every profile representative of a
+  selected field. A concrete profile must pass location, method, depth, date, and
+  representativeness review before use.
+
+  '
+limitations:
+- profile_density_and_variables_vary_by_location
+- some_records_may_have_restricted_access
+- nearby_profile_is_not_automatically_equivalent_to_target_field
+intended_decision_use:
+  description: Preferred source for measured soil-profile evidence when an appropriate
+    public and representative profile can be identified near the prototype area.
+  direct_recommendation_authority: false
+validation_semantics:
+  metadata_status: partially_verified
+  metadata_verified: true
+  observation_data_validated: false
+  metadata_verification:
+    verified_at: '2026-10-31'
+    authoritative_url: https://sisinta.inta.gob.ar/
+    fields:
+    - provider_identity
+    - soil_profile_structure
+    evidence_refs:
+    - docs/data-sources/evaluation.md
+  note: INTA SisINTA soil database schema and profile structure verified. Selection
+    of representative local profile for Villa Mercedes pending.
+suitability:
+  tier: preferred_local_soil
+  evaluation_document: docs/data-sources/evaluation.md
+  evaluation_framework: multi_attribute_qualitative

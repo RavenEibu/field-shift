@@ -1,199 +1,123 @@
 # Field Shift
 
-**Adapting Farms with NASA Data**
+> **Data-driven crop rotation decisions under climate variability using NASA Earth Observations and local agricultural intelligence.**
 
-Field Shift is an evidence-driven agricultural decision-support project developed for the **NASA International Space Apps Challenge 2026**.
+Field Shift is an open-source agronomic decision-support prototype under development for the NASA Space Apps Challenge. It assists farmers, agronomists, and land managers in evaluating resilient crop rotation sequences that mitigate drought risks and sustain long-term soil productivity.
 
-Official challenge: https://www.spaceappschallenge.org/2026/challenges/field-shift-adapting-farms-with-nasa-data/
+---
 
-The project explores how NASA Earth observation data, local soil information, crop characteristics, and farmer priorities can be combined to evaluate and compare crop rotation strategies under changing water and climate conditions.
+## 1. Project Implementation Maturity
 
-## Problem
+Field Shift maintains transparent labeling of implementation status across each functional subsystem:
 
-Farmers make crop-rotation decisions under uncertainty related to drought, soil conditions, water availability, and climate variability. Environmental observations are valuable, but they do not directly answer the decision a farmer must make.
+| Subsystem | Maturity Status | Implementation Scope & Evidence |
+|---|---|---|
+| **Data Acquisition Layer** | `[PARTIAL]` | NASA POWER automated daily point acquisition (1991–2025) `[IMPLEMENTED]`. SMAP L4 daily adapter retrieval executed for 2015–2025 but returned sentinel -999.0 values across all 3,928 timestamps resulting in 0 usable observations `[CORE CANDIDATE — RETRIEVAL BLOCKED / NO USABLE OBS]`. INTA agromet ground truth, crop history, and soil profiles `[PLANNED]`. |
+| **Standardization & Schemas** | `[PROTOTYPED]` | JSON schemas for acquisition receipts and canonical observations defined (`data/schemas/`); baseline data validation in progress. |
+| **Agro-Climatic Indicators** | `[PLANNED]` | Specification of evaporative demand, thermal stress, and root-zone soil moisture deficit metrics documented in methodology. |
+| **Rotation Decision Model** | `[PLANNED]` | Multi-objective trade-off framework comparing economic margin vs climate resilience across rotation sequences. |
+| **Interactive Demo & UX** | `[CONCEPTUAL]` | Exploratory Jupyter walkthrough notebooks and interactive decision prototype architecture planned for challenge showcase. |
 
-Field Shift aims to bridge that gap by turning heterogeneous environmental and agricultural evidence into understandable, traceable, and actionable decision support.
+---
 
-## Goal
+## 2. The Agricultural Decision Problem
 
-Field Shift is intended to help users answer questions such as:
-
-- What environmental conditions characterize a field or region?
-- How has water availability changed over time?
-- Which crop-rotation strategies are better aligned with current conditions?
-- What are the benefits, risks, and trade-offs of each alternative?
-- What evidence supports each recommendation?
-
-## Initial data sources under evaluation
-
-The project is currently evaluating NASA Earth observation products including:
-
-- NASA POWER
-- SMAP
-- ECOSTRESS
-- Harmonized Landsat Sentinel-2 (HLS)
-- GPM IMERG
-- GRACE / GRACE-FO
-
-Validated source metadata and project priority are maintained under [`context/sources/`](context/sources/).
-
-Additional soil and crop datasets will be evaluated separately and must preserve source provenance and licensing constraints.
-
-## Conceptual architecture
+Under escalating climate variability, extreme heat events, and recurring droughts, conventional crop sequences often deplete soil water reserves, increase financial risk, and degrade soil biology.
 
 ```text
-NASA Earth Observation Data
-            +
-     Local Soil Data
-            +
-      Crop Knowledge
-            +
-    Farmer Priorities
-            ↓
-    Environmental Context
-            ↓
-     Decision Engine
-            ↓
-   Rotation Alternatives
-            ↓
- Evidence + Risks + Trade-offs
-            ↓
-     New Evidence / Outcomes
-            ↓
- Governed Learning Lifecycle
+Agricultural Problem
+    ↓
+Farmer Decision: "Which crop rotation strategy minimizes climate risk while sustaining farm viability?"
+    ↓
+NASA Earth Observations (POWER Climate Baseline + SMAP Root-Zone Soil Moisture)
+    ↓
+Local Context (INTA Soil Series & Crop History)
+    ↓
+Scientific Methodology & Multi-Objective Trade-Off Evaluation
+    ↓
+Target / Planned Output: Actionable Decision Recommendations & Interactive Demonstration Prototype
 ```
 
-## Design principles
+---
 
-### Human-first
+## 3. NASA Earth Observation Core
 
-The project must remain understandable without requiring an AI system. Documentation, decisions, assumptions, data sources, and limitations should be accessible to humans first.
+Field Shift builds its environmental baseline on authoritative NASA Earth science data:
 
-### Evidence-driven
+1. **NASA POWER (Prediction of Worldwide Energy Resources):**
+   - **Daily Agroclimatology (AG):** Provides 35 years (1991–2025) of continuous meteorological history:
+     - **Standard Meteorology (MERRA-2 assimilation at 0.5° lat × 0.625° lon):** Air temperature extremes (`T2M_MAX`, `T2M_MIN`), mean temperature (`T2M`), daily precipitation (`PRECTOTCORR`), relative humidity (`RH2M`), wind speed (`WS10M`), and surface pressure (`PS`). (Note: Standard acquired `PRECTOTCORR` is MERRA-2 observational-corrected reanalysis precipitation at 0.5° × 0.625°, distinct from optional 0.1° GPM IMERG precipitation).
+     - **Solar Radiation (satellite observations at 1.0° × 1.0°):** All-sky surface shortwave downward irradiance (`ALLSKY_SFC_SW_DWN`) from SRB / FLASHFlux / SYN1DEG.
+   - **Intended Decision Role:** Provides continuous meteorological time series intended to drive downstream computation of historical climate normals, thermal stress duration, and atmospheric evaporative demand.
+2. **NASA SMAP (Soil Moisture Active Passive):**
+   - **Level-4 Global Geophysical Data (SPL4SMGP Version 8, DOI: 10.5067/T5RUATAQREF8):** Model-assimilated root-zone soil moisture (`RZMC`, 0–100 cm depth) and surface soil moisture (`SFMC`, 0–5 cm depth) on a 9 km global grid.
+   - **Current Implementation State:** `[CORE CANDIDATE — RETRIEVAL BLOCKED / NO USABLE OBS]`. SPL4SMGP v8 metadata verified; initial transport via POWER-wrapped adapter retrieved (2015–2025) but returned sentinel fill values (-999.0) across all 3,928 returned timestamps, resulting in 0 usable observations. Unvalidated observation data is strictly quarantined and blocked from prototype decision models pending direct DAAC or Earthdata L4 data pipeline integration (E1 NOT_SATISFIED).
+   - **Intended Decision Role:** Provide regional modeled root-zone soil-moisture context and relative moisture/drought evidence. Plant-available water or crop water-stress interpretation requires additional soil and crop context, such as field capacity, wilting point, rooting depth, and validated crop characteristics. (Model-assimilated root-zone soil moisture is distinct from plant-available water).
+3. **Local Argentine Ground Truth (INTA):**
+   - **INTA Agrometeorological Network (`[PLANNED]`):** In-situ ground truth cross-validation for satellite precipitation and temperature.
+   - **INTA Mapa Nacional de Cultivos (`[PLANNED]`):** Historical 30 m classified crop succession patterns.
+   - **INTA SisINTA (`[PLANNED]`):** Measured soil profile physical properties (field capacity, wilting point, organic carbon) from georeferenced field and laboratory surveys.
+   - **ISRIC SoilGrids (`[PLANNED]`):** Contextual modeled fallback (250 m) when measured local profiles are unavailable.
 
-Recommendations should be traceable to their underlying data, assumptions, and decision rules.
+---
 
-### AI-optimized where useful
+## 4. Prototype Anchor: Villa Mercedes, San Luis
 
-Structured context should allow software and AI agents to work with project knowledge without repeatedly reconstructing it from scattered documentation. AI optimization must not reduce human readability.
+To ground the methodology in real-world agriculture, Field Shift anchors its MVP on the **EEA INTA San Luis Experimental Field** (Villa Mercedes, San Luis, Argentina: `-33.6500, -65.3667`, EPSG:4326). This semi-arid, climate-sensitive agricultural zone exhibits pronounced rainfall variability and water-limited crop yields, making it an ideal proving ground for rotation resilience modeling.
 
-### Traceable learning
+---
 
-New observations or inferred relationships must not automatically become accepted knowledge. Potential learnings should move through an explicit lifecycle:
+## 5. Validated Runtime Compatibility Envelope
+
+Field Shift execution is validated against a defined workstation compatibility envelope:
+
+- **Tested Environments:** Mars and Vulcanus controlled Linux x86_64 workstations (CachyOS, glibc 2.38+)
+- **Expected but Not Yet Validated:** Other modern Linux x86_64 distributions
+- **Hardware Architecture:** Linux x86_64
+- **Operating System:** CachyOS (tested) / compatible modern Linux userspace (glibc 2.38+)
+- **Storage / Mount Baseline:** Canonical portable mount at `/mnt/field-shift`
+- **Python Tooling:** Managed via `uv` with strictly frozen dependencies (`uv.lock`)
+- **Python Version:** 3.13
+- **Geospatial System Libraries:** GDAL 3.13+, PROJ 9.9+, GEOS 3.15+
+
+### Installation & Verification
+```bash
+# Clone the repository
+git clone https://github.com/RavenEibu/field-shift.git
+cd field-shift
+
+# Synchronize reproducible virtual environment
+uv sync --frozen
+
+# Verify environment and system bindings
+uv run python scripts/verify_environment.py
+```
+
+---
+
+## 6. Repository Structure
 
 ```text
-Observation
-    ↓
-Learning Candidate
-    ↓
-Shadow Evaluation
-    ↓
-Validation
-    ↓
-Promotion or Rejection
+field-shift/
+├── data/
+│   ├── manifests/         # Authoritative acquisition receipts & data manifests
+│   ├── schemas/           # JSON schemas for observations & acquisitions
+│   └── sources/           # Formal specifications of NASA and INTA data sources
+├── docs/
+│   ├── architecture.md    # Pipeline architecture, engine dataflow, and maturity tags
+│   ├── contracts/         # Data contracts and decision evaluation schemas
+│   ├── data-sources/      # Transparent source evaluation matrix and reviews
+│   └── methodology/       # Agronomic assumptions and operational model
+├── learning/              # Governed candidate → shadow → validation → promotion/rejection lifecycle
+├── notebooks/             # Reproducible scientific walkthrough notebooks
+├── presentation/          # NASA presentation decks and visual demo assets
+├── scripts/               # Environment verification and reproducibility tools
+├── src/                   # Decision engine, indicators, and model logic
+└── tests/                 # Unit, schema, and scientific integrity test suites
 ```
 
-### Human-governed
+---
 
-Changes affecting decision logic or accepted knowledge require validation before becoming active.
+## 7. License & Open Source Governance
 
-### Reproducible
-
-Data processing and decision logic should be reproducible whenever technically possible.
-
-### Open by design
-
-This repository is intended for public collaboration and public data. Secrets, credentials, personal information, proprietary datasets, and confidential material must never be committed.
-
-## Documentation model
-
-Field Shift maintains two complementary layers:
-
-- **Human-oriented documentation** under [`docs/`](docs/) for the problem, architecture, methodology, decisions, evidence, and limitations.
-- **Canonical operational context** under [`context/`](context/) for structured, explicit, machine-actionable knowledge shared by humans, software, analytical tools, and AI agents.
-
-These layers should complement each other rather than duplicate or contradict one another.
-
-## Repository map
-
-| Path | Purpose |
-| --- | --- |
-| [`docs/`](docs/) | Human-oriented challenge, scope, architecture, principles, and roadmap |
-| [`context/`](context/) | Canonical operational knowledge, source registry, assumptions, glossary, and decision contracts |
-| [`learning/`](learning/) | Governed candidate → shadow → validation → promotion/rejection lifecycle |
-| [`data/`](data/) | Data handling, provenance, and reproducibility policy |
-| [`src/`](src/) | Application and data-processing implementation |
-| [`notebooks/`](notebooks/) | Reproducible exploration and analytical experiments |
-| [`tests/`](tests/) | Software, data, decision, and learning validation |
-| [`presentation/`](presentation/) | NASA Space Apps presentation assets and challenge-first storytelling |
-
-## Decision model
-
-Field Shift keeps the reasoning chain explicit:
-
-```text
-Source
-  ↓
-Observation
-  ↓
-Derived Indicator
-  ↓
-Agronomic Interpretation
-  ↓
-Validated Decision Rule
-  ↓
-Rotation Effect
-  ↓
-Comparative Evaluation
-```
-
-AI may help retrieve context, analyze evidence, generate candidates, or draft explanations, but it must not silently invent reasons or promote new decision logic.
-
-## Learning model
-
-The project uses a controlled learning lifecycle to identify new evidence and candidate knowledge. AI-generated or automatically detected patterns are not treated as truth by default.
-
-Candidate learnings remain outside active behavior until they have sufficient evidence, evaluation, and explicit validation to be promoted into operational context or decision logic.
-
-## Project status
-
-Field Shift is currently in the **discovery, data-validation, and architecture phase**.
-
-The repository foundation, initial NASA source registry, canonical context model, decision contract, and governed learning model are established.
-
-Next priorities are:
-
-1. Run reproducible NASA POWER and SMAP examples for a real test location.
-2. Define the canonical observation schema and data-quality checks.
-3. Select the MVP geography.
-4. Identify appropriate soil and crop knowledge sources.
-5. Define the first candidate rotations and evidence-backed decision rules.
-6. Build one complete end-to-end decision loop before expanding the data stack.
-
-See [`docs/roadmap.md`](docs/roadmap.md) for the phased plan.
-
-## Security and data policy
-
-Never commit:
-
-- API keys
-- passwords
-- access tokens
-- local `.env` files
-- personal or confidential information
-- proprietary datasets without explicit permission
-- private Earthdata credentials
-
-Credentials must be handled outside version control. See [`SECURITY.md`](SECURITY.md).
-
-## Language
-
-English is the canonical language of the repository, including documentation, issues, pull requests, commit messages, code comments, schemas, structured context, and NASA-facing presentation material.
-
-## Contributing
-
-See [`CONTRIBUTING.md`](CONTRIBUTING.md).
-
-## License
-
-This project is licensed under the MIT License. See [`LICENSE`](LICENSE).
+Field Shift is open-source software licensed under the [MIT License](LICENSE). See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).

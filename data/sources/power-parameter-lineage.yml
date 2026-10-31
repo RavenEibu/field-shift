@@ -1,0 +1,137 @@
+schema_version: 1
+catalog_service: NASA POWER Daily AG API
+api_version: v2.10.1
+authoritative_url: https://power.larc.nasa.gov/docs/services/
+epistemological_invariants:
+  - "SOURCE_AVAILABLE_IN_POWER != SOURCE_USED_IN_THIS_ACQUISITION"
+  - "PRECTOTCORR_STANDARD_ACQUISITION != IMERG_HIGH_RESOLUTION_PRECIPITATION"
+  - "METADATA_VERIFIED != OBSERVATION_VALIDATED"
+
+pathway_catalog:
+  standard_meteorology:
+    description: Global reanalysis and assimilation meteorological archive
+    underlying_source: NASA GMAO MERRA-2 (historical) / GEOS-IT (near-real-time)
+    nominal_resolution: 0.5_deg_lat_x_0.625_deg_lon
+    spatial_coverage: Global
+    used_in_current_acquisition: true
+  solar_radiation:
+    description: Satellite-derived surface solar and thermal irradiance
+    underlying_source: NASA Langley SRB (historical) / CERES FLASHFlux (near-real-time) / SYN1DEG
+    nominal_resolution: 1.0_deg_lat_x_1.0_deg_lon
+    spatial_coverage: Global
+    used_in_current_acquisition: true
+  high_resolution_optional_precipitation:
+    description: High-resolution satellite precipitation pathway via IMERG alias
+    underlying_source: NASA GPM IMERG Final / Early
+    nominal_resolution: 0.1_deg_lat_x_0.1_deg_lon
+    used_in_current_acquisition: false
+    status: NOT_REQUESTED
+    note: IMERG 0.1° is an optional parameter pathway in POWER; it was NOT requested or used in the baseline acquisition.
+  high_resolution_optional_soil_moisture:
+    description: High-resolution satellite soil moisture pathway via SMAP alias
+    underlying_source: NASA GSFC / NSIDC SMAP L4 (SPL4SMGP v8)
+    nominal_resolution: 0.09_deg_lat_x_0.09_deg_lon (~9 km EASE-Grid 2.0)
+    used_in_current_acquisition: true
+    status: REQUESTED_ADAPTER_SENTINEL_RESPONSE
+    note: Requested via SMAP parameter aliases in a separate retrieval attempt, but yielded 0 usable observations (all values -999.0).
+
+current_acquisition_parameters:
+  T2M:
+    parameter: T2M
+    long_name: Temperature at 2 Meters
+    units: C
+    pathway: standard_meteorology
+    source_family: MERRA-2
+    native_resolution: 0.5_deg_lat_x_0.625_deg_lon
+    effective_resolution: 0.5_deg_lat_x_0.625_deg_lon
+    temporal_aggregation: daily_mean
+    acquisition_mode: standard_daily_ag_point
+    evidence_ref: data/raw/nasa-power/20261031T020256Z/power_daily_point_19910101_20251231.json
+    limitations: Regional spatial average; grid smoothing of local microclimate.
+  T2M_MAX:
+    parameter: T2M_MAX
+    long_name: Temperature at 2 Meters Maximum
+    units: C
+    pathway: standard_meteorology
+    source_family: MERRA-2
+    native_resolution: 0.5_deg_lat_x_0.625_deg_lon
+    effective_resolution: 0.5_deg_lat_x_0.625_deg_lon
+    temporal_aggregation: daily_max
+    acquisition_mode: standard_daily_ag_point
+    evidence_ref: data/raw/nasa-power/20261031T020256Z/power_daily_point_19910101_20251231.json
+    limitations: Regional spatial average; extreme maximums smoothed relative to in-situ point station.
+  T2M_MIN:
+    parameter: T2M_MIN
+    long_name: Temperature at 2 Meters Minimum
+    units: C
+    pathway: standard_meteorology
+    source_family: MERRA-2
+    native_resolution: 0.5_deg_lat_x_0.625_deg_lon
+    effective_resolution: 0.5_deg_lat_x_0.625_deg_lon
+    temporal_aggregation: daily_min
+    acquisition_mode: standard_daily_ag_point
+    evidence_ref: data/raw/nasa-power/20261031T020256Z/power_daily_point_19910101_20251231.json
+    limitations: Regional spatial average; frost risk in low topographical hollows may be underestimated.
+  PRECTOTCORR:
+    parameter: PRECTOTCORR
+    long_name: Precipitation Corrected
+    units: mm/day
+    pathway: standard_meteorology
+    source_family: MERRA-2
+    native_resolution: 0.5_deg_lat_x_0.625_deg_lon
+    effective_resolution: 0.5_deg_lat_x_0.625_deg_lon
+    temporal_aggregation: daily_sum
+    acquisition_mode: standard_daily_ag_point
+    evidence_ref: data/raw/nasa-power/20261031T020256Z/power_daily_point_19910101_20251231.json
+    is_imerg: false
+    why_not_0_1_deg: "Standard Daily AG acquisition does not activate the optional IMERG high-resolution precipitation pathway. Acquired PRECTOTCORR is MERRA-2 observationally corrected precipitation."
+    resolution_warning: "PRECTOTCORR in standard POWER Daily AG is MERRA-2 observationally corrected precipitation on a ~0.5° x 0.625° grid. It is NOT high-resolution IMERG 0.1° precipitation."
+    limitations: Coarse spatial grid cell total; convective summer rain events have high spatial variability not captured at 0.5° scale.
+  RH2M:
+    parameter: RH2M
+    long_name: Relative Humidity at 2 Meters
+    units: "%"
+    pathway: standard_meteorology
+    source_family: MERRA-2
+    native_resolution: 0.5_deg_lat_x_0.625_deg_lon
+    effective_resolution: 0.5_deg_lat_x_0.625_deg_lon
+    temporal_aggregation: daily_mean
+    acquisition_mode: standard_daily_ag_point
+    evidence_ref: data/raw/nasa-power/20261031T020256Z/power_daily_point_19910101_20251231.json
+    limitations: Derived from specific humidity and surface pressure; spatial average.
+  WS10M:
+    parameter: WS10M
+    long_name: Wind Speed at 10 Meters
+    units: m/s
+    pathway: standard_meteorology
+    source_family: MERRA-2
+    native_resolution: 0.5_deg_lat_x_0.625_deg_lon
+    effective_resolution: 0.5_deg_lat_x_0.625_deg_lon
+    temporal_aggregation: daily_mean
+    acquisition_mode: standard_daily_ag_point
+    evidence_ref: data/raw/nasa-power/20261031T020256Z/power_daily_point_19910101_20251231.json
+    limitations: 10m height above displacement plane; obstacle/topography friction smoothed.
+  PS:
+    parameter: PS
+    long_name: Surface Pressure
+    units: kPa
+    pathway: standard_meteorology
+    source_family: MERRA-2
+    native_resolution: 0.5_deg_lat_x_0.625_deg_lon
+    effective_resolution: 0.5_deg_lat_x_0.625_deg_lon
+    temporal_aggregation: daily_mean
+    acquisition_mode: standard_daily_ag_point
+    evidence_ref: data/raw/nasa-power/20261031T020256Z/power_daily_point_19910101_20251231.json
+    limitations: Dependent on model surface geopotential height.
+  ALLSKY_SFC_SW_DWN:
+    parameter: ALLSKY_SFC_SW_DWN
+    long_name: All Sky Surface Shortwave Downward Irradiance
+    units: MJ/m^2/day
+    pathway: solar_radiation
+    source_family: SRB / SYN1DEG / FLASHFlux
+    native_resolution: 1.0_deg_lat_x_1.0_deg_lon
+    effective_resolution: 1.0_deg_lat_x_1.0_deg_lon
+    temporal_aggregation: daily_sum
+    acquisition_mode: standard_daily_ag_point
+    evidence_ref: data/raw/nasa-power/20261031T020256Z/power_daily_point_19910101_20251231.json
+    limitations: 1.0° resolution; cloud cover heterogeneity within grid cell.

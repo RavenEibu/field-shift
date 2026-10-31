@@ -1,0 +1,63 @@
+id: inta_agrometeorological_network
+provider: INTA Argentina
+product_family: INTA agrometeorological information and station network
+metadata_status: pending_verification
+observation_data_status: not_acquired
+acquisition_status: planned
+project_priority: validation_reference
+last_verified: 2026-10-30
+authoritative_urls:
+  national_overview: https://www.argentina.gob.ar/inta/informacion-agroclimatica
+  eea_san_luis: https://www.argentina.gob.ar/inta/cr-lapampa-sanluis/eea-sanluis
+  local_technical_report: https://repositorio.inta.gob.ar/xmlui/bitstream/handle/20.500.12123/23670/INTA_CR_LaPampa-SanLuis_EEASanLuis_Galvan_M._Informe%20t%C3%A9cnico%20agrometeorol%C3%B3gico_2024-2025.pdf?isAllowed=y&sequence=1
+role_in_field_shift:
+- local_station_validation_reference
+- power_temperature_validation
+- power_precipitation_validation
+- local_climate_context
+source_characteristics:
+  data_type: in_situ_and_institutional_agrometeorological_observations
+  national_data_policy: freely_downloadable
+  networks_include:
+  - INTA_experimental_stations
+  - Servicio_Meteorologico_Nacional
+  - other_institutional_networks
+prototype_relevance:
+  eea_san_luis_location: near_Villa_Mercedes
+  local_report_sources:
+  - EEA_INTA_San_Luis
+  - SMN_Villa_Reynolds
+  - provincial_meteorological_network
+selection_requirements:
+- preserve_station_id_and_owner
+- preserve_coordinates_and_elevation
+- preserve_instrument_or_method_metadata_when_available
+- inspect_missingness_and_station_changes
+- align_observation_period_with_satellite_or_reanalysis_comparison
+- do_not_merge_station_networks_without_explicit_harmonization
+incremental_mvp_value:
+  level: high_for_validation
+  disposition: use_to_validate_nasa_baseline_when_station_data_is_accessible
+  reason: 'A nearby in-situ station provides an independent local reference for checking
+    the direction and magnitude of POWER temperature and precipitation behavior without
+    replacing NASA data as the challenge''s Earth-observation component.
+
+    '
+limitations:
+- specific_station_quality_must_be_reviewed
+- station_records_can_contain_gaps_or_instrument_changes
+- point_measurement_and_gridded_product_measure_different_spatial_support
+intended_decision_use:
+  description: Validate and contextualize NASA climate observations; not a standalone
+    rotation recommender.
+  direct_recommendation_authority: false
+validation_semantics:
+  metadata_status: pending_verification
+  metadata_verified: false
+  observation_data_validated: false
+  note: Ground-truth validation reference. Local station selection and data access
+    for Villa Mercedes prototype anchor pending.
+suitability:
+  tier: validation_reference
+  evaluation_document: docs/data-sources/evaluation.md
+  evaluation_framework: multi_attribute_qualitative

@@ -79,21 +79,21 @@ AI-generated confidence is metadata about a hypothesis, not scientific evidence.
 
 ## Example
 
-An initial active rule might penalize a water-demanding crop under persistent moisture deficit.
+An initial active rule might flag a water-demanding crop as severe drought risk under persistent meteorological precipitation deficits.
 
-New evidence could suggest that the penalty is too strong for soils with high water-holding capacity.
+New evidence from measured soil profiles could indicate that the drought risk is mitigated when local soil profiles exhibit high available water-holding capacity and deep rooting zones.
 
-The system should create a candidate such as:
+The system records a candidate such as:
 
 ```text
 Current rule:
-  high water stress -> maize penalty -30
+  persistent meteorological moisture deficit -> apply severe drought-risk flag to moisture-intensive crops
 
 Candidate observation:
-  the penalty may be overstated when soil water-holding capacity is high
+  severe drought-risk flag may be overstated when measured soil profile exhibits high water-holding capacity
 
 Candidate change:
-  moderate drought penalty using validated soil water-holding-capacity context
+  condition drought-risk flag on validated local soil profile water-holding capacity and crop rooting depth
 
 Status:
   shadow
