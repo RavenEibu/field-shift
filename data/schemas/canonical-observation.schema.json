@@ -72,7 +72,7 @@
       "additionalProperties": true,
       "required": ["status"],
       "properties": {
-        "status": {"enum": ["VALID", "VALID_WITH_LIMITATIONS", "INVALID", "UNKNOWN"]},
+        "status": {"enum": ["VALID", "VALID_WITH_LIMITATIONS", "INVALID_FOR_DECISION_ROLE"]},
         "flags": {"type": "array", "items": {"type": "string"}},
         "uncertainty": {},
         "notes": {"type": ["string", "null"]}
