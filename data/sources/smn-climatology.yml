@@ -1,0 +1,65 @@
+id: smn_climatological_normals_1991_2020
+provider: Servicio Meteorologico Nacional Argentina
+product: Estadisticas Climatologicas Normales - Republica Argentina - Periodo 1991-2020
+metadata_status: verified_for_acquired_document
+observation_data_status: climatological_context_pending_extract_qualification
+acquisition_status: official_document_acquired
+project_priority: climatological_reference
+last_reconciled: 2026-11-02
+
+authoritative_url: https://repositorio.smn.gob.ar/bitstream/handle/20.500.12160/2506/estad%C3%ADsticas_climatol%C3%B3gicas_normales_1991-2020.pdf?isAllowed=y&sequence=4
+
+frozen_extract:
+  cutoff: 2026-11-01
+  media_type: application_pdf
+  bytes: 15925249
+  sha256: 24c8863f997f3fc1f1861133bebcda8a6b31cd0930740061f1407ca4aa6275d6
+  pages: 853
+  encrypted: false
+  contains_station: Villa_Reynolds_Aero
+  integrity_status: included_in_frozen_extract_manifest
+
+role_in_field_shift:
+  - official_climatological_context
+  - historical_normals_reference
+  - interpretation_context_for_local_climate_variability
+
+semantics:
+  temporal_support: climatological_normals_1991_2020
+  observation_type: aggregated_climatological_statistics
+  rule: >-
+    Climatological normals summarize historical climate statistics and must not be represented as daily
+    observations or daily precipitation ground truth.
+
+spatial_scope:
+  representation: station_climatological_reference
+  prototype_relevance: Villa_Reynolds_Aero_near_Villa_Mercedes
+  parcel_level: false
+
+limitations:
+  - normals_are_not_daily_observations
+  - exact_tables_variables_units_and_station_extract_require_qualification
+  - station_context_does_not_equal_field_parcel_measurement
+
+intended_decision_use:
+  description: >-
+    Provide official climatological context for interpreting current/historical environmental conditions
+    and local station expectations. It is not a substitute for daily validation observations.
+  direct_recommendation_authority: false
+
+validation_semantics:
+  observation_data_validated: false
+  validation_phase: role_and_table_extraction_qualification_pending
+  required_checks:
+    - document_identity_and_station_section
+    - exact_variable_table_semantics
+    - units
+    - climatological_period_semantics
+    - appropriate_use_as_context_not_daily_ground_truth
+  serving_contract_candidates:
+    - SERVE-TABULAR-001_for_explicitly_extracted_and_lineaged_normals_when_needed
+
+suitability:
+  tier: climatological_reference
+  current_operational_inclusion: false
+  blocking_reason: exact_context_tables_and_use_role_to_be_qualified
