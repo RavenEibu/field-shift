@@ -1,0 +1,108 @@
+id: rem_san_luis
+provider: Red de Estaciones Meteorologicas de San Luis / Gobierno de San Luis
+product_family: provincial_automatic_weather_station_network
+metadata_status: partially_verified
+observation_data_status: pending_pipeline_validation
+acquisition_status: acquired_frozen_historical_responses
+project_priority: local_validation_reference
+last_reconciled: 2026-11-02
+
+authoritative_urls:
+  network: https://clima.sanluis.gob.ar/
+  public_data_endpoint: https://wsestaciones.sanluis.gob.ar/Modulos/Datos/Datos.aspx
+
+role_in_field_shift:
+  - local_station_validation_context
+  - local_climate_context
+  - cross_network_context_near_villa_mercedes
+
+frozen_extract:
+  cutoff: 2026-11-01
+  request_files: 12969
+  http_failures: 0
+  stations:
+    - name: Villa Mercedes
+      station_id: 42
+      latitude: -33.678586
+      longitude: -65.504645
+      days_with_observations: 4310
+      actual_coverage_start: 2015-01-01
+      actual_coverage_end: 2026-11-01
+      internal_empty_days: 13
+    - name: Villa Reynolds
+      station_id: 60
+      latitude: -33.725452
+      longitude: -65.385817
+      days_with_observations: 4014
+      actual_coverage_start: 2015-10-28
+      actual_coverage_end: 2026-11-01
+      internal_empty_days: 9
+    - name: AgroZAL
+      station_id: 88
+      latitude: -33.6450639
+      longitude: -65.3794056
+      days_with_observations: 2018
+      actual_coverage_start: 2021-04-23
+      actual_coverage_end: 2026-11-01
+      internal_empty_days: 1
+  integrity_status: included_in_frozen_extract_manifest
+
+raw_fields_observed:
+  common_candidates:
+    - fecha
+    - temp
+    - hh
+    - pp
+    - dv
+    - dvGrados
+    - vv
+  station_dependent_candidates:
+    - rad
+    - pres
+  rule: >-
+    Field names observed in provider responses are not enough to canonicalize variable meaning or units.
+    In particular `pp` must remain a provider field until authoritative precipitation/accumulation semantics are validated.
+
+known_validation_target:
+  agro_zal_suspect_temperature:
+    approximate_value_c: -76
+    disposition: preserve_raw_and_flag_physically_suspect_during_validation
+
+spatial_scope:
+  representation: point_station
+  parcel_level: false
+  rule: Station observations may provide local context but do not represent exact weather across a field parcel.
+
+limitations:
+  - provider_field_dictionary_and_units_require_validation
+  - station_gaps_and_changes_require_review
+  - point_station_vs_regional_grid_support_difference
+  - suspect_physical_values_require_explicit_disposition
+
+intended_decision_use:
+  description: >-
+    Independent local station context for assessing whether regional NASA meteorological behavior is
+    plausible and representative enough for the intended regional decision role. Cross-source comparison
+    is allowed only after variable/time/unit semantics are compatible.
+  direct_recommendation_authority: false
+
+validation_semantics:
+  observation_data_validated: false
+  validation_phase: V1_TO_V7_PENDING
+  required_checks:
+    - station_and_response_schema_identity
+    - authoritative_variable_dictionary_and_units
+    - timestamp_and_sampling_semantics
+    - temporal_coverage_and_gaps
+    - duplicates_and_missingness
+    - physical_plausibility_and_suspect_values
+    - station_changes_or_quality_metadata_when_available
+    - comparability_with_POWER_or_other_sources
+  serving_contract_candidates:
+    - SERVE-TABULAR-001
+    - SERVE-VECTOR-001_for_station_locations_when_spatial_relationships_are_needed
+
+suitability:
+  tier: local_validation_reference
+  current_operational_inclusion: false
+  blocking_reason: source_specific_validation_pending
