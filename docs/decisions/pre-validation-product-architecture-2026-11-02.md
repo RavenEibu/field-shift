@@ -80,6 +80,30 @@ VALIDATE = what do we actually have and how trustworthy/fit is it?
 TRANSFORM = how do we represent validated evidence for analysis and consumption?
 ```
 
+## Validation and quality semantics
+
+Validation checks use:
+
+```text
+PASS
+PASS_WITH_LIMITATIONS
+FAIL
+NOT_APPLICABLE
+UNKNOWN_REQUIRES_EVIDENCE
+```
+
+`PENDING_VALIDATION` is a pre-E2 pipeline/workflow state.
+
+Canonical `E2_OBSERVATION_VALIDATED` quality uses:
+
+```text
+VALID
+VALID_WITH_LIMITATIONS
+INVALID_FOR_DECISION_ROLE
+```
+
+Only `VALID` and `VALID_WITH_LIMITATIONS` observations may feed curated serving data for the intended role. `INVALID_FOR_DECISION_ROLE` remains available for validation/audit traceability but cannot silently enter indicators or recommendations.
+
 ## Serving baseline
 
 Transform may target one or more existing serving contracts:
@@ -181,6 +205,7 @@ Indicator/decision engine
 - open-source-only reproducible runtime requirement;
 - raw → staging → validated → curated → features → exports lifecycle;
 - validation/transform separation;
+- validation-check and E2 observation-quality vocabularies;
 - serving contracts by data shape;
 - provenance/quality/scale preservation;
 - visualization independence from scientific logic;
@@ -195,7 +220,6 @@ Indicator/decision engine
 - final source-specific validated schemas;
 - exact curated physical tables/files;
 - which source maps to which serving contract in every case;
-- final quality-state reconciliation;
 - source-specific missing/fill transformations;
 - exact aggregation/resampling rules;
 - scientific validity and decision role of each variable;
