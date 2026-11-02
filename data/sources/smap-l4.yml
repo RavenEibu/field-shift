@@ -5,7 +5,7 @@ short_name: SPL4SMGP
 version: 8
 doi: 10.5067/T5RUATAQREF8
 metadata_status: verified
-observation_data_status: pending_pipeline_validation
+observation_data_status: E1_partially_passed_by_variable_E2_pending
 acquisition_status: acquired_frozen_via_appeears
 project_priority: core
 last_reconciled: 2026-11-02
@@ -14,11 +14,11 @@ authoritative_url: https://nsidc.org/data/spl4smgp/versions/8
 access:
   product_authority: NASA_NSIDC_DAAC
   authentication: earthdata_login
-  frozen_mvp_path:
+  frozen_mvp_baseline:
     service: NASA_AppEEARS
-    task_id: abad3eaf-c5ac-4ea3-87a1-a04e7d9817ce
-    requested_start: 2026-01-01
-    requested_end: 2026-11-01
+    task_id: be20a35b-82f5-41ff-b379-94cfd81b74cf
+    requested_start: 2015-03-31
+    requested_end: 2025-12-31
     requested_layers:
       - Geophysical_Data_sm_surface
       - Geophysical_Data_sm_rootzone
@@ -33,22 +33,54 @@ access:
       - id: smn_villa_reynolds
         latitude: -33.7333
         longitude: -65.3833
+    acquired_rows: 94296
+    duplicate_point_timestamp_combinations: 0
+    first_timestamp_utc: 2015-03-31T01:30:00Z
+    last_timestamp_utc: 2025-12-31T22:30:00Z
   historical_attempts:
     - method: POWER_high_resolution_adapter
       result: all_returned_values_were_fill_sentinel_minus_999
       disposition: historical_retrieval_path_evidence_only
-      rule: must_not_override_the_later_AppEEARS_acquisition_state
+      rule: must_not_override_the_successful_AppEEARS_baseline
 
 role_in_field_shift:
   - regional_surface_soil_moisture_context
   - regional_root_zone_soil_moisture_context
-  - relative_drought_or_moisture_context_when_variable_semantics_are_validated
+  - relative_drought_or_moisture_context_only_when_a_valid_method_is_available
 
 native_characteristics:
   nominal_resolution: approximately_9_km
+  grid: WGS84_NSIDC_EASE_Grid_2_Global_EPSG_6933
   temporal_resolution: 3_hourly_native_product
   temporal_start: 2015-03-31
-  extraction_temporal_semantics: pending_V1_V5_validation
+
+variable_acquisition_state:
+  Geophysical_Data_sm_surface:
+    units: m3_per_m3
+    fill_value: -9999.0
+    documented_valid_range: 0.0_to_0.9
+    valid_observations: 94296
+    fill_observations: 0
+    observed_min: 0.030282
+    observed_max: 0.3211887
+    E1_state: PASS
+  Geophysical_Data_sm_rootzone:
+    units: m3_per_m3
+    fill_value: -9999.0
+    documented_valid_range: 0.0_to_0.9
+    valid_observations: 94296
+    fill_observations: 0
+    observed_min: 0.032295
+    observed_max: 0.1685392
+    E1_state: PASS
+  Geophysical_Data_sm_rootzone_pctl:
+    units: percent
+    fill_value: -9999.0
+    documented_valid_range: 0.0_to_100.0
+    valid_observations: 0
+    fill_observations: 94296
+    E1_state: USABLE_OBSERVATION_NOT_SATISFIED
+    active_mvp_use: false
 
 spatial_scope:
   effective_decision_scale: regional_context
@@ -59,40 +91,42 @@ limitations:
   - coarse_for_individual_fields
   - root_zone_is_model_assimilated_not_direct_root_measurement
   - record_begins_in_2015
-  - frozen_or_snow_covered_conditions_may_reduce_skill
-  - AppEEARS_extraction_structure_fill_and_variable_semantics_require_validation
+  - root_zone_soil_moisture_is_not_plant_available_water
+  - requested_root_zone_percentile_layer_contains_only_fill_values_for_the_baseline_extraction
 
 intended_decision_use:
   description: >-
-    Provide regional modeled surface/root-zone soil-moisture context and potentially relative
-    moisture/drought evidence. Plant-available water or crop water-stress interpretation requires
-    additional validated soil and crop context such as field capacity, wilting point, rooting depth,
-    and crop characteristics.
+    Provide regional modeled surface/root-zone soil-moisture context. Plant-available water or crop
+    water-stress interpretation requires additional validated soil/crop context. Percentile/anomaly
+    information must not be fabricated from the unusable downloaded percentile layer.
   direct_recommendation_authority: false
 
 validation_semantics:
   metadata_verified: true
-  observation_data_validated: false
-  validation_phase: V1_TO_V7_PENDING
-  required_checks:
-    - actual_AppEEARS_schema_and_rows
-    - actual_temporal_coverage
-    - duplicate_detection
-    - fill_and_nodata_semantics
-    - sm_rootzone_pctl_usability
-    - units_and_variable_meaning
-    - product_version_identity
-    - native_scale_and_point_extraction_relationship
-    - representativeness_for_prototype_use
+  acquisition_integrity_E1: partially_passed_by_variable
+  scientific_agronomic_E2_closed: false
+  reusable_prior_evidence:
+    - request_product_point_traceability_PASS
+    - temporal_row_completeness_PASS
+    - duplicate_point_timestamp_check_PASS
+    - sm_surface_range_and_fill_check_PASS
+    - sm_rootzone_range_and_fill_check_PASS
+    - sm_rootzone_pctl_usable_observation_NOT_SATISFIED
+  next_validation_work:
+    - map_prior_E1_evidence_into_V1_to_V4_without_unnecessary_reexecution
+    - inspect_point_and_season_distributions_and_extremes
+    - qualify_quality_semantics
+    - define_any_daily_aggregation_method_before_use
+    - add_representative_local_soil_context_before_agronomic_interpretation
+    - compare_patterns_with_independent_local_evidence_when_defensible
   serving_contract_candidates:
     - SERVE-TABULAR-001_for_qualified_point_extractions
     - SERVE-RASTER-001_if_native_grid_artifacts_are_later_required
-  note: Acquisition and provider metadata do not establish scientific validity or decision fitness.
 
 suitability:
   tier: core_mvp
   mvp_target_inclusion: true
   current_operational_inclusion: false
-  blocking_reason: source_specific_validation_pending
+  blocking_reason: E2_scientific_and_agronomic_validation_pending
   evaluation_document: docs/data-sources/evaluation.md
   evaluation_framework: multi_attribute_qualitative
