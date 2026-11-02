@@ -49,3 +49,13 @@ Every transformation must state inputs, formula/method, unit conversion, aggrega
 - `INVALID_FOR_DECISION_ROLE`
 
 Only `VALID` and `VALID_WITH_LIMITATIONS` observations may feed a derived indicator. Limitations must propagate into interpretation and explanation.
+
+## Serving layer
+
+This observation-level contract describes the evidence that must survive validation and transformation. Consumer-facing analytical shapes are defined separately in [`serving-contracts.md`](serving-contracts.md).
+
+The serving contracts cover tabular/time-series, vector geospatial, and raster outputs while preserving lineage, units, native scale, quality, and limitations.
+
+### Open contract debt
+
+The quality-state names in this document are not yet identical to those in `data/schemas/canonical-observation.schema.json`, which currently uses `UNKNOWN` and `INVALID` instead of `PENDING_VALIDATION` and `INVALID_FOR_DECISION_ROLE`. This mismatch is tracked for deliberate resolution during validation contract review and must not be silently mapped.
