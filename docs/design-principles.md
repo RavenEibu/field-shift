@@ -40,6 +40,8 @@ The project is public and should prefer public, well-documented sources.
 
 Secrets, private information, and proprietary material do not belong in the repository.
 
+The required Field Shift runtime must also be reproducible end-to-end with open-source software. Commercial desktop applications, proprietary database engines, vendor-specific mapping SDKs, or paid cloud services may not become mandatory dependencies for validation, demonstration, or operation. See [`docs/decisions/open-source-runtime-stack-2026-11-02.md`](decisions/open-source-runtime-stack-2026-11-02.md).
+
 ## 8. Provenance before convenience
 
 A value without provenance is weaker than a value that can be traced to a source, timestamp, transformation, and effective scale.
