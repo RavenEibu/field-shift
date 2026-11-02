@@ -20,7 +20,7 @@ sources:
     role: regional_historical_meteorological_context
     mvp_target_inclusion: true
     acquisition_state: FROZEN_EXTRACT_ACQUIRED
-    validation_state: V1_TO_V7_PENDING
+    validation_state: V1_TO_V7_PENDING_WITH_PRIOR_ACQUISITION_CHECKS_REUSABLE
     decision_engine_state: NOT_READY
     spatial_support: product_variable_dependent_regional_grid
     temporal_coverage_expected: historical_daily_baseline
@@ -35,15 +35,19 @@ sources:
     role: regional_surface_and_root_zone_soil_moisture_context
     mvp_target_inclusion: true
     acquisition_state: FROZEN_EXTRACT_ACQUIRED_VIA_APPEEARS
-    validation_state: V1_TO_V7_PENDING
+    validation_state: E1_PARTIAL_PASS_BY_VARIABLE_E2_PENDING
     decision_engine_state: NOT_READY
     spatial_support: approximately_9_km_native_grid
-    temporal_support: native_3_hourly_product_with_requested_extraction_representation_to_be_validated
+    temporal_support: native_3_hourly
+    baseline_period: 2015_03_31_to_2025_12_31
     tier: CORE_MVP
     notes:
       - Earlier POWER-adapter all-fill retrieval is historical path evidence, not the current acquisition state.
-      - AppEEARS task abad3eaf-c5ac-4ea3-87a1-a04e7d9817ce is the current frozen raw evidence for validation.
-      - Modeled soil moisture is not automatically plant-available water.
+      - Canonical historical AppEEARS baseline task is be20a35b-82f5-41ff-b379-94cfd81b74cf.
+      - sm_surface and sm_rootzone passed acquisition/integrity checks with 94,296 usable rows each.
+      - sm_rootzone_pctl has zero usable values and remains excluded from active MVP indicators.
+      - Modeled root-zone soil moisture is not plant-available water.
+      - Prior E1 evidence should be mapped into V1-V4 rather than blindly re-executed.
 
   rem_san_luis:
     authority: Gobierno de San Luis / REM
@@ -92,8 +96,8 @@ sources:
     authority: INTA Argentina
     role: agrometeorological_and_local_context_candidate
     mvp_target_inclusion: true
-    acquisition_state: FROZEN_EXTRACT_ACQUIRED
-    validation_state: EXACT_VARIABLES_SEMANTICS_AND_ROLE_PENDING
+    acquisition_state: FROZEN_EXTRACT_CONTEXT_MATERIAL_ACQUIRED
+    validation_state: EXACT_VARIABLES_SEMANTICS_AND_INCREMENTAL_ROLE_PENDING
     decision_engine_state: NOT_READY
     spatial_support: source_dependent
     temporal_support: source_dependent
