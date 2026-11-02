@@ -2,59 +2,81 @@ id: inta_sisinta
 provider: INTA Argentina
 product: SisINTA soil profile database
 metadata_status: partially_verified
-observation_data_status: not_acquired
-acquisition_status: planned
+observation_data_status: pending_pipeline_validation
+acquisition_status: acquired_packaged_snapshot
 project_priority: preferred_local_soil_source
-last_verified: 2026-10-30
-authoritative_url: https://www.argentina.gob.ar/noticias/sisinta-contiene-7000-perfiles-de-suelos-georreferenciados
+last_reconciled: 2026-11-02
+authoritative_url: https://sisinta.inta.gob.ar/
+
 role_in_field_shift:
-- local_soil_characterization
-- soil_profile_evidence
+  - local_soil_characterization
+  - measured_soil_profile_evidence
+
+frozen_extract:
+  cutoff: 2026-11-01
+  source_repository: INTA-Suelos/SISINTAR
+  pinned_commit: 359790580f73f88b3c588c3cb4a211ad14008914
+  metadata_feature_count: 6389
+  files:
+    - perfiles_meta.geojson
+    - perfiles_datos.csv
+    - tabla_nombres_sisinta.csv
+  freshness_limitation: packaged_snapshot_may_lag_live_SiSINTA
+  live_service_dependency: false
+
 source_characteristics:
   data_type: georeferenced_field_and_laboratory_soil_profiles
-  spatial_representation: discrete_soil_profile_points_and_series
-  public_access: mixed_by_profile_access_level
+  spatial_representation: discrete_soil_profile_points_and_horizons
   national_coverage: true
-  note: SisINTA is an authoritative Argentine repository of measured field and laboratory
-    soil profiles, distinct from gridded spatial predictions.
-selection_requirements:
-- profile_location
-- distance_to_prototype_area
-- sampling_date
-- horizon_depths
-- field_method
-- laboratory_method
-- measured_properties
-- access_and_license
-- landscape_and_soil_unit_representativeness
-hard_gate: 'A source-system rating does not make every profile representative of a
-  selected field. A concrete profile must pass location, method, depth, date, and
-  representativeness review before use.
+  note: >-
+    SiSINTAR is profile-based measured soil evidence, distinct from gridded spatial predictions.
+    The acquired packaged snapshot is not automatically equivalent to the current live service.
 
-  '
+selection_requirements:
+  - profile_location
+  - distance_and_spatial_relation_to_target
+  - sampling_date_when_available
+  - horizon_depths
+  - measured_properties_and_units
+  - method_metadata_when_available
+  - landscape_and_soil_unit_representativeness
+
+hard_gate: >-
+  Source authority and successful acquisition do not make every profile representative of a selected
+  field. A concrete profile must pass location, depth, variable, freshness, and representativeness
+  review before use in a field decision.
+
 limitations:
-- profile_density_and_variables_vary_by_location
-- some_records_may_have_restricted_access
-- nearby_profile_is_not_automatically_equivalent_to_target_field
+  - profile_density_and_variables_vary_by_location
+  - packaged_snapshot_may_lag_live_service
+  - nearby_profile_is_not_automatically_equivalent_to_target_field
+  - horizon_depth_and_variable_semantics_require_validation
+
 intended_decision_use:
-  description: Preferred source for measured soil-profile evidence when an appropriate
-    public and representative profile can be identified near the prototype area.
+  description: >-
+    Preferred measured soil-profile context when a suitable representative profile can be identified
+    for the prototype/client target and its variables/depths are validated for the required indicator.
   direct_recommendation_authority: false
+
 validation_semantics:
-  metadata_status: partially_verified
-  metadata_verified: true
   observation_data_validated: false
-  metadata_verification:
-    verified_at: '2026-10-31'
-    authoritative_url: https://sisinta.inta.gob.ar/
-    fields:
-    - provider_identity
-    - soil_profile_structure
-    evidence_refs:
-    - docs/data-sources/evaluation.md
-  note: INTA SisINTA soil database schema and profile structure verified. Selection
-    of representative local profile for Villa Mercedes pending.
+  validation_phase: V1_TO_V7_PENDING
+  required_checks:
+    - snapshot_identity_and_schema
+    - profile_and_horizon_relationships
+    - variable_names_units_and_nodata
+    - depth_semantics
+    - duplicate_or_identifier_integrity
+    - target_distance_and_spatial_relation
+    - profile_representativeness
+    - freshness_limitations
+  serving_contract_candidates:
+    - SERVE-VECTOR-001_for_profile_locations_and_spatial_relations
+    - SERVE-TABULAR-001_for_profile_horizon_measurements
+
 suitability:
   tier: preferred_local_soil
+  current_operational_inclusion: false
+  blocking_reason: source_specific_validation_and_representativeness_pending
   evaluation_document: docs/data-sources/evaluation.md
   evaluation_framework: multi_attribute_qualitative

@@ -6,6 +6,15 @@ Field Shift should include an optional local conversational assistant that helps
 
 The assistant is **not** the agronomic decision engine. It does not create scientific truth, invent field conditions, or replace validated rules. Its role is to make Field Shift easier to query and understand.
 
+## Product contracts
+
+Two product-domain contracts now define the interaction boundary:
+
+- [`CLIENT-CASE-001`](../contracts/client-case.md) — explicit durable agricultural/client case state;
+- [`ASSIST-TOOLS-001`](../contracts/assistant-tools.md) — bounded Field Shift evidence and decision functions available to the assistant.
+
+A farmer/company is not represented as an internal framework seat. The public product must remain independent from internal context/framework repositories.
+
 ## Example interaction
 
 A company near Villa Mercedes may provide:
@@ -18,7 +27,7 @@ A company near Villa Mercedes may provide:
 - water, economic, machinery, or operational constraints;
 - priorities such as reducing drought risk while preserving productivity.
 
-The assistant should convert that conversation into a structured request, ask for materially missing information, query validated/curated evidence, invoke deterministic Field Shift tools when prerequisites are satisfied, and explain:
+The assistant converts that conversation into `CLIENT-CASE-001`, asks for materially missing information, queries validated/curated evidence through `ASSIST-TOOLS-001`, invokes deterministic Field Shift decision functions only when prerequisites are satisfied, and explains:
 
 - what evidence is available for the location;
 - the spatial and temporal scale of that evidence;
@@ -33,9 +42,9 @@ User / farmer / company
         ↓
 Conversational assistant
   - understands language
-  - structures requirements
-  - asks questions
-  - selects explicit tools
+  - updates Client Case
+  - asks targeted questions
+  - selects explicit product tools
   - explains results
         ↓
 Validated / curated Field Shift evidence
@@ -57,24 +66,25 @@ A point can be related to NASA grid cells, weather stations, soil profiles, crop
 
 ## Local and open-source direction
 
-The baseline should remain compatible with the project's open-source-only architecture and should be practical on modest local hardware.
+The baseline remains compatible with the project's open-source-only architecture and should be practical on modest local hardware.
 
 Candidate implementation direction:
 
 - `llama.cpp` for replaceable local model inference;
 - a small explicit Python orchestration loop rather than a mandatory agent framework;
 - DuckDB for structured Field Shift data queries;
-- SQLite for session state and lightweight lexical knowledge search (`FTS5`);
+- SQLite for Client Case/session persistence and lightweight lexical knowledge search (`FTS5`);
 - optional compact multilingual embeddings + CPU vector search only if lexical retrieval proves insufficient;
 - Streamlit as a possible MVP interaction surface.
 
 The exact language model is not yet selected. A design target is to support modest hardware, including approximately 4 GB VRAM through quantization and/or CPU/GPU hybrid inference, but this has not yet been validated.
 
-## Safety and scientific constraints
+## Scientific constraints
 
 The assistant must:
 
 - preserve provenance, quality status, spatial/temporal support, and limitations;
+- distinguish user-declared facts from Field Shift observations and derived evidence;
 - distinguish canonical Field Shift evidence from external discovery results;
 - return explicit unknowns when evidence is insufficient;
 - never treat model confidence as evidence;
@@ -84,18 +94,21 @@ The assistant must:
 
 ## Maturity
 
-This capability is currently **conceptual architecture**.
-
-It does not yet claim:
-
-- a selected or validated local LLM;
-- verified 4 GB VRAM operation;
-- a production-ready agent;
-- autonomous agronomic advisory capability.
+```text
+Interaction architecture          DEFINED
+CLIENT-CASE-001                   DEFINED
+ASSIST-TOOLS-001                  DEFINED
+Local LLM selected                NO
+4 GB VRAM runtime validated       NO
+Assistant implementation          NOT STARTED
+Decision-engine integration       NOT READY
+Autonomous agronomic advisor      NOT A PRODUCT GOAL
+```
 
 ## Next steps
 
-1. Define the structured client-context contract.
-2. Define the explicit tool/function contracts available to the assistant.
+1. Complete source validation and curated serving layers required by the assistant tools.
+2. Define/implement deterministic evidence-service functions against those validated contracts.
 3. Validate local model/runtime candidates under the modest-hardware target.
-4. Connect assistant queries only to validated/curated serving contracts and decision-engine outputs.
+4. Implement a minimal orchestration loop and Client Case persistence.
+5. Demonstrate one real Villa Mercedes client/location question end-to-end without allowing the LLM to bypass the evidence/decision layers.

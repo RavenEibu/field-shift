@@ -1,75 +1,132 @@
 id: nasa_smap_l4_spl4smgp_v8
 provider: NASA NSIDC DAAC
-product: SMAP L4 Global 3-hourly 9 km EASE-Grid Surface and Root Zone Soil Moisture
-  Geophysical Data
+product: SMAP L4 Global 3-hourly 9 km EASE-Grid Surface and Root Zone Soil Moisture Geophysical Data
 short_name: SPL4SMGP
 version: 8
 doi: 10.5067/T5RUATAQREF8
 metadata_status: verified
-observation_data_status: quarantined_zero_usable_observations
-acquisition_status: acquired_adapter_quarantined
-project_priority: core_candidate
-last_verified: 2026-10-30
+observation_data_status: E1_partially_passed_by_variable_E2_pending
+acquisition_status: acquired_frozen_via_appeears
+project_priority: core
+last_reconciled: 2026-11-02
 authoritative_url: https://nsidc.org/data/spl4smgp/versions/8
+
 access:
-  direct:
-    authentication: earthdata_login
-  power_adapter:
-    available: true
-    temporal_aggregation: daily_utc
-    note: POWER can expose SMAP L4 through its high-resolution pathway; NASA/NSIDC
-      remains the product authority.
+  product_authority: NASA_NSIDC_DAAC
+  authentication: earthdata_login
+  frozen_mvp_baseline:
+    service: NASA_AppEEARS
+    task_id: be20a35b-82f5-41ff-b379-94cfd81b74cf
+    requested_start: 2015-03-31
+    requested_end: 2025-12-31
+    requested_layers:
+      - Geophysical_Data_sm_surface
+      - Geophysical_Data_sm_rootzone
+      - Geophysical_Data_sm_rootzone_pctl
+    query_points:
+      - id: prototype_anchor
+        latitude: -33.65
+        longitude: -65.3667
+      - id: rem_villa_mercedes
+        latitude: -33.678586
+        longitude: -65.504645
+      - id: smn_villa_reynolds
+        latitude: -33.7333
+        longitude: -65.3833
+    acquired_rows: 94296
+    duplicate_point_timestamp_combinations: 0
+    first_timestamp_utc: 2015-03-31T01:30:00Z
+    last_timestamp_utc: 2025-12-31T22:30:00Z
+  historical_attempts:
+    - method: POWER_high_resolution_adapter
+      result: all_returned_values_were_fill_sentinel_minus_999
+      disposition: historical_retrieval_path_evidence_only
+      rule: must_not_override_the_successful_AppEEARS_baseline
+
 role_in_field_shift:
-- regional_surface_soil_moisture_context
-- regional_root_zone_soil_moisture_context
-- drought_percentile_context
+  - regional_surface_soil_moisture_context
+  - regional_root_zone_soil_moisture_context
+  - relative_drought_or_moisture_context_only_when_a_valid_method_is_available
+
 native_characteristics:
-  nominal_resolution: 9_km
-  temporal_resolution: 3_hourly
+  nominal_resolution: approximately_9_km
+  grid: WGS84_NSIDC_EASE_Grid_2_Global_EPSG_6933
+  temporal_resolution: 3_hourly_native_product
   temporal_start: 2015-03-31
-power_aliases_of_interest:
-- SFMC
-- RZMC
-- SFMC_PRCNTL
-- RZMC_PRCNTL
+
+variable_acquisition_state:
+  Geophysical_Data_sm_surface:
+    units: m3_per_m3
+    fill_value: -9999.0
+    documented_valid_range: 0.0_to_0.9
+    valid_observations: 94296
+    fill_observations: 0
+    observed_min: 0.030282
+    observed_max: 0.3211887
+    E1_state: PASS
+  Geophysical_Data_sm_rootzone:
+    units: m3_per_m3
+    fill_value: -9999.0
+    documented_valid_range: 0.0_to_0.9
+    valid_observations: 94296
+    fill_observations: 0
+    observed_min: 0.032295
+    observed_max: 0.1685392
+    E1_state: PASS
+  Geophysical_Data_sm_rootzone_pctl:
+    units: percent
+    fill_value: -9999.0
+    documented_valid_range: 0.0_to_100.0
+    valid_observations: 0
+    fill_observations: 94296
+    E1_state: USABLE_OBSERVATION_NOT_SATISFIED
+    active_mvp_use: false
+
 spatial_scope:
   effective_decision_scale: regional_context
   parcel_level: false
-  note: Do not present a 9 km modeled/assimilated value as an exact parcel measurement.
+  note: Do not present a 9 km modeled/assimilated value or point extraction as an exact parcel measurement.
+
 limitations:
-- coarse_for_individual_fields
-- root_zone_is_model_assimilated_not_direct_root_measurement
-- record_begins_in_2015
-- frozen_or_snow_covered_conditions_reduce_skill
+  - coarse_for_individual_fields
+  - root_zone_is_model_assimilated_not_direct_root_measurement
+  - record_begins_in_2015
+  - root_zone_soil_moisture_is_not_plant_available_water
+  - requested_root_zone_percentile_layer_contains_only_fill_values_for_the_baseline_extraction
+
 intended_decision_use:
-  description: Provide regional surface/root-zone modeled moisture context and relative drought
-    evidence. Plant-available water or crop water-stress interpretation requires additional
-    soil and crop context (field capacity, wilting point, rooting depth). Modeled root-zone
-    soil moisture is distinct from plant-available water.
+  description: >-
+    Provide regional modeled surface/root-zone soil-moisture context. Plant-available water or crop
+    water-stress interpretation requires additional validated soil/crop context. Percentile/anomaly
+    information must not be fabricated from the unusable downloaded percentile layer.
   direct_recommendation_authority: false
+
 validation_semantics:
-  metadata_status: verified
   metadata_verified: true
-  observation_data_validated: false
-  metadata_verification:
-    verified_at: '2026-10-31'
-    authoritative_url: https://nsidc.org/data/spl4smgp/versions/8
-    fields:
-    - provider_identity
-    - product_identity
-    - doi
-    - spatial_resolution
-    - temporal_resolution
-    - parameters
-    evidence_refs:
-    - data/raw/nasa-smap/20261031T020308Z/smap_l4_v8_power_adapter_daily_20150401_20251231.json
-    - evidence/ssd-raw-audit.json
-  note: Provider specifications and data access verified. Empirical observation values
-    undergo scientific validation in the data pipeline.
+  acquisition_integrity_E1: partially_passed_by_variable
+  scientific_agronomic_E2_closed: false
+  reusable_prior_evidence:
+    - request_product_point_traceability_PASS
+    - temporal_row_completeness_PASS
+    - duplicate_point_timestamp_check_PASS
+    - sm_surface_range_and_fill_check_PASS
+    - sm_rootzone_range_and_fill_check_PASS
+    - sm_rootzone_pctl_usable_observation_NOT_SATISFIED
+  next_validation_work:
+    - map_prior_E1_evidence_into_V1_to_V4_without_unnecessary_reexecution
+    - inspect_point_and_season_distributions_and_extremes
+    - qualify_quality_semantics
+    - define_any_daily_aggregation_method_before_use
+    - add_representative_local_soil_context_before_agronomic_interpretation
+    - compare_patterns_with_independent_local_evidence_when_defensible
+  serving_contract_candidates:
+    - SERVE-TABULAR-001_for_qualified_point_extractions
+    - SERVE-RASTER-001_if_native_grid_artifacts_are_later_required
+
 suitability:
-  tier: core_candidate
+  tier: core_mvp
   mvp_target_inclusion: true
   current_operational_inclusion: false
-  blocking_reason: no_usable_observations
+  blocking_reason: E2_scientific_and_agronomic_validation_pending
   evaluation_document: docs/data-sources/evaluation.md
   evaluation_framework: multi_attribute_qualitative

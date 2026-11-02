@@ -2,65 +2,86 @@ id: inta_mapa_nacional_cultivos
 provider: INTA Argentina
 product: Mapa Nacional de Cultivos
 metadata_status: partially_verified
-observation_data_status: not_acquired
-acquisition_status: planned
-project_priority: core_candidate
-last_verified: 2026-10-30
+observation_data_status: pending_pipeline_validation
+acquisition_status: acquired_frozen_baseline
+project_priority: core
+last_reconciled: 2026-11-02
 authoritative_urls:
   overview: https://www.argentina.gob.ar/node/486863
   latest_dataset_reference: https://zenodo.org/records/17652712
+
 role_in_field_shift:
-- observed_crop_history
-- current_rotation_baseline
-- crop_sequence_context
+  - observed_crop_classification_context
+  - crop_sequence_history_context
+  - current_rotation_baseline_candidate
+
+frozen_extract:
+  cutoff: 2026-11-01
+  file_count: 20
+  campaigns_observed:
+    first: 2018_2019
+    latest: 2024_2025
+  integrity_status: verified_by_frozen_extract_manifest
+  note: Acquisition facts do not establish class semantics, campaign completeness, or field-level fitness.
+
 coverage:
   geography: main_agricultural_areas_of_argentina
-  campaigns_start: 20182019
-  cadence: annual
+  cadence: annual_campaign
+  exact_campaign_and_spatial_coverage: pending_validation
+
 method:
-- supervised_classification
-- sentinel_2_imagery
-- landsat_imagery
-- field_survey_samples
+  - supervised_classification
+  - sentinel_2_imagery
+  - landsat_imagery
+  - field_survey_samples
+
 spatial_scope:
-  nominal_resolution: 30_m
+  nominal_resolution_candidate: 30_m
+  validation_required: true
   effective_decision_scale: field_context_with_classification_uncertainty
-  note: A classified 30m pixel is remote sensing evidence of likely crop class, not
-    a farmer management record or parcel legal boundary.
+  note: >-
+    A classified remote-sensing pixel is evidence of a crop class under the product methodology;
+    it is not a farmer planting/management record or a legal property boundary.
+
 quality_requirements:
-- preserve_campaign
-- preserve_map_version_or_record
-- preserve_class_legend
-- preserve_accuracy_assessment_when_available
-transformability:
-  format: geotiff
-  subsettable: true
-  reproducibility: high
+  - preserve_campaign
+  - preserve_map_version_or_record
+  - preserve_class_legend
+  - preserve_accuracy_assessment_when_available
+  - preserve_native_spatial_support
+
 limitations:
-- classification_error_possible
-- annual_campaign_product_not_continuous_field_log
-- field_boundaries_and_management_events_are_not_directly_observed
+  - classification_error_possible
+  - annual_campaign_product_not_continuous_field_log
+  - field_boundaries_and_management_events_are_not_directly_observed
+  - exact_class_semantics_and_coverage_require_V1_V7_validation
+
 intended_decision_use:
-  description: Establish an evidence-backed historical crop sequence for the prototype
-    area so alternatives can be compared against an observed baseline.
+  description: >-
+    Provide evidence-backed crop-class/history context for the prototype area so candidate rotations
+    can be compared against observed remote-sensing history when the relevant campaigns/classes are validated.
   direct_recommendation_authority: false
+
 validation_semantics:
-  metadata_status: partially_verified
-  metadata_verified: true
+  metadata_verified: partial
   observation_data_validated: false
-  metadata_verification:
-    verified_at: '2026-10-31'
-    authoritative_url: https://datos.agroindustria.gob.ar/dataset/mapa-nacional-de-cultivos
-    fields:
-    - provider_identity
-    - spatial_resolution
-    - temporal_cadence
-    - crop_classes
-    evidence_refs:
-    - docs/data-sources/evaluation.md
-  note: National crop map methodology and 30m resolution verified from official INTA
-    publications. Local field-scale extraction for prototype anchor pending.
+  validation_phase: V1_TO_V7_PENDING
+  required_checks:
+    - artifact_identity_and_campaign_mapping
+    - raster_or_vector_structure
+    - CRS_extent_and_native_resolution
+    - class_legend_and_nodata_semantics
+    - coverage_for_prototype_area
+    - accuracy_or_quality_metadata_when_available
+    - distinction_between_classified_crop_history_and_management_record
+  serving_contract_candidates:
+    - SERVE-RASTER-001_if_native_classification_grid_is_preserved
+    - SERVE-VECTOR-001_for_explicit_derived_crop_polygons_when_justified
+    - SERVE-TABULAR-001_for_derived_field_or_point_history_with_lineage
+
 suitability:
   tier: core_supporting
+  current_operational_inclusion: false
+  blocking_reason: source_specific_validation_pending
   evaluation_document: docs/data-sources/evaluation.md
   evaluation_framework: multi_attribute_qualitative

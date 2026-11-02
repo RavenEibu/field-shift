@@ -1,76 +1,166 @@
-# Data Source Selection & Architectural Intent Matrix (Multi-Attribute Qualitative)
-version: 3
-source_selection_status: evaluated_for_architecture
+# Data Source Selection & Architectural Intent Matrix
+version: 4
+source_selection_status: evaluated_for_architecture_and_reconciled_with_extract_2026_11_01
 governance: docs/data-sources/evaluation.md
 
-note: >
-  This matrix reflects architectural candidate selection and intended MVP role.
-  It does NOT represent empirical observation data availability, data pipeline
-  completion, or observation validation.
+note: >-
+  This matrix separates intended decision role, acquisition state, and validation state.
+  Selection does not imply acquisition; acquisition does not imply scientific validation;
+  validation does not automatically imply use by the decision engine.
 
 epistemological_invariants:
   - SOURCE_SELECTED_FOR_MVP != SOURCE_ACQUIRED
   - SOURCE_ACQUIRED != OBSERVATION_VALIDATED
   - OBSERVATION_VALIDATED != USED_BY_DECISION_ENGINE
+  - REGIONAL_CONTEXT != PARCEL_TRUTH
 
 sources:
   nasa_power:
     authority: NASA Langley ASDC / GMAO
-    role: macro_climate_and_energy
+    role: regional_historical_meteorological_context
     mvp_target_inclusion: true
-    current_operational_inclusion: true
-    data_availability: acquired_and_checksummed
-    spatial_resolution: 0.5_deg_lat_x_0.625_deg_lon
-    temporal_coverage: 1991_to_2025
+    acquisition_state: FROZEN_EXTRACT_ACQUIRED
+    validation_state: V1_TO_V7_PENDING_WITH_PRIOR_ACQUISITION_CHECKS_REUSABLE
+    decision_engine_state: NOT_READY
+    spatial_support: product_variable_dependent_regional_grid
+    temporal_coverage_expected: historical_daily_baseline
     tier: CORE_MVP
+    notes:
+      - PRECTOTCORR retains its acquired POWER/MERRA-2-scale semantics and is not parcel rainfall.
+      - Solar radiation and meteorological variables may have different native spatial support.
 
   nasa_smap_l4:
     authority: NASA NSIDC / GSFC
-    role: regional_root_zone_soil_moisture_context
+    product: SPL4SMGP.008
+    role: regional_surface_and_root_zone_soil_moisture_context
     mvp_target_inclusion: true
-    current_operational_inclusion: false
-    data_availability: blocked_zero_usable_observations
-    blocking_reason: adapter_sentinel_fill_response
-    spatial_resolution: 9_km
-    temporal_coverage: 2015_to_2025
-    tier: CORE_CANDIDATE
+    acquisition_state: FROZEN_EXTRACT_ACQUIRED_VIA_APPEEARS
+    validation_state: E1_PARTIAL_PASS_BY_VARIABLE_E2_PENDING
+    decision_engine_state: NOT_READY
+    spatial_support: approximately_9_km_native_grid
+    temporal_support: native_3_hourly
+    baseline_period: 2015_03_31_to_2025_12_31
+    tier: CORE_MVP
+    notes:
+      - Earlier POWER-adapter all-fill retrieval is historical path evidence, not the current acquisition state.
+      - Canonical historical AppEEARS baseline task is be20a35b-82f5-41ff-b379-94cfd81b74cf.
+      - sm_surface and sm_rootzone passed acquisition/integrity checks with 94,296 usable rows each.
+      - sm_rootzone_pctl has zero usable values and remains excluded from active MVP indicators.
+      - Modeled root-zone soil moisture is not plant-available water.
+      - Prior E1 evidence should be mapped into V1-V4 rather than blindly re-executed.
+
+  rem_san_luis:
+    authority: Gobierno de San Luis / REM
+    role: local_station_validation_context
+    mvp_target_inclusion: true
+    acquisition_state: FROZEN_EXTRACT_ACQUIRED
+    validation_state: V1_TO_V7_PENDING
+    decision_engine_state: NOT_READY
+    spatial_support: point_station
+    stations:
+      - Villa Mercedes
+      - Villa Reynolds
+      - AgroZAL
+    tier: LOCAL_VALIDATION_REFERENCE
+    notes:
+      - Provider field pp requires authoritative semantic/unit validation before canonical precipitation naming.
+      - Suspect physical values must be flagged rather than silently cleaned.
+
+  smn_climatology:
+    authority: Servicio Meteorologico Nacional Argentina
+    role: official_climatological_context
+    mvp_target_inclusion: true
+    acquisition_state: OFFICIAL_1991_2020_NORMALS_ACQUIRED
+    validation_state: ROLE_AND_EXTRACT_SEMANTICS_PENDING
+    decision_engine_state: CONTEXT_ONLY_UNTIL_QUALIFIED
+    spatial_support: station_climatological_normals
+    temporal_support: climatological_normals_1991_2020
+    tier: CLIMATOLOGICAL_REFERENCE
+    notes:
+      - Climatological normals are not daily observation ground truth.
 
   inta_mnc:
     authority: INTA Argentina
-    role: observed_crop_sequence_history
+    role: observed_crop_classification_and_rotation_history_context
     mvp_target_inclusion: true
-    current_operational_inclusion: false
-    data_availability: planned_not_acquired
-    spatial_resolution: 30_m_classified_raster
-    temporal_coverage: 2018_to_2024
+    acquisition_state: FROZEN_EXTRACT_ACQUIRED
+    validation_state: V1_TO_V7_PENDING
+    decision_engine_state: NOT_READY
+    spatial_support: classified_remote_sensing_product_to_be_validated
+    temporal_coverage_observed_in_extract: campaigns_2018_19_to_2024_25
     tier: CORE_SUPPORTING
+    notes:
+      - Classification class is not equivalent to a farmer planting/management record.
 
-  inta_agromet:
-    authority: INTA SIGA
-    role: ground_truth_climate_validation
+  inta_siga:
+    authority: INTA Argentina
+    role: agrometeorological_and_local_context_candidate
     mvp_target_inclusion: true
-    current_operational_inclusion: false
-    data_availability: planned_not_acquired
-    spatial_resolution: point_station
-    temporal_coverage: station_dependent
-    tier: VALIDATION_REFERENCE
+    acquisition_state: FROZEN_EXTRACT_CONTEXT_MATERIAL_ACQUIRED
+    validation_state: EXACT_VARIABLES_SEMANTICS_AND_INCREMENTAL_ROLE_PENDING
+    decision_engine_state: NOT_READY
+    spatial_support: source_dependent
+    temporal_support: source_dependent
+    tier: SUPPORTING_VALIDATION_SOURCE
 
   inta_sisinta:
     authority: INTA Argentina
-    role: measured_soil_profile_properties
+    role: measured_soil_profile_context
     mvp_target_inclusion: true
-    current_operational_inclusion: false
-    data_availability: planned_not_acquired
-    spatial_resolution: georeferenced_soil_profiles
-    temporal_coverage: static_survey_database
+    acquisition_state: PACKAGED_SNAPSHOT_ACQUIRED
+    validation_state: V1_TO_V7_PENDING
+    decision_engine_state: NOT_READY
+    spatial_support: georeferenced_soil_profiles
+    temporal_support: packaged_snapshot
     tier: PREFERRED_LOCAL_SOIL
+    notes:
+      - Packaged snapshot may lag the live service.
+      - Nearest profile does not equal parcel soil truth.
+      - Depth/horizon semantics and representativeness require validation.
 
   soilgrids:
     authority: ISRIC World Soil Information
     role: modeled_soil_fallback
     mvp_target_inclusion: false
-    current_operational_inclusion: false
-    data_availability: planned_not_acquired
-    spatial_resolution: 250_m_modeled_grid
-    temporal_coverage: static_prediction_v2
+    acquisition_state: NOT_REQUIRED_FOR_FROZEN_MVP_EXTRACT
+    validation_state: NOT_STARTED
+    decision_engine_state: FALLBACK_ONLY_IF_LOCAL_EVIDENCE_GAP_JUSTIFIES
+    spatial_support: 250_m_modeled_grid
+    temporal_support: static_prediction
     tier: FALLBACK_CONTEXT_ONLY
+
+  ecostress:
+    authority: NASA JPL
+    role: evapotranspiration_and_plant_water_stress_candidate
+    mvp_target_inclusion: false
+    acquisition_state: DEFERRED
+    validation_state: NOT_STARTED
+    decision_engine_state: NOT_READY
+    tier: MVP_PLUS
+
+  hls:
+    authority: NASA GSFC
+    role: field_scale_vegetation_context_candidate
+    mvp_target_inclusion: false
+    acquisition_state: DEFERRED
+    validation_state: NOT_STARTED
+    decision_engine_state: NOT_READY
+    tier: MVP_PLUS
+
+  gpm_imerg:
+    authority: NASA GSFC
+    role: higher_resolution_precipitation_candidate
+    mvp_target_inclusion: false
+    acquisition_state: DEFERRED
+    validation_state: NOT_STARTED
+    decision_engine_state: NOT_READY
+    tier: DEFERRED_UNTIL_DECISION_GAP
+
+  grace_grace_fo:
+    authority: NASA / GFZ
+    role: macro_hydrological_context_candidate
+    mvp_target_inclusion: false
+    acquisition_state: DEFERRED
+    validation_state: NOT_STARTED
+    decision_engine_state: NOT_READY
+    tier: DEFERRED_UNTIL_DECISION_GAP
