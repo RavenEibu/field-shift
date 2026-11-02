@@ -1,75 +1,98 @@
 id: nasa_smap_l4_spl4smgp_v8
 provider: NASA NSIDC DAAC
-product: SMAP L4 Global 3-hourly 9 km EASE-Grid Surface and Root Zone Soil Moisture
-  Geophysical Data
+product: SMAP L4 Global 3-hourly 9 km EASE-Grid Surface and Root Zone Soil Moisture Geophysical Data
 short_name: SPL4SMGP
 version: 8
 doi: 10.5067/T5RUATAQREF8
 metadata_status: verified
-observation_data_status: quarantined_zero_usable_observations
-acquisition_status: acquired_adapter_quarantined
-project_priority: core_candidate
-last_verified: 2026-10-30
+observation_data_status: pending_pipeline_validation
+acquisition_status: acquired_frozen_via_appeears
+project_priority: core
+last_reconciled: 2026-11-02
 authoritative_url: https://nsidc.org/data/spl4smgp/versions/8
+
 access:
-  direct:
-    authentication: earthdata_login
-  power_adapter:
-    available: true
-    temporal_aggregation: daily_utc
-    note: POWER can expose SMAP L4 through its high-resolution pathway; NASA/NSIDC
-      remains the product authority.
+  product_authority: NASA_NSIDC_DAAC
+  authentication: earthdata_login
+  frozen_mvp_path:
+    service: NASA_AppEEARS
+    task_id: abad3eaf-c5ac-4ea3-87a1-a04e7d9817ce
+    requested_start: 2026-01-01
+    requested_end: 2026-11-01
+    requested_layers:
+      - Geophysical_Data_sm_surface
+      - Geophysical_Data_sm_rootzone
+      - Geophysical_Data_sm_rootzone_pctl
+    query_points:
+      - id: prototype_anchor
+        latitude: -33.65
+        longitude: -65.3667
+      - id: rem_villa_mercedes
+        latitude: -33.678586
+        longitude: -65.504645
+      - id: smn_villa_reynolds
+        latitude: -33.7333
+        longitude: -65.3833
+  historical_attempts:
+    - method: POWER_high_resolution_adapter
+      result: all_returned_values_were_fill_sentinel_minus_999
+      disposition: historical_retrieval_path_evidence_only
+      rule: must_not_override_the_later_AppEEARS_acquisition_state
+
 role_in_field_shift:
-- regional_surface_soil_moisture_context
-- regional_root_zone_soil_moisture_context
-- drought_percentile_context
+  - regional_surface_soil_moisture_context
+  - regional_root_zone_soil_moisture_context
+  - relative_drought_or_moisture_context_when_variable_semantics_are_validated
+
 native_characteristics:
-  nominal_resolution: 9_km
-  temporal_resolution: 3_hourly
+  nominal_resolution: approximately_9_km
+  temporal_resolution: 3_hourly_native_product
   temporal_start: 2015-03-31
-power_aliases_of_interest:
-- SFMC
-- RZMC
-- SFMC_PRCNTL
-- RZMC_PRCNTL
+  extraction_temporal_semantics: pending_V1_V5_validation
+
 spatial_scope:
   effective_decision_scale: regional_context
   parcel_level: false
-  note: Do not present a 9 km modeled/assimilated value as an exact parcel measurement.
+  note: Do not present a 9 km modeled/assimilated value or point extraction as an exact parcel measurement.
+
 limitations:
-- coarse_for_individual_fields
-- root_zone_is_model_assimilated_not_direct_root_measurement
-- record_begins_in_2015
-- frozen_or_snow_covered_conditions_reduce_skill
+  - coarse_for_individual_fields
+  - root_zone_is_model_assimilated_not_direct_root_measurement
+  - record_begins_in_2015
+  - frozen_or_snow_covered_conditions_may_reduce_skill
+  - AppEEARS_extraction_structure_fill_and_variable_semantics_require_validation
+
 intended_decision_use:
-  description: Provide regional surface/root-zone modeled moisture context and relative drought
-    evidence. Plant-available water or crop water-stress interpretation requires additional
-    soil and crop context (field capacity, wilting point, rooting depth). Modeled root-zone
-    soil moisture is distinct from plant-available water.
+  description: >-
+    Provide regional modeled surface/root-zone soil-moisture context and potentially relative
+    moisture/drought evidence. Plant-available water or crop water-stress interpretation requires
+    additional validated soil and crop context such as field capacity, wilting point, rooting depth,
+    and crop characteristics.
   direct_recommendation_authority: false
+
 validation_semantics:
-  metadata_status: verified
   metadata_verified: true
   observation_data_validated: false
-  metadata_verification:
-    verified_at: '2026-10-31'
-    authoritative_url: https://nsidc.org/data/spl4smgp/versions/8
-    fields:
-    - provider_identity
-    - product_identity
-    - doi
-    - spatial_resolution
-    - temporal_resolution
-    - parameters
-    evidence_refs:
-    - data/raw/nasa-smap/20261031T020308Z/smap_l4_v8_power_adapter_daily_20150401_20251231.json
-    - evidence/ssd-raw-audit.json
-  note: Provider specifications and data access verified. Empirical observation values
-    undergo scientific validation in the data pipeline.
+  validation_phase: V1_TO_V7_PENDING
+  required_checks:
+    - actual_AppEEARS_schema_and_rows
+    - actual_temporal_coverage
+    - duplicate_detection
+    - fill_and_nodata_semantics
+    - sm_rootzone_pctl_usability
+    - units_and_variable_meaning
+    - product_version_identity
+    - native_scale_and_point_extraction_relationship
+    - representativeness_for_prototype_use
+  serving_contract_candidates:
+    - SERVE-TABULAR-001_for_qualified_point_extractions
+    - SERVE-RASTER-001_if_native_grid_artifacts_are_later_required
+  note: Acquisition and provider metadata do not establish scientific validity or decision fitness.
+
 suitability:
-  tier: core_candidate
+  tier: core_mvp
   mvp_target_inclusion: true
   current_operational_inclusion: false
-  blocking_reason: no_usable_observations
+  blocking_reason: source_specific_validation_pending
   evaluation_document: docs/data-sources/evaluation.md
   evaluation_framework: multi_attribute_qualitative
