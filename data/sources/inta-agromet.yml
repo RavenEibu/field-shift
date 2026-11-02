@@ -1,63 +1,70 @@
 id: inta_agrometeorological_network
 provider: INTA Argentina
-product_family: INTA agrometeorological information and station network
-metadata_status: pending_verification
-observation_data_status: not_acquired
-acquisition_status: planned
-project_priority: validation_reference
-last_verified: 2026-10-30
+product_family: INTA agrometeorological information and SIGA-related material
+metadata_status: partially_verified
+observation_data_status: pending_source_role_qualification
+acquisition_status: acquired_context_material
+project_priority: supporting_validation
+last_reconciled: 2026-11-02
 authoritative_urls:
   national_overview: https://www.argentina.gob.ar/inta/informacion-agroclimatica
   eea_san_luis: https://www.argentina.gob.ar/inta/cr-lapampa-sanluis/eea-sanluis
-  local_technical_report: https://repositorio.inta.gob.ar/xmlui/bitstream/handle/20.500.12123/23670/INTA_CR_LaPampa-SanLuis_EEASanLuis_Galvan_M._Informe%20t%C3%A9cnico%20agrometeorol%C3%B3gico_2024-2025.pdf?isAllowed=y&sequence=1
-role_in_field_shift:
-- local_station_validation_reference
-- power_temperature_validation
-- power_precipitation_validation
-- local_climate_context
-source_characteristics:
-  data_type: in_situ_and_institutional_agrometeorological_observations
-  national_data_policy: freely_downloadable
-  networks_include:
-  - INTA_experimental_stations
-  - Servicio_Meteorologico_Nacional
-  - other_institutional_networks
-prototype_relevance:
-  eea_san_luis_location: near_Villa_Mercedes
-  local_report_sources:
-  - EEA_INTA_San_Luis
-  - SMN_Villa_Reynolds
-  - provincial_meteorological_network
-selection_requirements:
-- preserve_station_id_and_owner
-- preserve_coordinates_and_elevation
-- preserve_instrument_or_method_metadata_when_available
-- inspect_missingness_and_station_changes
-- align_observation_period_with_satellite_or_reanalysis_comparison
-- do_not_merge_station_networks_without_explicit_harmonization
-incremental_mvp_value:
-  level: high_for_validation
-  disposition: use_to_validate_nasa_baseline_when_station_data_is_accessible
-  reason: 'A nearby in-situ station provides an independent local reference for checking
-    the direction and magnitude of POWER temperature and precipitation behavior without
-    replacing NASA data as the challenge''s Earth-observation component.
 
-    '
+role_in_field_shift:
+  - local_agrometeorological_context_candidate
+  - potential_cross_source_validation_support
+  - institutional_context_for_villa_mercedes
+
+frozen_extract:
+  cutoff: 2026-11-01
+  acquisition_state: context_material_present
+  exact_station_series_claimed: false
+  note: >-
+    Field Shift acquired INTA/SIGA-related material, but this record does not claim that a complete,
+    validated local station time series has been established. Exact files, variables, periods, and
+    incremental role must be qualified during source validation.
+
+source_characteristics:
+  data_type: institutional_agrometeorological_information_and_potential_station_resources
+  spatial_support: source_resource_dependent
+  temporal_support: source_resource_dependent
+
+selection_requirements:
+  - preserve_station_or_resource_identity
+  - preserve_coordinates_and_elevation_when_station_based
+  - preserve_variable_units_and_time_basis
+  - inspect_missingness_and_station_changes
+  - align_comparison_period_and_spatial_support_before_cross_source_validation
+  - avoid_redundant_use_when_REM_or_other_local_evidence_already_fills_the_role
+
 limitations:
-- specific_station_quality_must_be_reviewed
-- station_records_can_contain_gaps_or_instrument_changes
-- point_measurement_and_gridded_product_measure_different_spatial_support
+  - exact_acquired_resource_semantics_pending
+  - source_may_overlap_with_other_local_networks
+  - point_station_and_gridded_products_have_different_spatial_support
+
 intended_decision_use:
-  description: Validate and contextualize NASA climate observations; not a standalone
-    rotation recommender.
+  description: >-
+    Supporting local/agrometeorological evidence when a concrete acquired resource adds decision or
+    validation value beyond REM, SMN climatology, or other already-qualified sources.
   direct_recommendation_authority: false
+
 validation_semantics:
-  metadata_status: pending_verification
-  metadata_verified: false
   observation_data_validated: false
-  note: Ground-truth validation reference. Local station selection and data access
-    for Villa Mercedes prototype anchor pending.
+  validation_phase: exact_resource_and_role_qualification_pending
+  required_checks:
+    - inventory_acquired_SIGA_material
+    - identify_resource_or_station_identity
+    - variables_units_and_time_basis
+    - temporal_and_spatial_coverage
+    - missingness_and_quality_semantics
+    - redundancy_or_incremental_value_against_REM_and_other_sources
+  serving_contract_candidates:
+    - SERVE-TABULAR-001_if_a_station_or_time_series_resource_is_qualified
+    - SERVE-VECTOR-001_if_station_or_resource_locations_are_material
+
 suitability:
-  tier: validation_reference
+  tier: supporting_validation_source
+  current_operational_inclusion: false
+  blocking_reason: exact_acquired_resource_and_incremental_role_pending
   evaluation_document: docs/data-sources/evaluation.md
   evaluation_framework: multi_attribute_qualitative
